@@ -165,7 +165,7 @@ function shootAndUpload(){
 	sentence: ss
     }, function(responseText) {
 	console.log(responseText);
-	if(responseText == "you got it uploaded")
+	if(responseText == "you got it uploaded\n")
 	{ title = "upload completed" }
 	else
 	{ title = "!! uploading error !!" }

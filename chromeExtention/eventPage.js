@@ -1,3 +1,17 @@
+// referred to http://stackoverflow.com/questions/6850276/how-to-convert-dataurl-to-file-object-in-javascript
+function dataURLtoBlob(dataurl){
+    var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+    while(n--){
+	u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
+
+
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
     if(request.type == "0"){
@@ -21,23 +35,27 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 	console.log("----- type 2 ---------");
 	chrome.tabs.captureVisibleTab(function(dataurl) {
 	    console.log("----- capture ---------");
+	    console.log(dataurl.substring(0,100));
 	    console.log(dataurl);
+
+	    var blob = dataURLtoBlob(dataurl);
+	    var fd = new FormData();
+	    fd.append("picture", blob, "hello.jpg");
+	    fd.append("word", request.word);
+	    fd.append("sentence", request.sentence);
+	    
 	    var xhr = new XMLHttpRequest();
-	    // var req_url = "http://localhost:3001/posts/test";
-	    var req_url = "http://160.16.87.98:3005/posts/test";
-	    var params = ["word=" + encodeURIComponent(request.word),
-			  "sentence=" + encodeURIComponent(request.sentence),
-			  "picture=" + encodeURIComponent(dataurl)];
+	    var req_url = "http://160.16.87.98:3005/posts/iphone";
 	    xhr.open("POST", req_url, true);
-	    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4) {
-		    console.log("----------- POST worked ---------------");
-		    console.log(xhr.responseText);
-		    callback(xhr.responseText);
-		}
+	    	if (xhr.readyState == 4) {
+	    	    console.log("----------- POST worked ---------------");
+	    	    console.log(xhr.responseText);
+	    	    callback(xhr.responseText);
+	    	}
 	    }
-	    xhr.send(params.join("&"));
+	    console.log("--- sending request --");
+	    xhr.send(fd);
 	});	
 	return true;
     }else{
