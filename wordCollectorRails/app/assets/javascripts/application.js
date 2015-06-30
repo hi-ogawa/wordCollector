@@ -64,35 +64,17 @@ function changeCat(){
     })
 }
 
-function popup_image($img){
-    $img.css({
-	"position": "fixed",
-	"top": "15%",
-	"left": "15%",
-	"height": "80vh",
-	"z-index": "10",
-    });
-    $("body").append($img);
-    $("img#popup").click(function(){ $(this).remove(); });
-}
-
 var ready = function() {
 
+
     // pops up image
+    $(".word img").hide();
     $(".word").mouseover(function(){
-    	$("img#popup").remove();
-	// var url = "http://localhost:3001/screenshots/" + $(this).attr("pic_data");
-	// var url = "http://192.168.0.3:3000/screenshots/" + $(this).attr("pic_data");
-	var url = "http://160.16.87.98:3005/screenshots/" + $(this).attr("pic_data");
-	var $img = $("<img />").attr({"id": "popup", "src": url})
-            .load(function() {
-		if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-		    console.log('you got a broken image!');
-		} else {
-		    popup_image($img);
-		}
-	    });
-    });
+	$(this).find("img").show();
+    })
+    $(".word").mouseleave(function(){
+	$(this).find("img").hide();
+    })
 
     // jquery selectable ui 
     $( "tbody.words" ).selectable({

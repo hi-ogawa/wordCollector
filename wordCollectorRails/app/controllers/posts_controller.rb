@@ -1,43 +1,23 @@
 require 'data_uri'
 
 class PostsController < ApplicationController
+  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: :index
+
   skip_before_filter  :verify_authenticity_token
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
-  ##### test for making picture from dataurl #######
-  def test  # POST /posts/test
-    dataurl = params[:picture] # actually, it's already unescaped
-    uri = URI::Data.new(dataurl)
+  def iphone  # POST /posts/iphone
+    pic_io = params[:picture]
     pic_filename = Time.now.strftime("%Y%m%d_%H%M%S.jpg")
-    File.open("#{Rails.root}/public/screenshots/#{pic_filename}", 'wb') do |f|
-      f.write(uri.data)
+    File.open(Rails.root.join('public', 'screenshots', pic_filename), 'wb') do |f|
+      f.write(pic_io.read)
     end
-
     Post.create(:word => params[:word],
                 :sentence => params[:sentence],
                 :picture => pic_filename,
-                :category_id => 5)
-
-    render :text => "you got it uploaded"
+                :category_id => 8)
+    render :text => "you got it uploaded\n"
   end
-  ##################################################
-
-  def iphone  # POST /posts/iphone
-
-    # a pic file is supporsed to come via ssh
-
-    Post.create(:word => params[:word],
-                :sentence => params[:sentence],
-                :picture => params[:shotname],
-                :category_id => 1)
-
-    render :text => "you got it uploaded"
-  end
-
-  def upload
-    redirect_to :action => 'upload_get'
-  end
-
 
   def sort
     logger.debug "-------- sort action ---------------"
@@ -51,11 +31,10 @@ class PostsController < ApplicationController
     render :text => "no sortable data"
   end
 
-
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.where(category_id: nil)
+    @posts = Post.all
     @categories = Category.all
   end
 

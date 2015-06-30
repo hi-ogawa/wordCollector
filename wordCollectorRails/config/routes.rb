@@ -6,8 +6,6 @@ Rails.application.routes.draw do
   post '/hoge', to: 'posts#change_category'
   post '/sort', to: 'posts#sort'
 
-  post '/upload', to: 'posts#upload'
-
   root 'categories#index'
   post 'posts/test'
   post 'posts/iphone'
