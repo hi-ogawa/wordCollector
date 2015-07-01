@@ -33,7 +33,7 @@ function sortableToggle(){
 	$("tbody.words").sortable("destroy");
 	$( "tbody.words" ).selectable({
     	    filter: "tr",
-    	    cancel: 'td.misc'
+    	    cancel: 'td.misc, .word img'
 	});
     }else{
 	$("tbody.words .ui-selected").removeClass("ui-selected");
@@ -69,17 +69,21 @@ var ready = function() {
 
     // pops up image
     $(".word img").hide();
+    var $img = $(this).first("img");
     $(".word").mouseover(function(){
-	$(this).find("img").show();
+	$img.hide();
+	$img = $(this).find("img")
+	$img.show();
+	$img.click(function(){
+	    $img.hide();
+	});
     })
-    $(".word").mouseleave(function(){
-	$(this).find("img").hide();
-    })
+
 
     // jquery selectable ui 
     $( "tbody.words" ).selectable({
     	filter: "tr",
-    	cancel: 'td.misc'
+    	cancel: 'td.misc, .word img'
     });
     $("#applySort").hide();
 };
