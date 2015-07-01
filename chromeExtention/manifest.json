@@ -20,7 +20,7 @@
     ],
     "content_scripts": [ {
 	"js": [ "libs/jquery-2.1.4.min.js", "libs/jquery-ui.js", "contentScript.js"],
-	"css": ["libs/jquery-ui.css"],
+	"css": ["libs/jquery-ui.css", "contentScript.css"],
 	"matches": [ "http://*/*", "https://*/*"]
     }]
 }
