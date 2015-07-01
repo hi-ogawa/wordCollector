@@ -130,13 +130,14 @@ function shootAndUpload(){
 
 
 $(document).keydown(function (e) {
-    console.log("--- keydone ---");
     if(e.altKey && e.shiftKey && e.which == 83){
 	console.log("--- alt shift 83 ---");
 	shootAndUpload();
 	return;
     }
-    if(e.altKey && e.which == 83)
+    if(e.altKey && e.which == 83){
 	console.log("--- alt 83 ---");
 	lookUpWord();
+	return;
+    }
 });
