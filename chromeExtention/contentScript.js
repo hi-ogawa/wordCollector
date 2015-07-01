@@ -13,7 +13,7 @@ $("body").append($ext_div0.append($input0)
          .append($ext_div1.append($ext_ul));
 
 $ext_div1.hide();
-$ext_div1.click(function(){
+$ext_div1.dblclick(function(){
     $input0.val("");
     $input1.val("");
     $ext_div1.hide();
@@ -56,6 +56,8 @@ function lookUpWord(){
     console.log("--- LookUpWord ---");
     var voc = $input0.val().trim();
     var s = $input1.val().trim();
+    console.log(voc);
+    console.log(s);
     if( voc == "" ){ return; }
     var req_url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/"
                    + encodeURIComponent(voc) + "?key=c4c815db-b3ae-4d2f-8e31-2e556ec300bd";

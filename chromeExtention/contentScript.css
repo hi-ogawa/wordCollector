@@ -1,6 +1,7 @@
 #ext_div0, #ext_div1 {
     position: fixed;
     opacity: 0.8;
+    z-index: 1000;
 }
 
 #ext_div0 {
