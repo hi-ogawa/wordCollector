@@ -77,6 +77,7 @@ function lookUpWord(){
 	if(responseText == "failure"){return;}
 
 	var xml = $.parseXML(responseText);
+
 	if( $(xml).find("dt").size() != 0 ){
 
 	    // show the meanings
@@ -88,7 +89,7 @@ function lookUpWord(){
 	}else{
 
 	    // show the suggestions
-	    $(xml).find("dt").each(function(){
+	    $(xml).find("suggestion").each(function(){
 		$ext_ul.append(
 		    $("<li>").text($(this).text()));
 	    });
