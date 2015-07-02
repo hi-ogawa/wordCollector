@@ -1,29 +1,36 @@
-# Video With Subtitles
+# Word Collector with Screenshot
 
-You can watch a lot of TV shows with english subtitles. Come here [http://video-with-subtitles.herokuapp.com](http://video-with-subtitles.herokuapp.com).
+You can learn vocabularies by collecting words associated with screenshot images.
+But, I'm the only one who can use this service for now
+(you can only see what I've collected from [here](http://often-test-app.xyz:3005/)).
 
 ## Motivation
 
-I'm a real TV-show freak, but unfortunately I'm not so good at English as I could watch TV shows or movies without subtitles (for the record, I hate a dubbed style). So I made up this website, combining the two great websites, [Springfield! Springfield!](http://www.springfieldspringfield.co.uk) and [Tvonline](http://www.tvonline.tw). 
+I was once collecting vocabularies I met on a TV show or any other english texts by using [Vocabulary.com](http://www.vocabulary.com/), like [here](http://www.vocabulary.com/profiles/B099P5N1XM0XCR).
+At that time, first I took screenshots everytime I met new words on the web,
+then on weekends I reviewed the words on those pictures and register them to Vocabulary.com.
+I found that procedure was very tadius, so I started making this application,
+which enables the tadius process automatically done.
 
 ## How it works
 
-TODO: I will give some pictures or videos to show how it could be used. I should mension the collaboration with [WordCollector](http://github.com/hi-ogawa/wordCollector).
+- from Chrome extension:
+- from iPhone with jailbreak apps:
 
 ## How it is implemented
 
-TODO: write this part one day.
+- Server (Ruby on Rails)
+- Client (Chrome extension)
 
 ## Futue functions or fixes
 
-- Adopt to watching a movie from [Movie25](http://movie25.ag).
-- Obviously, it doesn't make sense at all to use Ruby on Rails (and make it run on Heroku) since this websites totally works on javascript. So, I'm gonna replace Ruby on Rails and Heroku by some other easy framework and deployment service, or add some Ruby on Rails specific features.
-- Keep what TV shows are watched on the server side (this could be the reason to use Ruby on Rails).
-- A bad thing is you need to scroll subtitle while watching. So I'm thinking how to automatically scroll it in a convenient way (but, maybe it seems like impossible to implement).
+- implement user management
+- publish the chrome extension
+- register iphone developer and learn how to make app extension properly (not jailbreak way)
+- make it work on production mode instead of development mode
+- fix odd port number
 
 ## Credits
 
-I must give credits to these two amazing websites.
-
-- [Springfield! Springfield!](http://www.springfieldspringfield.co.uk)
-- [Tvonline](http://www.tvonline.tw)
+- [Merriam-Webster Dictionary API](http://dictionaryapi.com/)
+  ![Logo](http://dictionaryapi.com/images/info/branding-guidelines/mw-logo-light-background-50x50.png)
