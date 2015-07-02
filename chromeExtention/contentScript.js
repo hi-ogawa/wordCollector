@@ -13,7 +13,7 @@ $("body").append($ext_div0.append($input0)
          .append($ext_div1.append($ext_ul));
 
 $ext_div1.hide();
-$ext_div1.click(function(){
+$ext_div1.dblclick(function(){
     $input0.val("");
     $input1.val("");
     $ext_div1.hide();
@@ -56,6 +56,8 @@ function lookUpWord(){
     console.log("--- LookUpWord ---");
     var voc = $input0.val().trim();
     var s = $input1.val().trim();
+    console.log(voc);
+    console.log(s);
     if( voc == "" ){ return; }
     var req_url = "http://www.dictionaryapi.com/api/v1/references/collegiate/xml/"
                    + encodeURIComponent(voc) + "?key=c4c815db-b3ae-4d2f-8e31-2e556ec300bd";
@@ -75,6 +77,7 @@ function lookUpWord(){
 	if(responseText == "failure"){return;}
 
 	var xml = $.parseXML(responseText);
+
 	if( $(xml).find("dt").size() != 0 ){
 
 	    // show the meanings
@@ -86,7 +89,7 @@ function lookUpWord(){
 	}else{
 
 	    // show the suggestions
-	    $(xml).find("dt").each(function(){
+	    $(xml).find("suggestion").each(function(){
 		$ext_ul.append(
 		    $("<li>").text($(this).text()));
 	    });
@@ -128,13 +131,14 @@ function shootAndUpload(){
 
 
 $(document).keydown(function (e) {
-    console.log("--- keydone ---");
     if(e.altKey && e.shiftKey && e.which == 83){
 	console.log("--- alt shift 83 ---");
 	shootAndUpload();
 	return;
     }
-    if(e.altKey && e.which == 83)
+    if(e.altKey && e.which == 83){
 	console.log("--- alt 83 ---");
 	lookUpWord();
+	return;
+    }
 });

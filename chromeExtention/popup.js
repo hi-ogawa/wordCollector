@@ -38,8 +38,7 @@ $(function(){
 	chrome.tabs.captureVisibleTab(function(dataurl) {
 	    // chrome.tabs.create({url: dataurl});
 	    var xhr = new XMLHttpRequest();
-	    // var req_url = "http://localhost:3001/posts/test";
-	    var req_url = "http://160.16.87.98:3005/posts/test";
+	    var req_url = "http://often-test-app.xyz:3005/posts/test";
 	    var params = ["word=" + encodeURIComponent($("#word").val()),
 			  "sentence=" + encodeURIComponent($("#sentence").val()),
 			  "picture=" + encodeURIComponent(dataurl)];
