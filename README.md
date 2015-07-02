@@ -15,7 +15,10 @@ which enables the tadius process automatically done.
 ## How it works
 
 - from Chrome extension:
+[![Alt text for your video](http://img.youtube.com/vi/PLecGYa4Sgs/0.jpg)](https://youtu.be/PLecGYa4Sgs)
+
 - from iPhone with jailbreak apps:
+[![Alt text for your video](http://img.youtube.com/vi/q_Zq0xQIDTA/0.jpg)](https://youtu.be/q_Zq0xQIDTA)
 
 ## How it is implemented
 
