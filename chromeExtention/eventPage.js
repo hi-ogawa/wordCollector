@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 	    fd.append("sentence", request.sentence);
 	    
 	    var xhr = new XMLHttpRequest();
-	    var req_url = "http://160.16.87.98:3005/posts/iphone";
+	    var req_url = "http://often-test-app.xyz:3005/posts/iphone";
 	    xhr.open("POST", req_url, true);
 	    xhr.onreadystatechange = function() {
 	    	if (xhr.readyState == 4) {
