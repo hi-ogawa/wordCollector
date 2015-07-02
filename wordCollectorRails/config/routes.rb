@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   root 'categories#index'
   post 'posts/test'
   post 'posts/iphone'
+  get 'posts_iphone2', to: 'posts#iphone2'
+  post 'posts/iphone3'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

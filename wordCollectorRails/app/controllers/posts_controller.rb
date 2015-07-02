@@ -1,7 +1,5 @@
-require 'data_uri'
-
 class PostsController < ApplicationController
-  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category]
+  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category, :iphone2, :iphone3]
 
   skip_before_filter  :verify_authenticity_token
   before_action :set_post, only: [:show, :edit, :update, :destroy]
@@ -16,6 +14,32 @@ class PostsController < ApplicationController
                 :sentence => params[:sentence],
                 :picture => pic_filename,
                 :category_id => 8)
+    render :text => "you got it uploaded\n"
+  end
+
+
+  def iphone2
+    p = Post.where(:category_id => 17).order("created_at").last
+    # attach the picture data to the latest record
+    # at the "from iphone" category, whose id is 17
+    if p.word != ""
+      render :text => "<h1>there already is attached words</h2>"
+    else
+      p.update(:word => params[:word])
+      render :text => "<h1>we cool</h1>"
+    end
+  end
+
+  def iphone3
+    pic_io = params[:picture]
+    pic_filename = Time.now.strftime("%Y%m%d_%H%M%S.jpg")
+    File.open(Rails.root.join('public', 'screenshots', pic_filename), 'wb') do |f|
+      f.write(pic_io.read)
+    end
+    Post.create(:word => "",
+                :sentence => "",
+                :picture => pic_filename,
+                :category_id => 17)
     render :text => "you got it uploaded\n"
   end
 
