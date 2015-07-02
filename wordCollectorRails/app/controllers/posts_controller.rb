@@ -23,10 +23,12 @@ class PostsController < ApplicationController
     # attach the picture data to the latest record
     # at the "from iphone" category, whose id is 17
     if p.word != ""
-      render :text => "<h1>there already is attached words</h2>"
+      render :text => "<h1>'#{p.word}' is already attachted to</h2>
+                       <img src='/screenshots/#{p.picture}'>"
     else
       p.update(:word => params[:word])
-      render :text => "<h1>we cool</h1>"
+      render :text => "<h1>you attached a word '#{params[:word]}' to</h1>
+                       <img src='/screenshots/#{p.picture}'>"
     end
   end
 
