@@ -18,7 +18,7 @@ which enables the tadius process automatically done.
  
 [![Alt text for your video](http://img.youtube.com/vi/PLecGYa4Sgs/0.jpg)](https://youtu.be/PLecGYa4Sgs)
 
-- from iPhone with jailbreak apps:
+- from iPhone with jailbreak apps (detail is here [iphone/README.md](iphone/README.md)):
  
 [![Alt text for your video](http://img.youtube.com/vi/q_Zq0xQIDTA/0.jpg)](https://youtu.be/q_Zq0xQIDTA)
 
@@ -38,4 +38,5 @@ which enables the tadius process automatically done.
 ## Credits
 
 - [Merriam-Webster Dictionary API](http://dictionaryapi.com/)
+ 
   ![Logo](http://dictionaryapi.com/images/info/branding-guidelines/mw-logo-light-background-50x50.png)
