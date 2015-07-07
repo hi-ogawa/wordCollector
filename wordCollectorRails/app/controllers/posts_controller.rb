@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     Post.create(:word => params[:word],
                 :sentence => params[:sentence],
                 :picture => pic_filename,
-                :category_id => 8)
+                :category_id => params[:cat_id].to_i)
     render :text => "you got it uploaded\n"
   end
 
