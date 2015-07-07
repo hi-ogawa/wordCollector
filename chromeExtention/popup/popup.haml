@@ -1,0 +1,21 @@
+%link{:href => "popup.css", :rel => "stylesheet"}
+- ls = %W[ /jslib/jquery.js  /jslib/jquery.watermarkinput.js  popup.js ]
+- ls.each do |l|
+  %script{:src => l}
+
+%h4 Settings
+.setting
+  %span choose category
+  %select#category_list
+  %br
+  %button#create_category create category
+  %input#category_name
+  .message
+
+%h4 Search Word
+.popup
+  %button#search search
+  %input#word
+  %br
+  %textarea#sentence{:rows => "2", :cols => "30"}  
+  %br

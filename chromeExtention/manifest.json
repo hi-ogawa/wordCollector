@@ -6,21 +6,24 @@
     "version": "1.0",
 
     "browser_action": {
-	"default_icon": "icon.png",
-	"default_popup": "popup.html"
+	"default_icon": "icons/icon.png",
+	"default_popup": "popup/popup.html"
     },
     "background": {
-    	"scripts": ["eventPage.js"],
+    	"scripts": ["eventPage/eventPage.js"],
     	"persistent": false
     },
     "permissions": [
+	"storage",
 	"activeTab",
 	"http://www.dictionaryapi.com/api/v1/references/collegiate/xml/*",
 	"<all_urls>"
     ],
     "content_scripts": [ {
-	"js": [ "libs/jquery-2.1.4.min.js", "libs/jquery-ui.js", "contentScript.js"],
-	"css": ["libs/jquery-ui.css", "contentScript.css"],
+	"js": [ "jslib/jquery.js",
+		"jslib/jquery-ui.js",
+		"contentScript/contentScript.js"],
+	"css": ["jslib/jquery-ui.css", "contentScript/contentScript.css"],
 	"matches": [ "http://*/*", "https://*/*"]
     }]
 }
