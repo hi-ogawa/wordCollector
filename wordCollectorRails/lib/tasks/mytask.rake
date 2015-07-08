@@ -13,7 +13,7 @@
 desc "rsync rails project to :dest"
 task :rsync, [:opt, :dest] do |t, args|
   args.with_defaults(:opt => '-av', :dest => "sakura:~/myapps/wordCollectorRails/")
-  sh "rsync #{args[:opt]} . #{args[:dest]} --exclude-from '.rsync_exclude'"
+  sh "rsync #{args[:opt]} . #{args[:dest]} --exclude-from '.rsync_exclude' --delete-before"
 end
 
 desc "export database"

@@ -2,9 +2,9 @@
 
 Move the selected words into the category
 = select_tag("category", options_from_collection_for_select(@categories, "id", "name"))
-%button{:onclick => "changeCat()"} go move!
-%button{:onclick => "sortableToggle()"} sortable on/off
-%button#applySort{:onclick => "applySort()"} go sort!
+%button#changeCat go move!
+%button#sortableToggle sortable on/off
+%button#applySort go sort!
 
 %table
   %thead
