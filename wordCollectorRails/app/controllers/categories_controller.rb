@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @categories = Category.all
+    @categories = Category.all.order(:name)
     @posts = @category.posts.order(:order)
   end
 

@@ -3,14 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-applySort = ->
-  $.ajax
-    url: '/sort'
-    type: 'POST'
-    data: $('tbody.words').sortable('serialize')
-    dataType: 'script'
-  location.reload()
-
 
 i = false
 sortableToggle = ->
@@ -26,6 +18,13 @@ sortableToggle = ->
   $('#applySort').toggle()
   i = !i
 
+applySort = ->
+  $.ajax
+    url: '/sort'
+    type: 'POST'
+    data: $('tbody.words').sortable('serialize')
+    dataType: 'script'
+  location.reload()
 
 changeCat = ->
   dest_id = $('#category').val()

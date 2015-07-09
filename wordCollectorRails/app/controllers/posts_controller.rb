@@ -46,7 +46,7 @@ class PostsController < ApplicationController
   end
 
   def sort
-    logger.debug "-------- sort action ---------------"
+    logger.debug "--- sort action"
     ids = params[:post]
     if ids.length != 0
       logger.debug [*0..(ids.length - 1)].zip(ids)
@@ -54,7 +54,7 @@ class PostsController < ApplicationController
         Post.find(i).update(order: o)
       end
     end
-    render :text => "no sortable data"
+    render :text => "from posts#sort"
   end
 
   # GET /posts
@@ -69,7 +69,7 @@ class PostsController < ApplicationController
     params[:selected].each do |s|
       Post.find(s.to_i).update(category_id: d)
     end
-    redirect_to :action => 'index'
+    render :text => "from posts#change_category"
   end
 
   # GET /posts/1
