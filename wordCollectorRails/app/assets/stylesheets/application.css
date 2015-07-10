@@ -16,3 +16,10 @@
 
 tbody .ui-selecting { background: #FECA40; }
 tbody .ui-selected { background: #F39814; color: white; }
+
+.strike {text-decoration: line-through;}
+
+
+/* toggle switch */
+.switch.on .off{text-decoration: line-through;}
+.switch.off .on{text-decoration: line-through;}

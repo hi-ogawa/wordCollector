@@ -1,10 +1,17 @@
 %h1= "Listing Words on #{@category.name}"
 
-Move the selected words into the category
-= select_tag("category", options_from_collection_for_select(@categories, "id", "name"))
-%button#changeCat go move!
-%button#sortableToggle sortable on/off
-%button#applySort go sort!
+
+%button#pictureToggle show picure
+%button#selectableToggle selectable
+= label_tag 'category', 'Select a destination'
+= select_tag('category', options_from_collection_for_select(@categories, 'id', 'name'))
+%button#changeCat move entries!
+%button#deletePosts delete entries!
+%button#editableToggle editable
+%button#applyEdit apply edit!
+%button#sortableToggle sortable
+%button#applySort apply sort!
+
 
 %table
   %thead
@@ -13,15 +20,16 @@ Move the selected words into the category
       %th Sentence
       %th{:colspan => "1"}
   %tbody.words
-    - @posts.each do |post|
-      %tr{:id => "post_#{post.id}"}
-        %td.word{:pic_data => post.picture, :post_id => post.id}
-          = post.word
-          %img{:src => "/screenshots/#{post.picture}"}
-        %td.sentence= post.sentence
+    - @posts.each do |p|
+      %tr{:id => "post_#{p.id}"}
+        %td.word{:pic_data => p.picture, :post_id => p.id}
+          %span= p.word
+          %input{value: p.word}
+          %img{:src => "/screenshots/#{p.picture}"}
+        %td.sentence= p.sentence
         %td.misc
-          = link_to 'Edit', edit_post_path(post)
-          = link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
+          = link_to 'Edit', edit_post_path(p.id)
+          = link_to 'Destroy', post_path(p.id), method: :delete, data: { confirm: 'Are you sure?' }
 %br
 
 = link_to 'Back', categories_path

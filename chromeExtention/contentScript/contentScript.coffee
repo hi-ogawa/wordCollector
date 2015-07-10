@@ -88,7 +88,7 @@ shootAndUpload = ->
   console.log '--- shootAndUpload'
   chrome.runtime.sendMessage
     type: 'contentScript: shootAndUpload'
-    url: 'http://often-test-app.xyz:3005/posts/iphone'
+    url: 'http://often-test-app.xyz:3005/chrome'
     word: $input0.val().trim()
     sentence: $input1.val().trim()
     , (responseText) ->

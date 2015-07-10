@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   skip_before_filter  :verify_authenticity_token
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
-  def iphone  # POST /posts/iphone
+  def chrome  # POST /chrome
     pic_io = params[:picture]
     pic_filename = Time.now.strftime("%Y%m%d_%H%M%S.jpg")
     File.open(Rails.root.join('public', 'screenshots', pic_filename), 'wb') do |f|
@@ -17,11 +17,8 @@ class PostsController < ApplicationController
     render :text => "you got it uploaded\n"
   end
 
-
-  def iphone2
-    p = Post.where(:category_id => 17).order("created_at").last
-    # attach the picture data to the latest record
-    # at the "from iphone" category, whose id is 17
+  def iphone_word # GET /iphone_word
+    p = Post.where(:name => 'iphone').order("created_at").last
     if p.word != ""
       render :text => "<h1>'#{p.word}' is already attachted to</h2>
                        <img src='/screenshots/#{p.picture}'>"
@@ -32,7 +29,8 @@ class PostsController < ApplicationController
     end
   end
 
-  def iphone3
+  def iphone_pic # POST /iphone_pic
+    cat_id = Category.where(:name => params[:name]).first.id
     pic_io = params[:picture]
     pic_filename = Time.now.strftime("%Y%m%d_%H%M%S.jpg")
     File.open(Rails.root.join('public', 'screenshots', pic_filename), 'wb') do |f|
@@ -41,11 +39,11 @@ class PostsController < ApplicationController
     Post.create(:word => "",
                 :sentence => "",
                 :picture => pic_filename,
-                :category_id => 17)
-    render :text => "you got it uploaded\n"
+                :category_id => cat_id)
+    render json: {status: "success", data: {from: "posts#iphone3"}}
   end
 
-  def sort
+  def sort # POST /sort
     logger.debug "--- sort action"
     ids = params[:post]
     if ids.length != 0
@@ -54,41 +52,51 @@ class PostsController < ApplicationController
         Post.find(i).update(order: o)
       end
     end
-    render :text => "from posts#sort"
+    # json api format comes from http://labs.omniti.com/labs/jsend
+    render :json => {status: "success", data: {from: "posts#sort"}}
   end
 
-  # GET /posts
-  # GET /posts.json
-  def index
-    @posts = Post.all
-    @categories = Category.all
-  end
-
-  def change_category
+  def change_category # POST /change_category
     d = params[:dest_id].to_i
     params[:selected].each do |s|
       Post.find(s.to_i).update(category_id: d)
     end
-    render :text => "from posts#change_category"
+    render :json => {status: "success", data: {from: "posts#change_category"}}
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
-  def show
+  def multiple_delete # POST /multiple_delete
+    params[:selected].each do |s|
+      Post.find(s.to_i).destroy
+    end
+    render :json => {status: "success", data: {from: "posts#multiple_delete"}}
   end
 
-  # GET /posts/new
-  def new
+  def multiple_edit # POST /multiple_edit
+    params[:selected].each do |p|
+      Post.find(p[:id].to_i).update(word: p[:word])
+    end
+    render :json => {status: "success", data: {from: "posts#multiple_edit"}}
+  end
+
+
+  ## usual resources ##
+
+  def index # GET /posts (.json)
+    @posts = Post.all
+    @categories = Category.all
+  end
+
+  def show # GET /posts/1 (.json)
+  end
+
+  def new  # GET /posts/new
     @post = Post.new
   end
-
-  # GET /posts/1/edit
-  def edit
+  
+  def edit # GET /posts/1/edit
   end
-
-  # POST /posts
-  # POST /posts.json
-  def create
+  
+  def create # POST /posts (.json)
     @post = Post.new(post_params)
 
     respond_to do |format|
@@ -102,12 +110,11 @@ class PostsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
-  def update
+  def update # PATCH/PUT /posts/1 (.json)
+    c = @post.category_id
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        format.html { redirect_to category_url(c) }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit }
@@ -116,12 +123,11 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
-  def destroy
+  def destroy # DELETE /posts/1 (.json)
+    c = @post.category_id
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to category_url(c) }
       format.json { head :no_content }
     end
   end

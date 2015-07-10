@@ -1,16 +1,26 @@
 Rails.application.routes.draw do
-  resources :categories
+  # resources :categories
+  get    'categories'          => 'categories#index',  as: 'categories'
+  post   'categories'          => 'categories#create'
+  get    'categories/new'      => 'categories#new',    as: 'new_category'
+  get    'categories/:id/edit' => 'categories#edit',   as: 'edit_category'
+  get    'categories/:id'      => 'categories#show',   as: 'category'
+  patch  'categories/:id'      => 'categories#update'
+  put    'categories/:id'      => 'categories#update'
+  delete 'categories/:id'      => 'categories#destroy'
 
   resources :posts
 
-  post '/hoge', to: 'posts#change_category'
-  post '/sort', to: 'posts#sort'
+  post 'change_category' => 'posts#change_category'
+  post 'sort'            => 'posts#sort'
+  post 'multiple_delete' => 'posts#multiple_delete'
+  post 'multiple_edit'   => 'posts#multiple_edit'
+
+  post 'chrome'      => 'posts#chrome'
+  get  'iphone_word' => 'posts#iphone_word'
+  post 'iphone_pic'  => 'posts#iphone_pic'
 
   root 'categories#index'
-  post 'posts/test'
-  post 'posts/iphone'
-  get 'posts_iphone2', to: 'posts#iphone2'
-  post 'posts/iphone3'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
