@@ -1,13 +1,25 @@
 %p#notice= notice
-%p
-  %strong Word:
-  = @post.word
-%p
-  %strong Sentence:
-  = @post.sentence
-%p
+
+%strong Word:
+= @post.word
+
+%br
+
+%strong Sentence:
+= @post.sentence
+
+%br
+
+%strong Category:
+= @category.name
+
+%br
+
+.post_show_pic
   %strong Picture:
-  = @post.picture
+  %br
+  %img{:src => "/screenshots/#{@post.picture}"}
+
 = link_to 'Edit', edit_post_path(@post)
 |
-= link_to 'Back', posts_path
+= link_to 'Back', category_path(@category)

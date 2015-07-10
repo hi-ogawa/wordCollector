@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # resources :categories
   get    'categories'          => 'categories#index',  as: 'categories'
   post   'categories'          => 'categories#create'
@@ -9,7 +10,19 @@ Rails.application.routes.draw do
   put    'categories/:id'      => 'categories#update'
   delete 'categories/:id'      => 'categories#destroy'
 
-  resources :posts
+  # resources :posts (removeing #index, #destroy)
+  post   'posts'          => 'posts#create'
+  get    'posts/new'      => 'posts#new',    as: 'new_post'
+  get    'posts/:id/edit' => 'posts#edit',   as: 'edit_post'
+  get    'posts/:id'      => 'posts#show',   as: 'post'
+  patch  'posts/:id'      => 'posts#update'
+  put    'posts/:id'      => 'posts#update'
+
+
+  ## probably, i should employ this nesting model relation, but not now.
+  # resources :categories do
+  #   resources :posts
+  # end
 
   post 'change_category' => 'posts#change_category'
   post 'sort'            => 'posts#sort'

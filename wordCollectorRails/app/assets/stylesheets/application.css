@@ -10,16 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= jquery_ui
  *= require_tree .
  *= require_self
  */
-
-tbody .ui-selecting { background: #FECA40; }
-tbody .ui-selected { background: #F39814; color: white; }
-
-.strike {text-decoration: line-through;}
-
-
-/* toggle switch */
-.switch.on .off{text-decoration: line-through;}
-.switch.off .on{text-decoration: line-through;}

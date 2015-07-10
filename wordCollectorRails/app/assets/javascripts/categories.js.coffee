@@ -123,12 +123,12 @@ changeCat = ->
 ready = ->
 
   # jquery ui selectable/sortable
-  $('tbody.words').selectable({filter: 'tr', cancel: '.word'}).selectable 'disable'
+  $('tbody.words').selectable({filter: 'tr', cancel: '.word, .misc'}).selectable 'disable'
   $('tbody.words').sortable({filter: 'tr', handle: '.word'}).sortable 'disable'
 
   # toggle switches
   togglize $('#pictureToggle'),    pic_on,  pic_off,  'on'
-  togglize $('#selectableToggle'), sel_on,  sel_off,  'on'
+  togglize $('#selectableToggle'), sel_on,  sel_off,  'off'
   togglize $('#editableToggle'),   edit_on, edit_off, 'off'
   togglize $('#sortableToggle'),   sort_on, sort_off, 'off'
 
