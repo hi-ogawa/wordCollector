@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 class PostsController < ApplicationController
   http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category, :iphone2, :iphone3]
 
@@ -5,45 +7,40 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update]
 
   def chrome  # POST /chrome
-    pic_io = params[:picture]
-    pic_filename = Time.now.strftime("%Y%m%d_%H%M%S.jpg")
-    File.open(Rails.root.join('public', 'screenshots', pic_filename), 'wb') do |f|
-      f.write(pic_io.read)
-    end
-    Post.create(:word        => params[:word],
-                :sentence    => params[:sentence],
-                :picture     => pic_filename,
-                :category_id => params[:cat_id].to_i,
-                :order       => give_new_order(params[:cat_id].to_i))
-    render :text => "you got it uploaded\n"
+    p = Post.create(:word        => params[:word],
+                    :sentence    => params[:sentence],
+                    :category_id => params[:cat_id].to_i,
+                    :order       => give_new_order(params[:cat_id].to_i))
+    p.picture = params[:picture]
+    p.save!
+    render :json => {status: "success", data: {from: "posts#chrome"}}
   end
 
 
   def iphone_word # GET /iphone_word
     p = Post.where(:name => 'iphone').order("created_at").last
     if p.word != ""
-      render :text => "<h1>'#{p.word}' is already attachted to</h2>
-                       <img src='/screenshots/#{p.picture}'>"
+      message = "'#{p.word}' is already attachted to"
     else
       p.update(:word => params[:word])
-      render :text => "<h1>you attached a word '#{params[:word]}' to</h1>
-                       <img src='/screenshots/#{p.picture}'>"
+      message = "you attached a word '#{params[:word]}' to"
     end
+    builder = Nokogiri::HTML::Builder.new do |doc|
+      doc.html { doc.body { doc.span { doc.text message }
+                            doc.img(:src => p.picture.url) }}
+    end
+    render :html => builder.to_html
   end
 
 
   def iphone_pic # POST /iphone_pic
     cat_id = Category.where(:name => params[:name]).first.id
-    pic_io = params[:picture]
-    pic_filename = Time.now.strftime("%Y%m%d_%H%M%S.jpg")
-    File.open(Rails.root.join('public', 'screenshots', pic_filename), 'wb') do |f|
-      f.write(pic_io.read)
-    end
-    Post.create(:word => "",
-                :sentence => "",
-                :picture => pic_filename,
-                :category_id => cat_id,
-                :order       => give_new_order(cat_id))
+    p = Post.create(:word => "",
+                    :sentence => "",
+                    :category_id => cat_id,
+                    :order       => give_new_order(cat_id))
+    p.picture = params[:picture]
+    p.save!
     render json: {status: "success", data: {from: "posts#iphone3"}}
   end
 
@@ -91,6 +88,10 @@ class PostsController < ApplicationController
   def show # GET /posts/1 (.json)
   end
 
+  def edit # GET /posts/1/edit
+    @categories = Category.all.order(:name)
+  end
+  
   def new  # GET /posts/new
     @post = Post.new
     @category = nil
@@ -98,37 +99,38 @@ class PostsController < ApplicationController
   end
   
   def create # POST /posts (.json)
-    # @post = Post.new(post_params)
-
-    # params[:cat_id]
-
-    # respond_to do |format|
-    #   if @post.save
-    #     format.html { redirect_to @post, notice: 'Post was successfully created.' }
-    #     format.json { render :show, status: :created, location: @post }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @post.errors, status: :unprocessable_entity }
-    #   end
-    # end
+    @post = Post.new(post_params)
+    cat_id = params[:cat_id]
+    @post.update(:category_id => cat_id,
+                 :order       => give_new_order(cat_id))
+    @post.picture = params[:post][:picture]
+    respond_to do |format|
+      if @post.save
+        format.html { redirect_to category_url(cat_id) }
+        format.json { render :show, status: :created, location: @post }
+      else
+        format.html { render :new }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
-  def edit # GET /posts/1/edit
-    @category = Category.find(@post.category_id)
-    @categories = Category.all.order(:name)
-  end
-  
-  def update # PATCH/PUT /posts/1 (.json)
-    # c = @post.category_id
-    # respond_to do |format|
-    #   if @post.update(post_params)
-    #     format.html { redirect_to category_url(c) }
-    #     format.json { render :show, status: :ok, location: @post }
-    #   else
-    #     format.html { render :edit }
-    #     format.json { render json: @post.errors, status: :unprocessable_entity }
-    #   end
-    # end
+  def update # PATCH/PUT /posts/1 (.json)  # this could cause inconsistent order
+    cat_id = params[:cat_id]
+    @post.update(:category_id => cat_id,
+                 :order       => give_new_order(cat_id))
+    if params[:post][:picture] != nil
+      @post.picture = params[:post][:picture]
+    end
+    respond_to do |format|
+      if @post.save
+        format.html { redirect_to category_url(cat_id) }
+        format.json { render :show, status: :ok, location: @post }
+      else
+        format.html { render :edit }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -140,10 +142,11 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
+      @category = Category.find(@post.category_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:word, :sentence, :picture)
+      params.require(:post).permit(:word, :sentence)
     end
 end

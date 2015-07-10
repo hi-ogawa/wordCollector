@@ -1,0 +1,6 @@
+= form_for @p, :url => '/paperclip_show', :html => { :multipart => true } do |f|
+  %p= @p.id.to_s
+  %p= @p.word
+  %p= @p.sentence
+  = f.file_field :picture
+  = f.submit

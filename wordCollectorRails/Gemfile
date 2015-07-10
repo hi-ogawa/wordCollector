@@ -1,17 +1,21 @@
 source 'https://rubygems.org'
 
+gem 'nokogiri'
+
+# https://github.com/thoughtbot/paperclip#installation
+gem 'paperclip', '~> 4.3'
 
 # http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html
-group :development, :test do 
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-end
-group :test do
-  gem 'faker'
-  gem 'capybara' 
-  gem 'guard-rspec'
-  gem 'launchy' 
-end
+# group :development, :test do 
+#   gem 'rspec-rails'
+#   gem 'factory_girl_rails'
+# end
+# group :test do
+#   gem 'faker'
+#   gem 'capybara' 
+#   gem 'guard-rspec'
+#   gem 'launchy' 
+# end
 
 gem 'haml-rails', '>= 0.3.4'
 

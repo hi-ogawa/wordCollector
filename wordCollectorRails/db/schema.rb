@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150614103643) do
+ActiveRecord::Schema.define(version: 20150710212548) do
 
   create_table "categories", force: true do |t|
     t.text     "name"
@@ -22,11 +22,14 @@ ActiveRecord::Schema.define(version: 20150614103643) do
   create_table "posts", force: true do |t|
     t.text     "word"
     t.text     "sentence"
-    t.text     "picture"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category_id"
     t.integer  "order"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
   end
 
   add_index "posts", ["category_id"], name: "index_posts_on_category_id"

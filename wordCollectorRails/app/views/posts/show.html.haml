@@ -18,7 +18,7 @@
 .post_show_pic
   %strong Picture:
   %br
-  %img{:src => "/screenshots/#{@post.picture}"}
+  = image_tag @post.picture.url
 
 = link_to 'Edit', edit_post_path(@post)
 |

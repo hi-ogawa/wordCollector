@@ -25,7 +25,7 @@
         %td.word{:pic_data => p.picture, :post_id => p.id}
           %span= p.word
           %input{value: p.word}
-          %img{:src => "/screenshots/#{p.picture}"}
+          = image_tag p.picture.url
         %td.sentence= p.sentence
         %td.misc
           = link_to 'Show', post_path(p.id)

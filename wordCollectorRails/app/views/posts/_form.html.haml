@@ -28,9 +28,9 @@
     %br
     = f.file_field :picture
     %br
-    - if @post.picture != nil
+    - if @post.picture.url != nil
       .post_show_pic
-        %img{:src => "/screenshots/#{@post.picture}"}
+        = image_tag @post.picture.url
 
   .actions
     = f.submit

@@ -66,10 +66,10 @@ sort_off = ->
 
 # other events
 deletePosts = ->
-  selected = $('tbody tr.ui-selected .word').toArray()
-  selected_ids = selected.map ($s) -> $s.attr('post_id')
+  selected = $('tbody tr.ui-selected .word')
+  selected_ids = selected.map( -> $(this).attr('post_id')).toArray()
   alert("you're gonna delete these words.\n" +
-          selected.map(($s) -> $s.find('span').text()).join('\n'))
+          selected.map( -> $(this).find('span').text()).toArray().join('\n'))
   $.ajax
     type:        'POST'
     url:         '/multiple_delete'
@@ -107,8 +107,8 @@ applySort = ->
 
 changeCat = ->
   dest_id = $('#category').val()
-  selected = $('tbody tr.ui-selected .word').toArray()
-  selected_ids = selected.map ($s) -> $s.attr('post_id')
+  selected = $('tbody tr.ui-selected .word')
+  selected_ids = selected.map( -> $(this).attr('post_id')).toArray()
   $.ajax
     type:        'POST'
     url:         '/change_category'
@@ -128,7 +128,7 @@ ready = ->
 
   # toggle switches
   togglize $('#pictureToggle'),    pic_on,  pic_off,  'on'
-  togglize $('#selectableToggle'), sel_on,  sel_off,  'off'
+  togglize $('#selectableToggle'), sel_on,  sel_off,  'on'
   togglize $('#editableToggle'),   edit_on, edit_off, 'off'
   togglize $('#sortableToggle'),   sort_on, sort_off, 'off'
 

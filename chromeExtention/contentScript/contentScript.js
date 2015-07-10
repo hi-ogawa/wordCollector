@@ -106,7 +106,7 @@
     }, function(responseText) {
       console.log('-- shootAndUpload : got response --');
       console.log(responseText);
-      if (responseText === 'you got it uploaded\n') {
+      if ($.parseJSON(responseText).status === 'success') {
         $ext_ul.prepend($('<li>').text('you got it.'));
         $input0.val('');
         return $input1.val('');
