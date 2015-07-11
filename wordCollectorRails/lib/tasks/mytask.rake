@@ -15,14 +15,12 @@ task :rsync, [:opt, :dest] do |t, args|
   sh "rsync #{args[:opt]} . #{args[:dest]} --exclude-from '.rsync_exclude' --delete-before"
 end
 
-# e.g. rake "run_rb[add_order.rb]"
 desc "run .rb file in rails console"
 task :run_rb, [:filename] do |t, args|
   sh "bundle exec rails runner \"eval(File.read 'lib/tasks/#{args[:filename]}')\""
 end
 
 
-# e.g. rake "ssh_cd_run[rake 'run_rb[add_order.rb]', ~/myapps/wordCollectorRails/, sakura]"
 desc "run command at remote"
 task :ssh_cd_run, [:com, :dir, :host] do |t, args|
   args.with_defaults(host: 'sakura',
@@ -34,66 +32,46 @@ task :ssh_cd_run, [:com, :dir, :host] do |t, args|
 end
 
 
+# http://tesladocet.com/programming/restart-rails-server/
+# http://stackoverflow.com/questions/1164091/how-to-stop-a-daemon-server-in-rails
+# http://stackoverflow.com/questions/577944/how-to-run-rake-tasks-from-within-rake-tasks
 desc "restart daemon server"
-task :restart_, [:port] do |t, args|
+task :restart, [:port] do |t, args|
   args.with_defaults(port: '3000')
-  Rake::Task['stop_'].execute
-  Rake::Task['start_'].execute(args[:port])
+  Rake::Task['stop'].execute
+  Rake::Task['start'].execute(args)
 end
 
 desc "stop daemon server"
-task :stop_ do
+task :stop do
   sh "kill -9 $(cat tmp/pids/server.pid)"
 end
 
 desc "start daemon server"
-task :start_, [:port] do |t, args|
+task :start, [:port] do |t, args|
   args.with_defaults(port: '3000')
   sh "rails s -d -p #{args[:port]}"
 end
 
 
 desc "search daemon server"
-task :search_, [:key] do |t, args|
+task :search, [:key] do |t, args|
   args.with_defaults(key: 'ruby')
   sh "ps aux | grep #{args[:key]}"
 end
 
 
-
-# http://stackoverflow.com/questions/577944/how-to-run-rake-tasks-from-within-rake-tasks
-desc "restart rails server at remote"
-task :restart, [:opt, :dest] do |t, args|
-  Rake::Task['stop'].execute
-  Rake::Task['start'].execute
-end
-
-
-# http://tesladocet.com/programming/restart-rails-server/
-# http://stackoverflow.com/questions/1164091/how-to-stop-a-daemon-server-in-rails
-desc "start rails server at remote"
-task :start, [:port, :host, :dir] do |t, args|
-  args.with_defaults(port: '3005',
-                     host: 'sakura',
-                     dir:  '~/myapps/wordCollectorRails/')
-  coms_in_ssh = ["source .bash_profile",
-                 "cd #{args[:dir]}",
-                 "rails s -d -p #{args[:port]}"]
-  sh( "ssh #{args[:host]}" + " ' " + coms_in_ssh.join('; ') + " ' " )
-end
-
-
-desc "stop rails server at remote"
-task :stop, [:host, :dir] do |t, args|
-  args.with_defaults(host: 'sakura',
-                     dir:  '~/myapps/wordCollectorRails/')
-  sh "ssh #{args[:host]} ' kill -9 $(cat #{args[:dir]}tmp/pids/server.pid) '"
-end
-
-
-desc "search process at remote"
-task :search, [:host, :keyword] do |t, args|
-  args.with_defaults(host:    'sakura',
-                     keyword: 'ruby')
-  sh "ssh #{args[:host]} 'ps aux | grep #{args[:keyword]}'"
-end
+## examples ##
+#
+# rake "ssh_cd_run[rake 'restart[3005]']"
+# => (local)  ssh sakura ' source .bash_profile; cd ~/myapps/wordCollectorRails/; rake 'restart[3005]' ' 
+#    (remote) kill -9 $(cat tmp/pids/server.pid)
+#    (remote) rails s -d -p 3005
+#
+# rake "ssh_cd_run[rake search]" 
+# => (local)  ssh sakura ' source .bash_profile; cd ~/myapps/wordCollectorRails/; rake search ' 
+#    (remote) ps aux | grep ruby
+#
+# rake "ssh_cd_run[rake 'run_rb[add_order.rb]']"
+# => (local)  ssh sakura ' source .bash_profile; cd ~/myapps/wordCollectorRails/; rake 'run_rb[add_order.rb]' ' 
+#    (remote) bundle exec rails runner "eval(File.read 'lib/tasks/add_order.rb')"

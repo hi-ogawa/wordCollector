@@ -28,6 +28,7 @@ class PostsController < ApplicationController
     end
     builder = Nokogiri::HTML::Builder.new do |doc|
       doc.html { doc.body { doc.span { doc.text message }
+                            doc.br
                             doc.img(:src => p.picture.url) }}
     end
     render :text => builder.to_html
@@ -35,12 +36,13 @@ class PostsController < ApplicationController
 
 
   def iphone_pic # POST /iphone_pic
+    pic_file = (`ls -t -d #{Rails.root.join('public/iphone/*')} | head -1`).tr("\n","")
     cat_id = Category.where(:name => params[:name]).first.id
     p = Post.create(:word => "",
                     :sentence => "",
                     :category_id => cat_id,
                     :order       => give_new_order(cat_id))
-    p.picture = params[:picture]
+    p.picture = File.open(pic_file)
     p.save!
     render json: {status: "success", data: {from: "posts#iphone_pic"}}
   end
