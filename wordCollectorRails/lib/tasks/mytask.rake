@@ -34,6 +34,33 @@ task :ssh_cd_run, [:com, :dir, :host] do |t, args|
 end
 
 
+desc "restart daemon server"
+task :restart_, [:port] do |t, args|
+  args.with_defaults(port: '3000')
+  Rake::Task['stop_'].execute
+  Rake::Task['start_'].execute(args[:port])
+end
+
+desc "stop daemon server"
+task :stop_ do
+  sh "kill -9 $(cat tmp/pids/server.pid)"
+end
+
+desc "start daemon server"
+task :start_, [:port] do |t, args|
+  args.with_defaults(port: '3000')
+  sh "rails s -d -p #{args[:port]}"
+end
+
+
+desc "search daemon server"
+task :search_, [:key] do |t, args|
+  args.with_defaults(key: 'ruby')
+  sh "ps aux | grep #{args[:key]}"
+end
+
+
+
 # http://stackoverflow.com/questions/577944/how-to-run-rake-tasks-from-within-rake-tasks
 desc "restart rails server at remote"
 task :restart, [:opt, :dest] do |t, args|

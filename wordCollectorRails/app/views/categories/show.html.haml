@@ -16,21 +16,27 @@
 %table
   %thead
     %tr
+      %th
+      %th
       %th Word
       %th Sentence
       %th{:colspan => "1"}
   %tbody.words
     - @posts.each do |p|
       %tr{:id => "post_#{p.id}"}
+        %td.select-hand
+        %td.sort-hand
         %td.word{:pic_data => p.picture, :post_id => p.id}
           %span= p.word
           %input{value: p.word}
           = image_tag p.picture.url
-        %td.sentence= p.sentence
+        %td.sentence{:post_id => p.id}
+          %span= p.sentence
+          %input{value: p.sentence}
         %td.misc
           = link_to 'Show', post_path(p.id)
           = link_to 'Edit', edit_post_path(p.id)
-          = link_to 'Destroy', post_path(p.id), method: :delete, data: { confirm: 'Are you sure?' }
+          = link_to 'Destroy', post_path(p.id), method: :delete, data: {confirm: 'Are you sure?'}
 %br
 
 = link_to 'Back', categories_path

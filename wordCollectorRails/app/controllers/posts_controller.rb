@@ -1,7 +1,7 @@
 require 'nokogiri'
 
 class PostsController < ApplicationController
-  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category, :iphone2, :iphone3]
+  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category, :iphone_word, :iphone_pic]
 
   skip_before_filter  :verify_authenticity_token
   before_action :set_post, only: [:show, :edit, :update]
@@ -18,7 +18,8 @@ class PostsController < ApplicationController
 
 
   def iphone_word # GET /iphone_word
-    p = Post.where(:name => 'iphone').order("created_at").last
+    cat_id = Category.where(:name => 'iphone').first
+    p = Post.where(:category_id => cat_id).order("created_at").last
     if p.word != ""
       message = "'#{p.word}' is already attachted to"
     else
@@ -29,7 +30,7 @@ class PostsController < ApplicationController
       doc.html { doc.body { doc.span { doc.text message }
                             doc.img(:src => p.picture.url) }}
     end
-    render :html => builder.to_html
+    render :text => builder.to_html
   end
 
 
@@ -41,9 +42,8 @@ class PostsController < ApplicationController
                     :order       => give_new_order(cat_id))
     p.picture = params[:picture]
     p.save!
-    render json: {status: "success", data: {from: "posts#iphone3"}}
+    render json: {status: "success", data: {from: "posts#iphone_pic"}}
   end
-
 
   def sort # POST /sort
     ids = params[:post]
@@ -55,7 +55,6 @@ class PostsController < ApplicationController
     # json api format comes from http://labs.omniti.com/labs/jsend
     render :json => {status: "success", data: {from: "posts#sort"}}
   end
-
 
   def change_category # POST /change_category
     d = params[:dest_id].to_i
@@ -76,8 +75,11 @@ class PostsController < ApplicationController
 
 
   def multiple_edit # POST /multiple_edit
-    params[:selected].each do |p|
+    params[:edit_w].each do |p|
       Post.find(p[:id].to_i).update(word: p[:word])
+    end
+    params[:edit_s].each do |p|
+      Post.find(p[:id].to_i).update(sentence: p[:sentence])
     end
     render :json => {status: "success", data: {from: "posts#multiple_edit"}}
   end
@@ -107,7 +109,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to category_url(cat_id) }
-        format.json { render :show, status: :created, location: @post }
+        format.json { render json: {status: "success", data: {from: "posts#create"}}}
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }

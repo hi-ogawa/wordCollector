@@ -6,14 +6,22 @@
 table, th, td
   border: 1px solid black
 
-td.word
+.select-hand, .sort-hand
+  width: 2%
+  height: 2%
+
+.word
   text-align: center
   width: 10%
+  input
+    width: 100%
 
-td.sentence
-  width: 80%
+.sentence
+  width: 74%
+  input
+    width: 100%
 
-td.misc
+.misc
   text-align: center
   width: 10%
 
@@ -24,16 +32,17 @@ td.misc
   height: 80vh
   z-index: 10
 
-tbody .ui-selecting
+.ui-selecting
   background: #FECA40
 
-tbody .ui-selected
+.ui-selected
   background: #F39814
   color: white
 
+
+/* strike out class
 .strike
   text-decoration: line-through
-
 
 /* toggle switch
 .switch.on .off

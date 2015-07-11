@@ -37,36 +37,36 @@ pic_off = ->
 
 sel_on  = ->
   $('#changeCat, #deletePosts').removeClass 'strike'
-  $('tbody.words').selectable 'enable'
+  $('.words').selectable 'enable'
 sel_off = ->
   $('#changeCat, #deletePosts').addClass 'strike'
-  $('tbody.words .ui-selected').removeClass 'ui-selected'
-  $('tbody.words').selectable 'disable'
+  $('.words .ui-selected').removeClass 'ui-selected'
+  $('.words').selectable 'disable'
 
 
 edit_on  = ->
   $('#applyEdit').removeClass 'strike'
-  $('.word').each ->
+  $('.word, .sentence').each ->
     $(this).find('span').hide()
     $(this).find('input').show()
 edit_off = ->
   $('#applyEdit').addClass 'strike'
-  $('.word').each ->
+  $('.word, .sentence').each ->
     $(this).find('span').show()
     $(this).find('input').hide()
 
 
 sort_on  = ->
   $('#applySort').removeClass 'strike'
-  $('tbody.words').sortable 'enable'
+  $('words').sortable 'enable'
 sort_off = ->
   $('#applySort').addClass 'strike'
-  $('tbody.words').sortable 'disable'
+  $('words').sortable 'disable'
 
 
 # other events
 deletePosts = ->
-  selected = $('tbody tr.ui-selected .word')
+  selected = $('.ui-selected .word')
   selected_ids = selected.map( -> $(this).attr('post_id')).toArray()
   alert("you're gonna delete these words.\n" +
           selected.map( -> $(this).find('span').text()).toArray().join('\n'))
@@ -82,15 +82,21 @@ deletePosts = ->
 
 applyEdit = ->
   edit_ids_words =
-    $('tbody tr .word').filter( ->
+    $('.word').filter( ->
       $(this).find('span').text() isnt $(this).find('input').val()
     ).map( ->
       {id: $(this).attr('post_id'), word: $(this).find('input').val()}
     ).toArray()
+  edit_ids_sentences =
+    $('.sentence').filter( ->
+      $(this).find('span').text() isnt $(this).find('input').val()
+    ).map( ->
+      {id: $(this).attr('post_id'), sentence: $(this).find('input').val()}
+    ).toArray()
   $.ajax
     type: 'POST'
     url: '/multiple_edit'
-    data:         JSON.stringify {selected: edit_ids_words}
+    data:         JSON.stringify {edit_w: edit_ids_words, edit_s: edit_ids_sentences}
     dataType:    'json'
     contentType: 'application/json'
     success: (data) ->
@@ -101,13 +107,13 @@ applySort = ->
   $.ajax
     type: 'POST'
     url: '/sort'
-    data: $('tbody.words').sortable('serialize')
+    data: $('.words').sortable('serialize')
     dataType: 'script'
   location.reload()
 
 changeCat = ->
   dest_id = $('#category').val()
-  selected = $('tbody tr.ui-selected .word')
+  selected = $('.ui-selected .word')
   selected_ids = selected.map( -> $(this).attr('post_id')).toArray()
   $.ajax
     type:        'POST'
@@ -123,14 +129,14 @@ changeCat = ->
 ready = ->
 
   # jquery ui selectable/sortable
-  $('tbody.words').selectable({filter: 'tr', cancel: '.word, .misc'}).selectable 'disable'
-  $('tbody.words').sortable({filter: 'tr', handle: '.word'}).sortable 'disable'
+  $('.words').selectable({cancel: 'td:not(.select-hand)'}).selectable 'disable'
+  $('.words').sortable({handle: '.sort-hand'}).sortable 'disable'
 
   # toggle switches
   togglize $('#pictureToggle'),    pic_on,  pic_off,  'on'
-  togglize $('#selectableToggle'), sel_on,  sel_off,  'on'
+  togglize $('#selectableToggle'), sel_on,  sel_off,  'off'
   togglize $('#editableToggle'),   edit_on, edit_off, 'off'
-  togglize $('#sortableToggle'),   sort_on, sort_off, 'off'
+  togglize $('#sortableToggle'),   sort_on, sort_off, 'on'
 
   $('#changeCat       ').click -> changeCat()    unless $(this).hasClass('strike')
   $('#deletePosts     ').click -> deletePosts()  unless $(this).hasClass('strike')
