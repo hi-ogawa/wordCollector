@@ -33,11 +33,11 @@
             %div.col-md-6.btn.btn-default.glyphicon.glyphicon-move.sort-hand
           %td.col-md-2.word
             %span= p.word
-            %input{value: p.word}
+            %input.form-control{value: p.word}
             = image_tag p.picture.url
           %td.col-md-8.sentence{:post_id => p.id}
             %span.small= p.sentence
-            %input{value: p.sentence}
+            %input.form-control{value: p.sentence}
           %td.col-md-1.misc
             .btn-group.btn-group-sm
               = link_to edit_post_path(p.id), class: 'btn btn-warning' do

@@ -115,9 +115,6 @@ ready = ->
   $('#deletePosts     ').click -> deletePosts()
   $('#applyEdit       ').click -> applyEdit() if $('#editableToggle').prop('checked')
   $('#applySort       ').click -> applySort()
-
-  $('.btn').click ->
-    setTimeout ( -> $('.select-hand.ui-selected').css('background', '#F39814')), 500
         
 
 $(document).ready ready
