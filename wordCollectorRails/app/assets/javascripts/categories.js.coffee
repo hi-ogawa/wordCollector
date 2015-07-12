@@ -77,9 +77,9 @@ applySort = ->
       dataType: 'script'
     location.reload()
 
-changeCat = ->
+changeCat = ($a) ->
   if confirm('are you sure?')
-    dest_id = $('#category').val()
+    dest_id = $a.attr('cat_id')
     selected = $('.ui-selected')
     selected_ids = selected.map( -> $(this).attr('post_id')).toArray()
     $.ajax
@@ -111,11 +111,12 @@ ready = ->
   $('#editableToggle').change ->
     if $(this).prop 'checked' then edit_on() else edit_off()
 
-  $('#changeCat       ').click -> changeCat() 
+  $('.changeCat       ').click ->
+    changeCat($(this))
   $('#deletePosts     ').click -> deletePosts()
   $('#applyEdit       ').click -> applyEdit() if $('#editableToggle').prop('checked')
   $('#applySort       ').click -> applySort()
-        
+
 
 $(document).ready ready
 $(document).on 'page:load', ready
