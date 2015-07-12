@@ -36,7 +36,7 @@ end
 # http://stackoverflow.com/questions/1164091/how-to-stop-a-daemon-server-in-rails
 # http://stackoverflow.com/questions/577944/how-to-run-rake-tasks-from-within-rake-tasks
 desc "restart daemon server"
-task :restart, [:port] do |t, args|
+task :restart, [:user, :pass, :port] do |t, args|
   args.with_defaults(port: '3000')
   Rake::Task['stop'].execute
   Rake::Task['start'].execute(args)
@@ -48,9 +48,9 @@ task :stop do
 end
 
 desc "start daemon server"
-task :start, [:port] do |t, args|
+task :start, [:user, :pass, :port] do |t, args|
   args.with_defaults(port: '3000')
-  sh "rails s -d -p #{args[:port]}"
+  sh "export TEST_USER=#{args[:user]}; export TEST_PASS=#{args[:pass]}; rails s -d -p #{args[:port]}"
 end
 
 
@@ -75,3 +75,7 @@ end
 # rake "ssh_cd_run[rake 'run_rb[add_order.rb]']"
 # => (local)  ssh sakura ' source .bash_profile; cd ~/myapps/wordCollectorRails/; rake 'run_rb[add_order.rb]' ' 
 #    (remote) bundle exec rails runner "eval(File.read 'lib/tasks/add_order.rb')"
+#
+# 
+# rake "ssh_cd_run[rake \'restart[user\,pass\,3005]\']"
+#

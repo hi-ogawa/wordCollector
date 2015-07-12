@@ -1,7 +1,4 @@
 class CategoriesController < ApplicationController
-  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :show, :create]
-
-  skip_before_filter  :verify_authenticity_token
   before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   # GET /categories

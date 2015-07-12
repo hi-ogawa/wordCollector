@@ -1,9 +1,6 @@
 require 'nokogiri'
 
 class PostsController < ApplicationController
-  http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category, :iphone_word, :iphone_pic]
-
-  skip_before_filter  :verify_authenticity_token
   before_action :set_post, only: [:edit, :update]
 
   def chrome  # POST /chrome
