@@ -58,10 +58,10 @@ edit_off = ->
 
 sort_on  = ->
   $('#applySort').removeClass 'strike'
-  $('words').sortable 'enable'
+  $('.words').sortable 'enable'
 sort_off = ->
   $('#applySort').addClass 'strike'
-  $('words').sortable 'disable'
+  $('.words').sortable 'disable'
 
 
 # other events
@@ -129,11 +129,11 @@ changeCat = ->
 ready = ->
 
   # jquery ui selectable/sortable
-  $('.words').selectable({cancel: 'td:not(.select-hand)'}).selectable 'disable'
+  $('.words').selectable({cancel: '.sort-hand, .word, .sentence, .misc'}).selectable 'disable'
   $('.words').sortable({handle: '.sort-hand'}).sortable 'disable'
 
   # toggle switches
-  togglize $('#pictureToggle'),    pic_on,  pic_off,  'on'
+  togglize $('#pictureToggle'),    pic_on,  pic_off,  'off'
   togglize $('#selectableToggle'), sel_on,  sel_off,  'off'
   togglize $('#editableToggle'),   edit_on, edit_off, 'off'
   togglize $('#sortableToggle'),   sort_on, sort_off, 'on'

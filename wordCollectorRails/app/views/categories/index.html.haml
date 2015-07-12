@@ -1,22 +1,36 @@
-%h1 Listing Categories
+%h1 Categories List
 
-%table
+%table.table.table-striped
   %thead
     %tr
-      %th Name
       %th
-      %th
-      %th
+        Category Name
+        %span.badge.pull-right= @categories.map{|c| c.posts.length}.inject(:+)
+      %th Actions
 
   %tbody
-    - @categories.each do |category|
+    - @categories.each do |c|
       %tr
-        %td= category.name
-        %td= link_to 'Show', category
-        %td= link_to 'Edit', edit_category_path(category)
-        %td= link_to 'Destroy', category, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td
+          = c.name
+          %span.badge.pull-right= c.posts.length.to_s
+        %td  
+          .btn-group.btn-group-sm
+            %a.btn.btn-info{href: category_path(c)}
+              Show
+              %span.glyphicon.glyphicon-list-alt
+            %a.btn.btn-warning{href: edit_category_path(c)}
+              Edit
+              %span.glyphicon.glyphicon-pencil
+            %a.btn.btn-danger{href: category_path(c), data: {method: :delete, confirm: 'Are you sure?'}}
+              Destroy
+              %span.glyphicon.glyphicon-trash
 
-%br
-
-= link_to 'New Category', new_category_path
-= link_to 'New Post', new_post_path
+.btn-group.btn-group-md
+  %a.btn.btn-success{href: new_category_path}
+    %span.glyphicon.glyphicon-plus
+    New Category
+  %a.btn.btn-success{href: new_post_path}
+    %span.glyphicon.glyphicon-plus
+    New Post
+      

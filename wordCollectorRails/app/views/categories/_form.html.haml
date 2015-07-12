@@ -6,8 +6,10 @@
         - @category.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
+  .form-group
     = f.label :name
-    = f.text_area :name
-  .actions
-    = f.submit 'Save'
+    %input.form-control{id: 'category_name', name: 'category[name]'}
+
+  %button.btn.btn-warning
+    %span.glyphicon.glyphicon-ok
+    Save

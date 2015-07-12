@@ -1,5 +1,11 @@
 %h1 Editing post
 = render 'form'
-= link_to 'Show', @post
-|
-= link_to 'Back', category_path(@category)
+
+%br
+.btn-group.btn-group-md
+  %a.btn.btn-success{href: category_path(@category)}
+    %span.glyphicon.glyphicon-arrow-left
+    Back to Its Category
+  %a.btn.btn-info{href: post_path(@post)}
+    %span.glyphicon.glyphicon-folder-open
+    Show

@@ -60,7 +60,7 @@ class PostsController < ApplicationController
 
   def change_category # POST /change_category
     d = params[:dest_id].to_i
-    params[:selected].each do |s|
+    wrap_nil(params[:selected]).each do |s|
       Post.find(s.to_i).update(:category_id => d,
                                :order       => give_new_order(d))
     end
@@ -69,7 +69,7 @@ class PostsController < ApplicationController
 
 
   def multiple_delete # POST /multiple_delete  # this could cause inconsistent order
-    params[:selected].each do |s|
+    wrap_nil(params[:selected]).each do |s|
       Post.find(s.to_i).destroy
     end
     render :json => {status: "success", data: {from: "posts#multiple_delete"}}
@@ -77,10 +77,10 @@ class PostsController < ApplicationController
 
 
   def multiple_edit # POST /multiple_edit
-    params[:edit_w].each do |p|
+    wrap_nil(params[:edit_w]).each do |p|
       Post.find(p[:id].to_i).update(word: p[:word])
     end
-    params[:edit_s].each do |p|
+    wrap_nil(params[:edit_s]).each do |p|
       Post.find(p[:id].to_i).update(sentence: p[:sentence])
     end
     render :json => {status: "success", data: {from: "posts#multiple_edit"}}
@@ -121,6 +121,7 @@ class PostsController < ApplicationController
 
   def update # PATCH/PUT /posts/1 (.json)  # this could cause inconsistent order
     cat_id = params[:cat_id]
+    @post.update(post_params)
     @post.update(:category_id => cat_id,
                  :order       => give_new_order(cat_id))
     if params[:post][:picture] != nil
@@ -139,8 +140,17 @@ class PostsController < ApplicationController
 
   private
 
+    # parameters are set nil if they are emptry array [], that's why we deal with nil check
+    # at the server side, seven hells.
+    def wrap_nil(arr)
+      arr ? arr : []
+    end
+
     def give_new_order(c_id)
-      Post.where(:category_id => c_id).map{|p| p.order}.max + 1
+      m = Post.where(:category_id => c_id).map do |p|
+        p.order ? p.order : 0
+      end
+      m.max ? m.max : 0
     end
 
     # Use callbacks to share common setup or constraints between actions.

@@ -1,3 +1,7 @@
 %h1 New post
 = render 'form'
-= link_to 'Back', categories_path
+
+%br
+%a.btn.btn-success{href: categories_path}
+  %span.glyphicon.glyphicon-arrow-left
+  Back to Categories

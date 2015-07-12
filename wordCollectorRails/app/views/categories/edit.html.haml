@@ -1,7 +1,12 @@
-%h1 Editing category
+%h1 Editing Category
 
 = render 'form'
 
-= link_to 'Show', @category
-\|
-= link_to 'Back', categories_path
+%br
+.btn-group.btn-group-md
+  %a.btn.btn-success{href: categories_path}
+    %span.glyphicon.glyphicon-arrow-left
+    Back to Categories
+  %a.btn.btn-info{href: category_path(@category)}
+    %span.glyphicon.glyphicon-list-alt
+    Show

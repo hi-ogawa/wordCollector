@@ -36,7 +36,7 @@
         %td.misc
           = link_to 'Show', post_path(p.id)
           = link_to 'Edit', edit_post_path(p.id)
-          = link_to 'Destroy', post_path(p.id), method: :delete, data: {confirm: 'Are you sure?'}
+          -# = link_to 'Destroy', post_path(p.id), method: :delete, data: {confirm: 'Are you sure?'}
 %br
 
 = link_to 'Back', categories_path
