@@ -16,21 +16,21 @@
           %span.badge.pull-right= c.posts.length.to_s
         %td  
           .btn-group.btn-group-sm
-            %a.btn.btn-info{href: category_path(c)}
+            = link_to category_path(c), class: 'btn btn-info' do
               Show
               %span.glyphicon.glyphicon-list-alt
-            %a.btn.btn-warning{href: edit_category_path(c)}
+            = link_to edit_category_path(c), class: 'btn btn-warning' do
               Edit
               %span.glyphicon.glyphicon-pencil
-            %a.btn.btn-danger{href: category_path(c), data: {method: :delete, confirm: 'Are you sure?'}}
+            = link_to category_path(c), class: 'btn btn-danger',
+                      data: {method: :delete, confirm: 'Are you sure?'} do
               Destroy
               %span.glyphicon.glyphicon-trash
 
-.btn-group.btn-group-md
-  %a.btn.btn-success{href: new_category_path}
+.btn-group
+  = link_to new_category_path, class: 'btn btn-success' do
     %span.glyphicon.glyphicon-plus
     New Category
-  %a.btn.btn-success{href: new_post_path}
+  = link_to new_post_path, class: 'btn btn-success' do
     %span.glyphicon.glyphicon-plus
     New Post
-      

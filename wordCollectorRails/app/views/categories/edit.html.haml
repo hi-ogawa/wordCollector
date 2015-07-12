@@ -4,9 +4,9 @@
 
 %br
 .btn-group.btn-group-md
-  %a.btn.btn-success{href: categories_path}
+  = link_to categories_path, class: 'btn btn-success' do
     %span.glyphicon.glyphicon-arrow-left
     Back to Categories
-  %a.btn.btn-info{href: category_path(@category)}
-    %span.glyphicon.glyphicon-list-alt
+  = link_to category_path(@category), class: 'btn btn-info' do
+    %span.glyphicon.glyphicon-folder-open
     Show

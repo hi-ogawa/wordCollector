@@ -2,10 +2,11 @@
 = render 'form'
 
 %br
-.btn-group.btn-group-md
-  %a.btn.btn-success{href: category_path(@category)}
+.btn-group
+  = link_to category_path(@category), class: 'btn btn-success' do
     %span.glyphicon.glyphicon-arrow-left
     Back to Its Category
-  %a.btn.btn-info{href: post_path(@post)}
+  = link_to post_path(@post), class: 'btn btn-info' do
     %span.glyphicon.glyphicon-folder-open
     Show
+    

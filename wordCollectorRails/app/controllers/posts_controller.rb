@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   http_basic_authenticate_with name: "Hiroshi", password: "Ogawa", except: [:index, :iphone, :sort, :change_category, :iphone_word, :iphone_pic]
 
   skip_before_filter  :verify_authenticity_token
-  before_action :set_post, only: [:show, :edit, :update]
+  before_action :set_post, only: [:edit, :update]
 
   def chrome  # POST /chrome
     p = Post.create(:word        => params[:word],
@@ -89,9 +89,6 @@ class PostsController < ApplicationController
 
   ## usual resources ##
 
-  def show # GET /posts/1 (.json)
-  end
-
   def edit # GET /posts/1/edit
     @categories = Category.all.order(:name)
   end
@@ -130,7 +127,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to category_url(cat_id) }
-        format.json { render :show, status: :ok, location: @post }
+        format.json { render json: {status: 'success', data: {from: 'posts#update'}}}
       else
         format.html { render :edit }
         format.json { render json: @post.errors, status: :unprocessable_entity }

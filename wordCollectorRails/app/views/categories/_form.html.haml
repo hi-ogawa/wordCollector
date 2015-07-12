@@ -8,8 +8,8 @@
 
   .form-group
     = f.label :name
-    %input.form-control{id: 'category_name', name: 'category[name]'}
+    = f.text_field :name, class: 'form-control'
 
-  %button.btn.btn-warning
+  = f.button class: 'btn btn-warning' do
     %span.glyphicon.glyphicon-ok
     Save
