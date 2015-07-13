@@ -1,63 +1,77 @@
 %h1= "Listing Words on #{@category.name}"
 
-.form-inline
-  %input#pictureToggle{type: 'checkbox', data: {toggle: 'toggle',
-                                                  on: 'Show Picture',
-                                                  off: 'Hide Picture'}}
-  %input#editableToggle{type: 'checkbox', data: {toggle: 'toggle',
-                                                  on: 'Enable to Edit',
-                                                  off: 'Unable to Edit'}}
-  %button#applyEdit.btn.btn-warning
-    Apply Edit
-    %span.glyphicon.glyphicon-pencil
-   
-  %button#deletePosts.btn.btn-danger
-    Delete Selected Entries
-    %span.glyphicon.glyphicon-trash
-   
-  %button#applySort.btn.btn-warning
-    Apply Sort
-    %span.glyphicon.glyphicon-sort
+%ul.list-inline.fixed
+  %li
+    %input#pictureToggle{type: 'checkbox', data: {toggle: 'toggle',
+                                                      on: 'Show Picture',
+                                                     off: 'Hide Picture',
+                                                    size: 'small'}}
+  %li    
+    %input#editableToggle{type: 'checkbox', data: {toggle: 'toggle',
+                                                    on: 'Enable to Edit',
+                                                    off: 'Unable to Edit',
+                                                   size: 'small'}}
+    %button#applyEdit.btn.btn-warning.btn-sm
+      %span Apply Edit
+      %span.glyphicon.glyphicon-pencil
+     
+  %li
+    %button#deletePosts.btn.btn-danger.btn-sm
+      Delete Selected Entries
+      %span.glyphicon.glyphicon-trash
+     
+  %li
+    .btn-group
+      %a.btn.btn-primary.btn-sm.dropdown-toggle{data: {toggle: 'dropdown'}}
+        Move Selected Entries
+        %span.glyphicon.glyphicon-list
+      %ul.dropdown-menu.scrollable-menu
+        %li.dropdown-header Choose a Destination
+        - @categories.each do |c|
+          %li
+            %a.changeCat{cat_id: c.id}= c.name
+  %li
+    %button#applySort.btn.btn-warning.btn-sm
+      Apply Sort
+      %span.glyphicon.glyphicon-sort
+     
 
-  .btn-group
-    %a.btn.btn-primary.disabled
-      Move Selected Entries
-    %a#caret.btn.btn-primary.dropdown-toggle{data: {toggle: 'dropdown'}}
-      %span.glyphicon.glyphicon-list
-    %ul.dropdown-menu.dropdown-menu-right.scrollable-menu
-      %li.dropdown-header Choose a Destination
-      - @categories.each do |c|
-        %li
-          %a.changeCat{cat_id: c.id}= c.name
 
-.contents
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Control
-        %th Word
-        %th Sentence
-        %th Action
-    %tbody.words
+
+.row
+  .contents.col-md-9
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Control
+          %th Word
+          %th Sentence
+          %th Action
+      %tbody.words
+        - @posts.each do |p|
+          %tr.tr{:id => "post_#{p.id}", :post_id => p.id}
+            %td.col-md-1
+              %div.col-md-6.btn.btn-sm.btn-default.glyphicon.glyphicon-th.select-hand
+              %div.col-md-6.btn.btn-sm.btn-default.glyphicon.glyphicon-move.sort-hand
+            %td.col-md-2.word
+              %span= p.word
+              %input.form-control{value: p.word}
+            %td.col-md-8.sentence{:post_id => p.id}
+              %span.small= p.sentence
+              %input.form-control{value: p.sentence}
+            %td.col-md-1.misc
+              .btn-group.btn-group-sm
+                = link_to edit_post_path(p.id), class: 'btn btn-warning' do
+                  Edit
+                  %span.glyphicon.glyphicon-pencil
+   
+   
+    = link_to categories_path, class: 'btn btn-success' do
+      %span.glyphicon.glyphicon-arrow-left
+      Back to Categories
+
+  .fixed-wrap.col-md-3   
+    .images
       - @posts.each do |p|
-        %tr.tr{:id => "post_#{p.id}", :post_id => p.id}
-          %td.col-md-1
-            %div.col-md-6.btn.btn-default.glyphicon.glyphicon-th.select-hand
-            %div.col-md-6.btn.btn-default.glyphicon.glyphicon-move.sort-hand
-          %td.col-md-2.word
-            %span= p.word
-            %input.form-control{value: p.word}
-            = image_tag p.picture.url
-          %td.col-md-8.sentence{:post_id => p.id}
-            %span.small= p.sentence
-            %input.form-control{value: p.sentence}
-          %td.col-md-1.misc
-            .btn-group.btn-group-sm
-              = link_to edit_post_path(p.id), class: 'btn btn-warning' do
-                Edit
-                %span.glyphicon.glyphicon-pencil
-
-
-= link_to categories_path, class: 'btn btn-success' do
-  %span.glyphicon.glyphicon-arrow-left
-  Back to Categories
+        %a.image-popup{href: p.picture.url}
+          = image_tag p.picture.url, pic_id: p.id

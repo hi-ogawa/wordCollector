@@ -3,37 +3,50 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-# shortest debug
-d = (str) -> console.log str
+## on/off events
 
-# on/off events
-imgEvent = ->
-  $('.word img').hide()
-  $img = $(this).find('img').show().click -> $(this).hide()
+picturePopup = ->
+  $('.image-popup').magnificPopup
+                       type: 'image'
+                       closeOnContentClick: true
+                       zoom: {enabled: true, duration: 300}
+                       image: {verticalFit: true}
+  $('.images img').mouseover ->
+    $(".tr .word span").removeClass('mark text-primary')
+    $sp = $("[post_id=#{ $(this).attr('pic_id') }] .word span")
+    $sp.addClass('mark text-primary')
+    $('body').animate
+      scrollTop: ($sp.offset().top - $(window).height() / 2)
+      , 200
+
+picturePopUp = ->
+  $('.images img').click ->
 
 pic_on  = ->
-  $('.word img').hide()
-  $('.word').on 'mouseover', imgEvent
+  $('.fixed-wrap').show()
+  $('.contents').removeClass('col-md-12').addClass('col-md-9')
 pic_off = ->
-  $('.word img').hide()
-  $('.word').off 'mouseover', imgEvent
+  $('.fixed-wrap').hide()
+  $('.contents').removeClass('col-md-9').addClass('col-md-12')
 
 edit_on  = ->
   $('.word, .sentence').each ->
     $(this).find('span').hide()
     $(this).find('input').show()
+    $('#applyEdit').removeClass('disable')
 edit_off = ->
   $('.word, .sentence').each ->
     $(this).find('span').show()
     $(this).find('input').hide()
+    $('#applyEdit').addClass('disable')
 
 # other events
 deletePosts = ->
-  selected = $('.ui-selected')
+  selected = $('.tr.ui-selected')
   selected_ids = selected.map( -> $(this).attr('post_id')).toArray()
   if confirm('are you sure?\n' +
              'you will delete:\n' +
-              selected.map( -> $(this).find('.word span').text()).toArray().join('\n'))
+              (selected.map( -> $(this).find('.word span').text()).toArray().join('\n')))
     $.ajax
       type:        'POST'
       url:         '/multiple_delete'
@@ -93,6 +106,13 @@ changeCat = ($a) ->
         location.reload()
 
 
+init_toggle = ($toggle, call_on, call_off, st) ->
+  $toggle.bootstrapToggle st
+  $toggle.change ->
+    if $(this).prop 'checked' then call_on() else call_off()
+  if st is 'on' then call_on() else call_off()
+
+
 ready = ->
 
   # jquery ui selectable/sortable
@@ -100,23 +120,16 @@ ready = ->
   $('.words').sortable({handle: '.sort-hand'})
 
   # toggle switches
-  pic_on()
-  edit_off()
+  init_toggle $('#pictureToggle'), pic_on, pic_off, 'on'
+  init_toggle $('#editableToggle'), edit_on, edit_off, 'off'
 
-  $('#pictureToggle ').bootstrapToggle('on')
-  $('#editableToggle').bootstrapToggle('off')
 
-  $('#pictureToggle').change ->
-    if $(this).prop 'checked' then pic_on() else pic_off()
-  $('#editableToggle').change ->
-    if $(this).prop 'checked' then edit_on() else edit_off()
-
-  $('.changeCat       ').click ->
-    changeCat($(this))
+  $('.changeCat       ').click -> changeCat($(this))
   $('#deletePosts     ').click -> deletePosts()
   $('#applyEdit       ').click -> applyEdit() if $('#editableToggle').prop('checked')
   $('#applySort       ').click -> applySort()
 
+  picturePopup()
 
 $(document).ready ready
 $(document).on 'page:load', ready

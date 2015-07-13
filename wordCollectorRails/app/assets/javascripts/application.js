@@ -15,6 +15,7 @@
 //= require jquery-ui
 //= require bootstrap
 //= require bootstrap-toggle
+//= require jquery.magnific-popup
 //= require underscore
 //= require turbolinks
 //= require_tree .
