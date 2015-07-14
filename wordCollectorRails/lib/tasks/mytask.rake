@@ -61,6 +61,11 @@ task :search, [:key] do |t, args|
 end
 
 
+# prior running on production
+# http://stackoverflow.com/questions/17904949/rails-app-not-serving-assets-in-production-environment
+# rake db:migrate; rake assets:precompile; SECRET_KEY_BASE=`rake secret`; RAILS_ENV=production; rails s
+
+
 ## examples ##
 #
 # rake "ssh_cd_run[rake 'restart[3005]']"

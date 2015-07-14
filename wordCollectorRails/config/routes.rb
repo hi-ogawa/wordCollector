@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # http://guides.rubyonrails.org/routing.html#controller-namespaces-and-routing
   # resources :categories
   get    'categories'          => 'categories#index',  as: 'categories'
   post   'categories'          => 'categories#create'
@@ -9,30 +10,31 @@ Rails.application.routes.draw do
   patch  'categories/:id'      => 'categories#update'
   put    'categories/:id'      => 'categories#update'
   delete 'categories/:id'      => 'categories#destroy'
-
+ 
   # resources :posts (removeing #index, #destroy)
   post   'posts'          => 'posts#create'
   get    'posts/new'      => 'posts#new',    as: 'new_post'
   get    'posts/:id/edit' => 'posts#edit',   as: 'edit_post'
   patch  'posts/:id'      => 'posts#update', as: 'post'
   put    'posts/:id'      => 'posts#update'
-
-
+ 
+ 
   ## probably, i should employ this nesting model relation, but not now.
   # resources :categories do
   #   resources :posts
   # end
-
+ 
   post 'change_category' => 'posts#change_category'
   post 'sort'            => 'posts#sort'
   post 'multiple_delete' => 'posts#multiple_delete'
   post 'multiple_edit'   => 'posts#multiple_edit'
-
+ 
   post 'chrome'      => 'posts#chrome'
   get  'iphone_word' => 'posts#iphone_word'
   post 'iphone_pic'  => 'posts#iphone_pic'
-
+   
   root 'categories#index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

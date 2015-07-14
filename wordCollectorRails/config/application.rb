@@ -20,12 +20,5 @@ module WordCollectorRails
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-
-    # bootstrap font, js (additionally, you need to put 'fonts' directory to /public)
-    Rails.root.join('vendor/bootstrap_dist').children.each do |d|
-      config.assets.paths << d
-    end
   end
 end
-
-
