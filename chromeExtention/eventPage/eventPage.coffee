@@ -24,6 +24,15 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
     xhr.onerror = -> callback "failure"  # to clean up the communication port.
     xhr.send fd
 
+  else if request.type is "contentScript: lookUpEijiro"
+
+    xhr = new XMLHttpRequest()
+    xhr.open "POST", request.url, true
+    xhr.onload = -> callback xhr.responseText
+    xhr.onerror = -> callback "failure"  # to clean up the communication port.
+    xhr.send()
+    console.log "--- request send"
+
   else if request.type is "contentScript: shootAndUpload"
 
     # tab capture as data uri scheme

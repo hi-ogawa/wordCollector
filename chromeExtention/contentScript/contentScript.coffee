@@ -7,16 +7,28 @@ $input1   = $("<input>").attr "id", "sentence"
 $ext_div1 = $("<div>").attr   "id", "ext_div1"
 $ext_ul = $("<ul>")
 
+# dom for response from eijiro
+$ext_div2 = $("<div>").attr   "id", "ext_div2"
+$ext_ul2 = $("<ul>")
+
 # adding all doms
 $("body").append($ext_div0.append($input0)
                           .append($input1))
          .append($ext_div1.append($ext_ul))
+         .append($ext_div2.append($ext_ul2))
+
 
 $ext_div1.hide()
 $ext_div1.dblclick ->
   $input0.val ""
   $input1.val ""
   $ext_div1.hide()
+
+$ext_div2.hide()
+$ext_div2.dblclick ->
+  $input0.val ""
+  $input1.val ""
+  $ext_div2.hide()
 
 # trick to handle single click (text selection) and double click respectively
 DELAY = 200
@@ -83,7 +95,48 @@ lookUpWord = ->
           $('.div-alc #alc').load ->
             $('.div-alc').scrollTop 350
 
+lookUpEijiro = ->
+  console.log '--- LookUpEijiro'
+  console.log voc = $input0.val().trim()
+  return if voc == ''
+  req_url = "http://eow.alc.co.jp/search?q=#{encodeURIComponent(voc)}"
 
+  # call request from eventPage to avoid https limitation
+  chrome.runtime.sendMessage
+    type: 'contentScript: lookUpEijiro'
+    url: req_url
+    , (responseText) ->
+        $ext_ul2.empty()
+        console.log '-- LookUpEijiro : got response --'
+        console.log responseText.substring(0,100)
+        return if responseText is 'failure'
+        html = $.parseHTML(responseText)
+        $(html).find('#resultsList > ul > li').each ->
+          console.log eng_voc = $(this).children('.midashi').text()
+
+          $popover_root = $('<a>').text(eng_voc)
+          $popover_content = $('<ul>')
+
+          $mean = (text) ->
+            $('<li>').append($('<a>').css('font-size', '10px')
+                                     .text(text))
+          $meanings = $(this).children('div')
+          if $meanings.find('li').length isnt 0
+            $meanings.find('li').each ->
+              $popover_content.append $mean($(this).text())
+          else
+            $popover_content.append $mean($meanings.text())
+
+
+          $ext_ul2.append $('<li>').append($popover_root)
+          $popover_root.popover
+                           content: $popover_content.html()
+                           html: true
+                           placement: 'left'
+                           container: 'body'
+
+          $ext_div2.show()
+  
 shootAndUpload = ->
   console.log '--- shootAndUpload'
   chrome.runtime.sendMessage
@@ -109,7 +162,7 @@ $(document).keydown (e) ->
   else if e.altKey and e.which == 83
     console.log '--- alt 83 ---'
     lookUpWord()
-
+    lookUpEijiro()
 
 
 chrome.runtime.onMessage.addListener (request, sender, callback) ->

@@ -31,6 +31,17 @@
         return callback("failure");
       };
       xhr.send(fd);
+    } else if (request.type === "contentScript: lookUpEijiro") {
+      xhr = new XMLHttpRequest();
+      xhr.open("POST", request.url, true);
+      xhr.onload = function() {
+        return callback(xhr.responseText);
+      };
+      xhr.onerror = function() {
+        return callback("failure");
+      };
+      xhr.send();
+      console.log("--- request send");
     } else if (request.type === "contentScript: shootAndUpload") {
       chrome.tabs.captureVisibleTab(function(dataurl) {
         console.log("--- captured");

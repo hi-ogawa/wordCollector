@@ -22,8 +22,11 @@
     "content_scripts": [ {
 	"js": [ "jslib/jquery.js",
 		"jslib/jquery-ui.js",
+		"jslib/bootstrap.js",
 		"contentScript/contentScript.js"],
-	"css": ["jslib/jquery-ui.css", "contentScript/contentScript.css"],
+	"css": ["jslib/jquery-ui.css",
+		"jslib/bootstrap.css",
+		"contentScript/contentScript.css"],
 	"matches": [ "http://*/*", "https://*/*"]
     }]
 }
