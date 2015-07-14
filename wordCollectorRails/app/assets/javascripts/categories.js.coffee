@@ -5,20 +5,6 @@
 
 ## on/off events
 
-picturePopup = ->
-  $('.image-popup').magnificPopup
-                       type: 'image'
-                       closeOnContentClick: true
-                       zoom: {enabled: true, duration: 300}
-                       image: {verticalFit: true}
-  $('.images img').mouseover ->
-    $(".tr .word span").removeClass('mark text-danger')
-    $sp = $("[post_id=#{ $(this).attr('pic_id') }] .word span")
-    $sp.addClass('mark text-danger')
-    $('body').animate
-      scrollTop: ($sp.offset().top - $(window).height() / 2)
-      , 200
-
 pic_on  = ->
   $('.fixed-wrap').show()
   $('.contents').removeClass('col-md-12').addClass('col-md-9')
@@ -102,6 +88,19 @@ changeCat = ($a) ->
         console.log data
         location.reload()
 
+picturePopup = ->
+  $('.image-popup').magnificPopup
+                       type: 'image'
+                       closeOnContentClick: true
+                       zoom: {enabled: true, duration: 300}
+                       image: {verticalFit: true}
+  $('.images img').mouseover ->
+    $(".tr .word span").removeClass('mark text-danger')
+    $sp = $("[post_id=#{ $(this).attr('pic_id') }] .word span")
+    $sp.addClass('mark text-danger')
+    $('body').animate
+      scrollTop: ($sp.offset().top - $(window).height() / 2)
+      , 200
 
 init_toggle = ($toggle, call_on, call_off, st) ->
   $toggle.bootstrapToggle st
@@ -127,7 +126,7 @@ ready = ->
   $('#applySort       ').click -> applySort()
 
   picturePopup()
-
+  $('.dropdown-toggle').dropdown()
   $('[data-toggle=tooltip]').tooltip()
 
 
