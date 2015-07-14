@@ -12,15 +12,12 @@ picturePopup = ->
                        zoom: {enabled: true, duration: 300}
                        image: {verticalFit: true}
   $('.images img').mouseover ->
-    $(".tr .word span").removeClass('mark text-primary')
+    $(".tr .word span").removeClass('mark text-danger')
     $sp = $("[post_id=#{ $(this).attr('pic_id') }] .word span")
-    $sp.addClass('mark text-primary')
+    $sp.addClass('mark text-danger')
     $('body').animate
       scrollTop: ($sp.offset().top - $(window).height() / 2)
       , 200
-
-picturePopUp = ->
-  $('.images img').click ->
 
 pic_on  = ->
   $('.fixed-wrap').show()
@@ -130,6 +127,9 @@ ready = ->
   $('#applySort       ').click -> applySort()
 
   picturePopup()
+
+  $('[data-toggle=tooltip]').tooltip()
+
 
 $(document).ready ready
 $(document).on 'page:load', ready

@@ -54,7 +54,8 @@
               %div.col-md-6.btn.btn-sm.btn-default.glyphicon.glyphicon-th.select-hand
               %div.col-md-6.btn.btn-sm.btn-default.glyphicon.glyphicon-move.sort-hand
             %td.col-md-2.word
-              %span= p.word
+              %a{data: {toggle: 'tooltip', placement: 'right'}, title: p.meaning}
+                %span= p.word
               %input.form-control{value: p.word}
             %td.col-md-8.sentence{:post_id => p.id}
               %span.small= p.sentence
