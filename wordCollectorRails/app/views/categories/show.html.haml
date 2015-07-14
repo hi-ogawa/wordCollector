@@ -39,7 +39,7 @@
 
 
 .row
-  .contents.col-md-9
+  .contents.col-md-8.col-xs-8
     %table.table.table-striped
       %thead
         %tr
@@ -71,7 +71,7 @@
       %span.glyphicon.glyphicon-arrow-left
       Back to Categories
 
-  .fixed-wrap.col-md-3   
+  .fixed-wrap.col-md-4.col-xs-4
     .images
       - @posts.each do |p|
         %a.image-popup{href: p.picture.url}

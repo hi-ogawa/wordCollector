@@ -7,10 +7,10 @@
 
 pic_on  = ->
   $('.fixed-wrap').show()
-  $('.contents').removeClass('col-md-12').addClass('col-md-9')
+  $('.contents').removeClass('col-md-12').addClass('col-md-8')
 pic_off = ->
   $('.fixed-wrap').hide()
-  $('.contents').removeClass('col-md-9').addClass('col-md-12')
+  $('.contents').removeClass('col-md-8').addClass('col-md-12')
 
 edit_on  = ->
   $('.word, .sentence').each ->
