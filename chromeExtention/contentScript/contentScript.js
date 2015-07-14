@@ -57,7 +57,7 @@
     }
     if (clicks === 1) {
       timer = setTimeout((function() {
-        $input0.val(($input0.val().trim() === "" ? w : ($input0.val()) + " " + w));
+        $input0.val(($input0.val()) + " " + w);
         $input1.val(window.getSelection().getRangeAt(0).startContainer.parentNode.textContent);
         clicks = 0;
       }), DELAY);
@@ -65,6 +65,8 @@
       clearTimeout(timer);
       $input0.val(($input0.val()) + " " + w);
       $input1.val(window.getSelection().getRangeAt(0).startContainer.parentNode.textContent);
+      lookUpWord();
+      lookUpEijiro();
       clicks = 0;
     }
   }).on('dblclick', function(e) {
@@ -97,7 +99,8 @@
         $(xml).find('dt').each(function() {
           var $a;
           $a = $('<a>').text($(this).text()).click(function() {
-            return $input2.val($(this).text());
+            $input2.val($(this).text());
+            return shootAndUpload();
           });
           return $ext_ul.append($('<li>').append($a));
         });
@@ -180,7 +183,8 @@
         });
         $('[data-toggle=popover]').on('shown.bs.popover', function() {
           return $('.popover-content a').click(function() {
-            return $input2.val($(this).text());
+            $input2.val($(this).text());
+            return shootAndUpload();
           });
         });
       }
@@ -216,6 +220,13 @@
       return shootAndUpload();
     } else if (e.altKey && e.which === 83) {
       console.log('--- alt 83 ---');
+      lookUpWord();
+      return lookUpEijiro();
+    }
+  });
+
+  $input0.keypress(function(e) {
+    if (e.keyCode === 13) {
       lookUpWord();
       return lookUpEijiro();
     }

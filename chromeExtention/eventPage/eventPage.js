@@ -57,7 +57,7 @@
           fd.append("meaning", request.meaning);
           fd.append("cat_id", items.cat_id);
           xhr = new XMLHttpRequest();
-          xhr.open("POST", request.url, true, 'hiroshi', 'ogawa');
+          xhr.open("POST", request.url, true);
           xhr.onload = function() {
             return callback(xhr.responseText);
           };

@@ -47,7 +47,7 @@ $('body').on('mouseup', (e) ->
   if clicks == 1
     timer = setTimeout(( ->
       # text selection / single click
-      $input0.val (if $input0.val().trim() is "" then w else "#{$input0.val()} #{w}")
+      $input0.val "#{$input0.val()} #{w}"
       $input1.val window.getSelection().getRangeAt(0).startContainer.parentNode.textContent
       # text selection / single click
       clicks = 0
@@ -58,6 +58,8 @@ $('body').on('mouseup', (e) ->
     # double click
     $input0.val "#{$input0.val()} #{w}"
     $input1.val window.getSelection().getRangeAt(0).startContainer.parentNode.textContent
+    lookUpWord()
+    lookUpEijiro()
     # double click
     clicks = 0
   return
@@ -90,6 +92,7 @@ lookUpWord = ->
             # $ext_ul.append $('<li>').text $(this).text()
             $a = $('<a>').text($(this).text()).click ->
                     $input2.val $(this).text()
+                    shootAndUpload()
             $ext_ul.append $('<li>').append($a)
         else
           # show the suggestions
@@ -163,7 +166,7 @@ lookUpEijiro = ->
           $('[data-toggle=popover]').on 'shown.bs.popover', ->
             $('.popover-content a').click ->
               $input2.val $(this).text()
-        
+              shootAndUpload()
         $ext_div2.show()
   
 shootAndUpload = ->
@@ -195,6 +198,10 @@ $(document).keydown (e) ->
     lookUpWord()
     lookUpEijiro()
 
+$input0.keypress (e) ->
+  if e.keyCode is 13
+    lookUpWord()
+    lookUpEijiro()
 
 chrome.runtime.onMessage.addListener (request, sender, callback) ->
   if request.type is "popup: word_search"
