@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   def chrome  # POST /chrome
     p = Post.create(:word        => params[:word],
                     :sentence    => params[:sentence],
+                    :meaning     => params[:meaning],
                     :category_id => params[:cat_id].to_i,
                     :order       => give_new_order(params[:cat_id].to_i))
     p.picture = params[:picture]

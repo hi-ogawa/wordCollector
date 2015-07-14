@@ -46,6 +46,7 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
         fd.append "picture" , (dataURLtoBlob dataurl), "hello.jpg"
         fd.append "word"    , request.word
         fd.append "sentence", request.sentence
+        fd.append "meaning", request.meaning
         fd.append "cat_id"  , items.cat_id
        
         xhr = new XMLHttpRequest()

@@ -54,9 +54,10 @@
           fd.append("picture", dataURLtoBlob(dataurl), "hello.jpg");
           fd.append("word", request.word);
           fd.append("sentence", request.sentence);
+          fd.append("meaning", request.meaning);
           fd.append("cat_id", items.cat_id);
           xhr = new XMLHttpRequest();
-          xhr.open("POST", request.url, true);
+          xhr.open("POST", request.url, true, 'hiroshi', 'ogawa');
           xhr.onload = function() {
             return callback(xhr.responseText);
           };

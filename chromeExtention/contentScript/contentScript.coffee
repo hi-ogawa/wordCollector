@@ -2,6 +2,7 @@
 $ext_div0 = $("<div>").attr   "id", "ext_div0"
 $input0   = $("<input>").attr "id", "word"
 $input1   = $("<input>").attr "id", "sentence"
+$input2   = $("<input>").attr "id", "meaning"
 
 # dom for showing meanings/suggestions from dictionary
 $ext_div1 = $("<div>").attr   "id", "ext_div1"
@@ -13,7 +14,8 @@ $ext_ul2 = $("<ul>")
 
 # adding all doms
 $("body").append($ext_div0.append($input0)
-                          .append($input1))
+                          .append($input1)
+                          .append($input2))
          .append($ext_div1.append($ext_ul))
          .append($ext_div2.append($ext_ul2))
 
@@ -22,13 +24,16 @@ $ext_div1.hide()
 $ext_div1.dblclick ->
   $input0.val ""
   $input1.val ""
+  $input2.val ""
   $ext_div1.hide()
 
 $ext_div2.hide()
 $ext_div2.dblclick ->
   $input0.val ""
   $input1.val ""
+  $input2.val ""
   $ext_div2.hide()
+  $('[data-toggle=popover]').popover 'destroy'
 
 # trick to handle single click (text selection) and double click respectively
 DELAY = 200
@@ -82,18 +87,20 @@ lookUpWord = ->
         if $(xml).find('dt').size() isnt 0
           # show the meanings
           $(xml).find('dt').each ->
-            $ext_ul.append $('<li>').text $(this).text()
+            # $ext_ul.append $('<li>').text $(this).text()
+            $a = $('<a>').text($(this).text()).click ->
+                    $input2.val $(this).text()
+            $ext_ul.append $('<li>').append($a)
         else
           # show the suggestions
           $(xml).find('suggestion').each ->
-            $ext_ul.append $('<li>').text $(this).text()
+            $a = $('<a>').text($(this).text()).click ->
+                    $input0.val $(this).text()
+                    lookUpEijiro()
+                    lookUpWord()
+            $ext_ul.append $('<li>').append($a)
 
         $ext_div1.show()
-        if $('.div-alc #alc').length != 0
-          l = 'http://eow.alc.co.jp/search?q=' + voc
-          $('.div-alc #alc').attr 'src', l
-          $('.div-alc #alc').load ->
-            $('.div-alc').scrollTop 350
 
 lookUpEijiro = ->
   console.log '--- LookUpEijiro'
@@ -106,36 +113,58 @@ lookUpEijiro = ->
     type: 'contentScript: lookUpEijiro'
     url: req_url
     , (responseText) ->
+        $('[data-toggle=popover]').popover 'destroy'
         $ext_ul2.empty()
         console.log '-- LookUpEijiro : got response --'
         console.log responseText.substring(0,100)
         return if responseText is 'failure'
         html = $.parseHTML(responseText)
-        $(html).find('#resultsList > ul > li').each ->
-          console.log eng_voc = $(this).children('.midashi').text()
 
-          $popover_root = $('<a>').text(eng_voc)
-          $popover_content = $('<ul>')
+        # there's no exact match, but suggestion
+        if $(html).find('#sas_word').length isnt 0
+          $(html).find('#sas_word a').each ->
+            $a = $('<a>').text($(this).text()).click ->
+                    $input0.val $(this).text()
+                    lookUpEijiro()
+                    lookUpWord()
+            $ext_ul2.append $('<li>').append($a)
 
-          $mean = (text) ->
-            $('<li>').append($('<a>').css('font-size', '10px')
-                                     .text(text))
-          $meanings = $(this).children('div')
-          if $meanings.find('li').length isnt 0
-            $meanings.find('li').each ->
-              $popover_content.append $mean($(this).text())
-          else
-            $popover_content.append $mean($meanings.text())
+        # there are matches
+        else        
+          $(html).find('#resultsList > ul > li').each ->
+            console.log eng_voc = $(this).children('.midashi').text()
+   
+            $popover = $('<a>').text(eng_voc)
+                               .attr('data-toggle', 'popover')
+            $popover_content = $('<ul>')
+   
+            $mean = (text) ->
+              $('<li>').append($('<a>').css('font-size', '10px')
+                                       .text(text))
+            $meanings = $(this).children('div')
+            if $meanings.find('li').length isnt 0
+              $meanings.find('li').each ->
+                $popover_content.append $mean($(this).text())
+            else
+              $popover_content.append $mean($meanings.text())
+   
+            $ext_ul2.append $('<li>').append($popover)
+            $popover.popover
+                       content: $popover_content.html()
+                       html: true
+                       placement: 'left'
+                       container: 'body'
+            $popover.mouseover ->
+              $(this).popover 'show'
 
+          $('[data-toggle=popover]').on 'show.bs.popover', ->
+            $('[data-toggle=popover]').not($(this)).popover 'hide'
 
-          $ext_ul2.append $('<li>').append($popover_root)
-          $popover_root.popover
-                           content: $popover_content.html()
-                           html: true
-                           placement: 'left'
-                           container: 'body'
-
-          $ext_div2.show()
+          $('[data-toggle=popover]').on 'shown.bs.popover', ->
+            $('.popover-content a').click ->
+              $input2.val $(this).text()
+        
+        $ext_div2.show()
   
 shootAndUpload = ->
   console.log '--- shootAndUpload'
@@ -144,6 +173,7 @@ shootAndUpload = ->
     url: 'http://often-test-app.xyz:3005/chrome'
     word: $input0.val().trim()
     sentence: $input1.val().trim()
+    meaning: $input2.val().trim()
     , (responseText) ->
         console.log '-- shootAndUpload : got response --'
         console.log responseText
@@ -151,6 +181,7 @@ shootAndUpload = ->
           $ext_ul.prepend $('<li>').text('you got it.')
           $input0.val ''
           $input1.val ''
+          $input2.val ''
         else
           $ext_ul.prepend $('<li>').text('not good.')
 

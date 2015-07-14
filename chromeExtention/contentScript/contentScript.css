@@ -8,7 +8,7 @@
   left: 90%;
   height: 2.5%;
   width: 8%; }
-  #ext_div0 #word, #ext_div0 #sentence {
+  #ext_div0 #word, #ext_div0 #sentence, #ext_div0 #meaning {
     margin: 0px;
     border: 0px;
     padding: 0px;
@@ -28,8 +28,7 @@
   width: 20%;
   background-color: black;
   overflow: scroll;
-  font-size: 14px;
-  color: #ff7f3d; }
+  font-size: 14px; }
   #ext_div1 ul, #ext_div2 ul {
     list-style-type: none;
     list-style-position: inside;
@@ -39,6 +38,8 @@
       padding-left: 2px;
       border-bottom: 1px dotted white;
       color: #ff7f3d; }
+      #ext_div1 ul li a, #ext_div2 ul li a {
+        color: #ff7f3d; }
 
 /* .popover-content */
 /*         ul */
