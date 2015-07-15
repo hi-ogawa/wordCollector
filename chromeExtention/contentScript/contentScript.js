@@ -81,8 +81,12 @@
     $('[data-toggle=popover]').on('show.bs.popover', function() {
       return $('[data-toggle=popover]').not($(this)).popover('hide');
     });
+    $('.my-bootstrap-container').mouseleave(function() {
+      return $('[data-toggle=popover]').popover('hide');
+    });
     return $('[data-toggle=popover]').on('shown.bs.popover', function() {
-      return $('.popover-content a').click(function() {
+      $('.popover').css('position', 'fixed');
+      return $('.popover-content-a').click(function() {
         $input2.val($(this).text());
         return shootAndUpload();
       });
@@ -129,7 +133,7 @@
           $popover_content = $('<ul>');
           $(this).children('def').children('dt').each(function() {
             var $a;
-            $a = $('<a>').css('font-size', '12px').text($(this).text());
+            $a = $('<a>').text($(this).text()).addClass('popover-content-a');
             return $popover_content.append($('<li>').append($a));
           });
           $ext_ul.append($('<li>').append($popover));
@@ -187,7 +191,7 @@
           $popover = $('<a>').text(eng_voc).attr('data-toggle', 'popover');
           $popover_content = $('<ul>');
           $mean = function(text) {
-            return $('<li>').append($('<a>').css('font-size', '10px').text(text));
+            return $('<li>').append($('<a>').text(text).addClass('popover-content-a'));
           };
           $meanings = $(this).children('div');
           if ($meanings.find('li').length !== 0) {

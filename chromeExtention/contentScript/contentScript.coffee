@@ -78,8 +78,12 @@ setPopover = ->
   $('[data-toggle=popover]').on 'show.bs.popover', ->
     $('[data-toggle=popover]').not($(this)).popover 'hide'
 
+  $('.my-bootstrap-container').mouseleave ->
+    $('[data-toggle=popover]').popover 'hide'
+
   $('[data-toggle=popover]').on 'shown.bs.popover', ->
-    $('.popover-content a').click ->
+    $('.popover').css('position', 'fixed')
+    $('.popover-content-a').click ->
       $input2.val $(this).text()
       shootAndUpload()
 
@@ -118,11 +122,10 @@ lookUpWord = ->
                                 .attr('data-toggle', 'popover')
              $popover_content = $('<ul>')
              $(this).children('def').children('dt').each ->
-                     $a = $('<a>').css('font-size', '12px').text($(this).text())
+                     $a = $('<a>').text($(this).text()).addClass('popover-content-a')
                      $popover_content.append $('<li>').append($a)
       
              $ext_ul.append $('<li>').append($popover)
-
              $popover.popover
                          content: $popover_content.html()
                          html: true
@@ -171,8 +174,7 @@ lookUpEijiro = ->
             $popover_content = $('<ul>')
    
             $mean = (text) ->
-              $('<li>').append($('<a>').css('font-size', '10px')
-                                       .text(text))
+              $('<li>').append($('<a>').text(text).addClass('popover-content-a'))
             $meanings = $(this).children('div')
             if $meanings.find('li').length isnt 0
               $meanings.find('li').each ->
