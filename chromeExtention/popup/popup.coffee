@@ -6,7 +6,7 @@ create_category = ->
   fd.append "category[name]", $("#category_name").val()
 
   xhr = new XMLHttpRequest()
-  xhr.open "POST", "http://often-test-app.xyz:3005/categories.json", true
+  xhr.open "POST", "http://often-test-app.xyz/categories.json", true, 'hiroshi', 'ogawa'
   xhr.onload = ->
     obj = $.parseJSON(xhr.responseText)
     $("#category_list").append $("<option>").val(obj.id).text(obj.name)
@@ -17,10 +17,9 @@ create_category = ->
   xhr.onerror = -> callback "failure"
   xhr.send(fd)
 
-
 init_categories = ->
   xhr = new XMLHttpRequest()
-  xhr.open "GET", "http://often-test-app.xyz:3005/categories.json", true
+  xhr.open "GET", "http://often-test-app.xyz/categories.json", true, 'hiroshi', 'ogawa'
   xhr.onload = ->
     $.parseJSON(xhr.responseText).forEach (c) ->
       $("#category_list").append $("<option>").val(c.id).text(c.name)
@@ -28,7 +27,6 @@ init_categories = ->
       $("#category_list").val(items.cat_id)
   xhr.onerror = -> callback "failure"
   xhr.send()
-
 
 word_search = ->
   chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
@@ -39,6 +37,25 @@ word_search = ->
             , (responseText) -> $(".message").text responseText
 
 $ ->
+
+  # https://developer.chrome.com/extensions/content_scripts#pi
+  csss = [
+    'jslib/my_bootstrap_container.css'
+    'contentScript/contentScript.css'
+  ]
+  jss = [
+    'jslib/jquery.js'
+    'jslib/bootstrap.js'
+    'contentScript/contentScript.js'
+  ]
+  csss.forEach (css) ->
+    chrome.tabs.insertCSS
+      file: css
+  jss.forEach (js) ->
+    chrome.tabs.executeScript 
+      file: js
+
+
   $("#category_name").Watermark "New Category Name"
   $("#word").Watermark "Word"
   $("#sentence").Watermark "Sentence"

@@ -13,8 +13,12 @@ dataURLtoBlob = (dataurl) ->
 # call cross domain request from eventPage instead of contentScript
 # in order to avoid some trouble around https
 chrome.runtime.onMessage.addListener (request, sender, callback) ->
-  if request.type is "contentScript: lookUpWord"
 
+
+
+
+  if request.type is "contentScript: lookUpWord"
+    
     fd = new FormData()
     fd.append "key" , request.key
 

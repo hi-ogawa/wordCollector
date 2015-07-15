@@ -14,19 +14,18 @@
     	"persistent": false
     },
     "permissions": [
+	"tabs",
 	"storage",
 	"activeTab",
 	"http://www.dictionaryapi.com/api/v1/references/collegiate/xml/*",
 	"<all_urls>"
-    ],
-    "content_scripts": [ {
-	"js": [ "jslib/jquery.js",
-		"jslib/jquery-ui.js",
-		"jslib/bootstrap.js",
-		"contentScript/contentScript.js"],
-	"css": ["jslib/jquery-ui.css",
-		"jslib/bootstrap.css",
-		"contentScript/contentScript.css"],
-	"matches": [ "http://*/*", "https://*/*"]
-    }]
+    ]
+    // "content_scripts": [ {
+    // 	"js": [ "jslib/jquery.js",
+    // 		"jslib/bootstrap.js",
+    // 		"contentScript/contentScript.js"],
+    // 	"css": ["jslib/bootstrap.css",
+    // 		"contentScript/contentScript.css"],
+    // 	"matches": [ "http://*/*", "https://*/*"]
+    // }]
 }

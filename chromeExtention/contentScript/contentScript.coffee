@@ -1,3 +1,7 @@
+# http://stackoverflow.com/questions/22620213/how-to-scope-css-in-chrome-extension-content-scripts
+$ext_root = $('<div>').addClass('my-bootstrap-container')
+$('body').append $ext_root
+
 # dom for monitoring inputs to dictionary
 $ext_div0 = $("<div>").attr   "id", "ext_div0"
 $input0   = $("<input>").attr "id", "word"
@@ -13,26 +17,29 @@ $ext_div2 = $("<div>").attr   "id", "ext_div2"
 $ext_ul2 = $("<ul>")
 
 # adding all doms
-$("body").append($ext_div0.append($input0)
+$ext_root.append($ext_div0.append($input0)
                           .append($input1)
                           .append($input2))
          .append($ext_div1.append($ext_ul))
          .append($ext_div2.append($ext_ul2))
 
-$ext_div1.hide()
-$ext_div1.dblclick ->
-  $input0.val ""
-  $input1.val ""
-  $input2.val ""
-  $ext_div1.hide()
 
-$ext_div2.hide()
-$ext_div2.dblclick ->
-  $input0.val ""
-  $input1.val ""
-  $input2.val ""
+# reset views
+resetView = ->
+  $input0.val ''
+  $input1.val ''
+  $input2.val ''
+  $ext_div1.hide()
   $ext_div2.hide()
   $('[data-toggle=popover]').popover 'destroy'
+
+resetView()
+
+$ext_div1.dblclick ->
+  resetView()
+
+$ext_div2.dblclick ->
+  resetView()
 
 # trick to handle single click (text selection) and double click respectively
 DELAY = 200
@@ -66,6 +73,16 @@ $('body').on('mouseup', (e) ->
   e.preventDefault()
 
 
+# set popover behaviour
+setPopover = ->
+  $('[data-toggle=popover]').on 'show.bs.popover', ->
+    $('[data-toggle=popover]').not($(this)).popover 'hide'
+
+  $('[data-toggle=popover]').on 'shown.bs.popover', ->
+    $('.popover-content a').click ->
+      $input2.val $(this).text()
+      shootAndUpload()
+
 lookUpWord = ->
   console.log '--- LookUpWord'
   console.log voc = $input0.val().trim()
@@ -85,15 +102,7 @@ lookUpWord = ->
         return if responseText is 'failure'
 
         xml = $.parseXML(responseText)
-        if $(xml).find('dt').size() isnt 0
-          # show the meanings
-          $(xml).find('dt').each ->
-            # $ext_ul.append $('<li>').text $(this).text()
-            $a = $('<a>').text($(this).text()).click ->
-                    $input2.val $(this).text()
-                    shootAndUpload()
-            $ext_ul.append $('<li>').append($a)
-        else
+        if $(xml).find('dt').size() is 0
           # show the suggestions
           $(xml).find('suggestion').each ->
             $a = $('<a>').text($(this).text()).click ->
@@ -101,7 +110,28 @@ lookUpWord = ->
                     lookUpEijiro()
                     lookUpWord()
             $ext_ul.append $('<li>').append($a)
+        else
+          # show the meaning popover
+          $(xml).find('entry').each ->
+             eng_voc = $(this).attr('id')
+             $popover = $('<a>').text(eng_voc)
+                                .attr('data-toggle', 'popover')
+             $popover_content = $('<ul>')
+             $(this).children('def').children('dt').each ->
+                     $a = $('<a>').css('font-size', '12px').text($(this).text())
+                     $popover_content.append $('<li>').append($a)
+      
+             $ext_ul.append $('<li>').append($popover)
 
+             $popover.popover
+                         content: $popover_content.html()
+                         html: true
+                         placement: 'left'
+                         container: '.my-bootstrap-container'
+             $popover.mouseover ->
+               $(this).popover 'show'
+
+          setPopover()
         $ext_div1.show()
 
 lookUpEijiro = ->
@@ -155,24 +185,17 @@ lookUpEijiro = ->
                        content: $popover_content.html()
                        html: true
                        placement: 'left'
-                       container: 'body'
+                       container: '.my-bootstrap-container'
             $popover.mouseover ->
               $(this).popover 'show'
-
-          $('[data-toggle=popover]').on 'show.bs.popover', ->
-            $('[data-toggle=popover]').not($(this)).popover 'hide'
-
-          $('[data-toggle=popover]').on 'shown.bs.popover', ->
-            $('.popover-content a').click ->
-              $input2.val $(this).text()
-              shootAndUpload()
+          setPopover()
         $ext_div2.show()
   
 shootAndUpload = ->
   console.log '--- shootAndUpload'
   chrome.runtime.sendMessage
     type: 'contentScript: shootAndUpload'
-    url: 'http://often-test-app.xyz:3005/chrome'
+    url: 'http://often-test-app.xyz/chrome'
     word: $input0.val().trim()
     sentence: $input1.val().trim()
     meaning: $input2.val().trim()
@@ -181,12 +204,7 @@ shootAndUpload = ->
         console.log responseText
         if $.parseJSON(responseText).status is 'success'
           $ext_ul.prepend $('<li>').text('you got it.')
-          $input0.val ''
-          $input1.val ''
-          $input2.val ''
-          $ext_div1.hide()
-          $ext_div2.hide()
-          $('[data-toggle=popover]').popover 'destroy'
+          resetView()
         else
           $ext_ul.prepend $('<li>').text('not good.')
 

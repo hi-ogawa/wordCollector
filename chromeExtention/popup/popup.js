@@ -11,7 +11,7 @@
     fd = new FormData();
     fd.append("category[name]", $("#category_name").val());
     xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://often-test-app.xyz:3005/categories.json", true);
+    xhr.open("POST", "http://often-test-app.xyz/categories.json", true, 'hiroshi', 'ogawa');
     xhr.onload = function() {
       var obj;
       obj = $.parseJSON(xhr.responseText);
@@ -33,7 +33,7 @@
   init_categories = function() {
     var xhr;
     xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://often-test-app.xyz:3005/categories.json", true);
+    xhr.open("GET", "http://often-test-app.xyz/categories.json", true, 'hiroshi', 'ogawa');
     xhr.onload = function() {
       $.parseJSON(xhr.responseText).forEach(function(c) {
         return $("#category_list").append($("<option>").val(c.id).text(c.name));
@@ -67,6 +67,19 @@
   };
 
   $(function() {
+    var csss, jss;
+    csss = ['jslib/my_bootstrap_container.css', 'contentScript/contentScript.css'];
+    jss = ['jslib/jquery.js', 'jslib/bootstrap.js', 'contentScript/contentScript.js'];
+    csss.forEach(function(css) {
+      return chrome.tabs.insertCSS({
+        file: css
+      });
+    });
+    jss.forEach(function(js) {
+      return chrome.tabs.executeScript({
+        file: js
+      });
+    });
     $("#category_name").Watermark("New Category Name");
     $("#word").Watermark("Word");
     $("#sentence").Watermark("Sentence");
