@@ -2,19 +2,13 @@
 
 %ul.list-inline.fixed
   %li
-    %input#pictureToggle{type: 'checkbox', data: {toggle: 'toggle',
-                                                      on: 'Show Picture',
-                                                     off: 'Hide Picture',
-                                                    size: 'small'}}
-  %li    
+    %button#applyEdit.btn.btn-warning.btn-sm
+      %span Apply Edit
+      %span.glyphicon.glyphicon-pencil
     %input#editableToggle{type: 'checkbox', data: {toggle: 'toggle',
                                                     on: 'Enable to Edit',
                                                     off: 'Unable to Edit',
                                                    size: 'small'}}
-    %button#applyEdit.btn.btn-warning.btn-sm
-      %span Apply Edit
-      %span.glyphicon.glyphicon-pencil
-     
   %li
     %button#deletePosts.btn.btn-danger.btn-sm
       Delete Selected Entries
@@ -34,9 +28,22 @@
     %button#applySort.btn.btn-warning.btn-sm
       Apply Sort
       %span.glyphicon.glyphicon-sort
-     
 
+  %li
+    %input#pictureToggle{type: 'checkbox', data: {toggle: 'toggle',
+                                                      on: 'Show Picture',
+                                                     off: 'Hide Picture',
+                                                    size: 'small'}}
+  %li
+    .btn-group#picSize
+      %a#picSmall.btn.btn-default.btn-sm S
+      %a#picMedium.btn.btn-default.btn-sm M
+      %a#picLarge.btn.btn-default.btn-sm L
 
+  -# %li
+  -#   .slider-value
+  -#   .slider-wrap
+  -#     .slider{style: 'width: 100px;'}
 
 .row
   .contents.col-md-8.col-xs-8

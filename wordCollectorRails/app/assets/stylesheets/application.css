@@ -13,6 +13,7 @@
  *= require bootstrap
  *= require bootstrap-toggle
  *= require magnific-popup
+ *= require jquery-ui
  *= require_tree .
  *= require_self
  */

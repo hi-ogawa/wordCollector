@@ -2,15 +2,23 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+## size balance between .contents and .fixed_wrap in .row
+contents_n_fixed_wrap_12_n = (n) ->
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].forEach (m) ->
+    $('.contents, .fixed-wrap').removeClass("col-md-#{m} col-xs-#{m}")
+  $('.contents').addClass("col-md-#{n} col-xs-#{n}")
+  $('.fixed-wrap').addClass("col-md-#{12 - n} col-xs-#{12 - n}")
 
 ## on/off events
-
 pic_on  = ->
   $('.fixed-wrap').show()
-  $('.contents').removeClass('col-md-12').addClass('col-md-8')
+  contents_n_fixed_wrap_12_n 8
+  $('#picLarge').click()
+
 pic_off = ->
   $('.fixed-wrap').hide()
-  $('.contents').removeClass('col-md-8').addClass('col-md-12')
+  contents_n_fixed_wrap_12_n 12
+  $('#picSize .btn').removeClass('btn-success').addClass('btn-default')
 
 edit_on  = ->
   $('.word, .sentence').each ->
@@ -101,12 +109,15 @@ picturePopup = ->
     $('body').animate
       scrollTop: ($sp.offset().top - $(window).height() / 2)
       , 200
+  $('#picLarge').click()
 
 init_toggle = ($toggle, call_on, call_off, st) ->
   $toggle.bootstrapToggle st
   $toggle.change ->
     if $(this).prop 'checked' then call_on() else call_off()
   if st is 'on' then call_on() else call_off()
+
+
 
 
 ready = ->
@@ -125,10 +136,25 @@ ready = ->
   $('#applyEdit       ').click -> applyEdit() if $('#editableToggle').prop('checked')
   $('#applySort       ').click -> applySort()
 
+  $('#picSmall, #picMedium, #picLarge').click ->
+    $('#picSize .btn').removeClass('btn-success').addClass('btn-default')
+    $(this).addClass('btn-success')
+    switch $(this).text()
+      when 'S' then contents_n_fixed_wrap_12_n 10
+      when 'M' then contents_n_fixed_wrap_12_n 9
+      when 'L' then contents_n_fixed_wrap_12_n 8
+    $('.images img').width($('.fixed-wrap').width())
+    $('.images').width($('.fixed-wrap').width())
+
   picturePopup()
   $('.dropdown-toggle').dropdown()
   $('[data-toggle=tooltip]').tooltip()
 
-
+  # $('.slider').slider
+  #              value: 8
+  #              min:   0
+  #              max:   12
+  #              slide: ((e, ui) -> $('.slider-value').text ui.value)
+  
 $(document).ready ready
 $(document).on 'page:load', ready
