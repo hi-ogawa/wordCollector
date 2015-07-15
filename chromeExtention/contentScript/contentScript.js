@@ -207,7 +207,10 @@
         $ext_ul.prepend($('<li>').text('you got it.'));
         $input0.val('');
         $input1.val('');
-        return $input2.val('');
+        $input2.val('');
+        $ext_div1.hide();
+        $ext_div2.hide();
+        return $('[data-toggle=popover]').popover('destroy');
       } else {
         return $ext_ul.prepend($('<li>').text('not good.'));
       }

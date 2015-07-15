@@ -19,7 +19,6 @@ $("body").append($ext_div0.append($input0)
          .append($ext_div1.append($ext_ul))
          .append($ext_div2.append($ext_ul2))
 
-
 $ext_div1.hide()
 $ext_div1.dblclick ->
   $input0.val ""
@@ -185,6 +184,9 @@ shootAndUpload = ->
           $input0.val ''
           $input1.val ''
           $input2.val ''
+          $ext_div1.hide()
+          $ext_div2.hide()
+          $('[data-toggle=popover]').popover 'destroy'
         else
           $ext_ul.prepend $('<li>').text('not good.')
 
