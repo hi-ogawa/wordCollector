@@ -263,6 +263,7 @@
       console.log($input0.val(request.word));
       console.log($input1.val(request.sentence));
       lookUpWord();
+      lookUpEijiro();
       return callback("contentScript: message received, over.");
     }
   });

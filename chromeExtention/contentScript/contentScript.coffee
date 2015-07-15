@@ -232,4 +232,5 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
     console.log $input0.val(request.word)
     console.log $input1.val(request.sentence)
     lookUpWord()
+    lookUpEijiro()
     callback "contentScript: message received, over."

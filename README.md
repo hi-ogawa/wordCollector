@@ -24,8 +24,14 @@ which enables the tadius process automatically done.
 
 ## How it is implemented
 
-- Server (Ruby on Rails)
-- Client (Chrome extension)
+- Server, Website:
+  Ruby on Rails (Javascript/JQuery/Coffeescript, Bootstrap, CSS/SASS)
+  Sakura VPS(nginx)
+
+- Client:
+  Chrome extension (Javascript/JQuery/Coffeescript, Bootstrap, CSS/SASS/Less)
+  
+  
 
 ## Futue functions or fixes
 
