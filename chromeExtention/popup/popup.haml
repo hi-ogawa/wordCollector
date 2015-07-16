@@ -1,21 +1,34 @@
-%link{rel: "stylesheet", type: 'text/css', href: "popup.css"}
-- ls = %W[ /jslib/jquery.js  /jslib/jquery.watermarkinput.js  popup.js ]
-- ls.each do |l|
-  %script{:src => l}
+!!!
+%html
+  %head
+    - csss = %W[/lib/my_bootstrap_container.css popup.css]
+    - csss.each do |css|
+      %link{rel: "stylesheet", type: 'text/css', href: css}
+    - jss = %W[/lib/jquery.js  /lib/bootstrap.js  popup.js]
+    - jss.each do |js|
+      %script{:src => js}
+  %body
 
-%h4 Settings
-.setting
-  %span choose category
-  %select#category_list
-  %br
-  %button#create_category create category
-  %input#category_name
-  .message
-
-%h4 Search Word
-.popup
-  %button#search search
-  %input#word
-  %br
-  %textarea#sentence{:rows => "2", :cols => "30"}  
-  %br
+  .my-bootstrap-container
+    .container
+      .row
+        .dropdown.input-group.input-group-sm
+          %a.btn.input-group-addon.dropdown-toggle{data: {toggle: 'dropdown'}}
+            %span.glyphicon.glyphicon-list
+          %ul.dropdown-menu.scrollable-menu
+            %li
+              %a#dropCreateCategory
+                %label{for: 'categoryName'} Create New Category
+            %li
+              %a#dropChooseCategory
+                Choose Category
+                %span.caret
+          %input#categoryName.form-control
+          %a#createCategory.btn.input-group-addon Create
+      .row
+        .input-group.input-group-sm
+          %input#word.form-control{placeholder: 'Enter Word'}
+          %a#search.btn.input-group-addon
+            %span.glyphicon.glyphicon-search
+      .row
+        %textarea#sentence.form-control.input-sm{placeholder: 'Enter Sentence'}

@@ -2,7 +2,7 @@
 
 You can learn vocabularies by collecting words associated with screenshot images.
 But, I'm the only one who can use this service for now
-(you can only see what I've collected from [here](http://often-test-app.xyz:3005/)).
+(you can only see what I've collected from [here](http://often-test-app.xyz)).
 
 ## Motivation
 

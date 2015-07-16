@@ -116,6 +116,25 @@ lookUpWord = ->
             $ext_ul.append $('<li>').append($a)
         else
           # show the meaning popover
+
+          # TODO: deal with nested tags in <dt>
+          #    sx: synonym (click it should cause another lookup)
+          #    vi: verbal illustration, example sentence 
+          #    un: usage note
+          #
+          # ex. (word: test)
+          #    %dt
+          #      :a critical examination, observation, or evaluation :   
+          #      %sx trial
+          #    %dt
+          #      :subjected to, used for, or revealed by testing
+          #      %vi a test group
+          #      %vi test data
+          #    %dt
+          #      :to put to test or proof :
+          #      %sx try
+          #      %un often used with out
+
           $(xml).find('entry').each ->
              eng_voc = $(this).attr('id')
              $popover = $('<a>').text(eng_voc)

@@ -11,6 +11,6 @@ To easily upload a screenshot and its corresponding word, I use these great jail
 		- trigger "Run Command (/var/mobile/upload.sh)" by "Long Hold (Home Button)"
 	- [Action Menu](http://planet-iphones.com/cydia/id/actionmenu)
 	- [ActivityAction for ActionMenu](http://planet-iphones.com/cydia/id/jp.r-plus.activityaction)
-	    - add an activity action "http://often-test-app.xyz:3005/posts_iphone2" in the setting of Action Menu
+	    - add an activity action "http://often-test-app.xyz/posts_iphone2" in the setting of Action Menu
 	- [Open in Chrome](http://planet-iphones.com/cydia/id/com.arichardson.openinchrome)
 		- just set "Enabled" from Settings

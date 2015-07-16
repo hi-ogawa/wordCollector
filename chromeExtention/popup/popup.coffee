@@ -1,34 +1,52 @@
-# shortest debug function
-d = (str) -> $(".message").append str
-
-create_category = -> 
+createCategory = -> 
   fd = new FormData()
-  fd.append "category[name]", $("#category_name").val()
+  fd.append "category[name]", $("#categoryName").val()
 
   xhr = new XMLHttpRequest()
   xhr.open "POST", "http://often-test-app.xyz/categories.json", true, 'hiroshi', 'ogawa'
   xhr.onload = ->
     obj = $.parseJSON(xhr.responseText)
-    $("#category_list").append $("<option>").val(obj.id).text(obj.name)
-    $("#category_list").val(obj.id)
-    chrome.storage.sync.set {cat: obj.name, cat_id: obj.id}, ->
-      $(".message").text("destination is set to #{obj.name}.")
-
+    $a = $('<a>').text(obj.name).click ->
+                    $('#categoryName').val(obj.name).attr('cat_id', obj.id)
+                    chrome.storage.sync.set {cat: obj.name, cat_id: obj.id}
+    $(".dropdown-menu").append $("<li>").append($a)
+    $a.click()
+    categoryNameInputMode 'off'
   xhr.onerror = -> callback "failure"
   xhr.send(fd)
 
-init_categories = ->
+
+initCategories = ->
   xhr = new XMLHttpRequest()
   xhr.open "GET", "http://often-test-app.xyz/categories.json", true, 'hiroshi', 'ogawa'
   xhr.onload = ->
     $.parseJSON(xhr.responseText).forEach (c) ->
-      $("#category_list").append $("<option>").val(c.id).text(c.name)
-    chrome.storage.sync.get {cat: "uncategorized", cat_id: 8}, (items) ->
-      $("#category_list").val(items.cat_id)
-  xhr.onerror = -> callback "failure"
+      $a = $('<a>').text(c.name).click ->
+                      $('#categoryName').val(c.name).attr('cat_id', c.id)
+                      chrome.storage.sync.set {cat: c.name, cat_id: c.id}
+      $(".dropdown-menu").append $("<li>").append($a)
+    $('.dropdown-toggle').dropdown()
+    chrome.storage.sync.get (items) ->
+      if items?
+        $('#categoryName').val(items.cat)
+                          .attr('cat_id', items.cat_id)
+      else
+        categoryNameInputMode 'on'
+  xhr.onerror = -> console.log "initCategories xhr failure"
   xhr.send()
 
-word_search = ->
+
+categoryNameInputMode = (on_off) ->
+  switch (on_off)
+    when 'on'
+      $('#createCategory').removeClass 'hide'
+      $('#categoryName').removeAttr('readonly')
+    when 'off'
+      $('#createCategory').addClass 'hide'
+      $('#categoryName').attr('readonly','')
+
+
+wordSearch = ->
   chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
     chrome.tabs.sendMessage tabs[0].id,
             type:     "popup: word_search"
@@ -36,16 +54,16 @@ word_search = ->
             sentence: $("#sentence").val()
             , (responseText) -> $(".message").text responseText
 
-$ ->
 
+$ ->
   # https://developer.chrome.com/extensions/content_scripts#pi
   csss = [
-    'jslib/my_bootstrap_container.css'
+    'lib/my_bootstrap_container.css'
     'contentScript/contentScript.css'
   ]
   jss = [
-    'jslib/jquery.js'
-    'jslib/bootstrap.js'
+    'lib/jquery.js'
+    'lib/bootstrap.js'
     'contentScript/contentScript.js'
   ]
   csss.forEach (css) ->
@@ -55,21 +73,12 @@ $ ->
     chrome.tabs.executeScript 
       file: js
 
+  initCategories()
+  $("#createCategory").click -> createCategory()
 
-  $("#category_name").Watermark "New Category Name"
-  $("#word").Watermark "Word"
-  $("#sentence").Watermark "Sentence"
-
-  init_categories()
-  $("#create_category").click -> create_category()
-  $("#category_list").change ->
-    cat    = $("#category_list option:selected").text()
-    cat_id = $("#category_list").val()
-    chrome.storage.sync.set {cat: cat, cat_id: cat_id}, ->
-        $(".message").text("destination is set to #{cat}.")
-
-  $("#search").click -> word_search()
-  $('#word').keypress (e) ->
-          if e.keyCode is 13 then word_search()
-  $('#sentence').keypress (e) ->
-          if e.keyCode is 13 then word_search()
+  categoryNameInputMode 'off'
+  $('#dropCreateCategory').click -> categoryNameInputMode 'on'
+  
+  $('#word').keypress (e)     -> if e.keyCode is 13 then wordSearch()
+  $('#sentence').keypress (e) -> if e.keyCode is 13 then wordSearch()
+  $("#search").click          ->                         wordSearch()

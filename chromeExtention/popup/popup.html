@@ -1,21 +1,48 @@
-<link href='popup.css' rel='stylesheet' type='text/css'>
-<script src='/jslib/jquery.js'></script>
-<script src='/jslib/jquery.watermarkinput.js'></script>
-<script src='popup.js'></script>
-<h4>Settings</h4>
-<div class='setting'>
-  <span>choose category</span>
-  <select id='category_list'></select>
-  <br>
-  <button id='create_category'>create category</button>
-  <input id='category_name'>
-  <div class='message'></div>
-</div>
-<h4>Search Word</h4>
-<div class='popup'>
-  <button id='search'>search</button>
-  <input id='word'>
-  <br>
-  <textarea cols='30' id='sentence' rows='2'></textarea>
-  <br>
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='/lib/my_bootstrap_container.css' rel='stylesheet' type='text/css'>
+    <link href='popup.css' rel='stylesheet' type='text/css'>
+    <script src='/lib/jquery.js'></script>
+    <script src='/lib/bootstrap.js'></script>
+    <script src='popup.js'></script>
+  </head>
+  <body></body>
+  <div class='my-bootstrap-container'>
+    <div class='container'>
+      <div class='row'>
+        <div class='dropdown input-group input-group-sm'>
+          <a class='btn input-group-addon dropdown-toggle' data-toggle='dropdown'>
+            <span class='glyphicon glyphicon-list'></span>
+          </a>
+          <ul class='dropdown-menu scrollable-menu'>
+            <li>
+              <a id='dropCreateCategory'>
+                <label for='categoryName'>Create New Category</label>
+              </a>
+            </li>
+            <li>
+              <a id='dropChooseCategory'>
+                Choose Category
+                <span class='caret'></span>
+              </a>
+            </li>
+          </ul>
+          <input class='form-control' id='categoryName'>
+          <a class='btn input-group-addon' id='createCategory'>Create</a>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='input-group input-group-sm'>
+          <input class='form-control' id='word' placeholder='Enter Word'>
+          <a class='btn input-group-addon' id='search'>
+            <span class='glyphicon glyphicon-search'></span>
+          </a>
+        </div>
+      </div>
+      <div class='row'>
+        <textarea class='form-control input-sm' id='sentence' placeholder='Enter Sentence'></textarea>
+      </div>
+    </div>
+  </div>
+</html>
