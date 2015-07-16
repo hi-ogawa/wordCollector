@@ -97,27 +97,55 @@ changeCat = ($a) ->
         location.reload()
 
 picturePopup = ->
+  # magnific-popup library
   $('.image-popup').magnificPopup
                        type: 'image'
                        closeOnContentClick: true
                        zoom: {enabled: true, duration: 300}
                        image: {verticalFit: true}
-  $('.images img').mouseover ->
+
+scrollPictureToWord = ->
+  # smooth interaction from pictures to words
+  $that = $('<tmp>')
+  scrollExecute = ->
     $(".tr .word span").removeClass('mark text-danger')
-    $sp = $("[post_id=#{ $(this).attr('pic_id') }] .word span")
+    $sp = $("[post_id=#{ $that.attr('pic_id') }] .word span")
     $sp.addClass('mark text-danger')
     $('body').animate
       scrollTop: ($sp.offset().top - $(window).height() / 2)
       , 200
-  $('#picLarge').click()
+  $('.images img').mouseover ->
+    $that = $(this)
+    $this = $(this)
+    setTimeout (-> if _.isEqual $that, $this then scrollExecute()), 600
+
+scrollWordToPicture = ->
+  # smooth interaction from words to pictures
+  $that = $('<tmp>')
+  scrollExecute = ->
+    pid = $that.parents('.tr').attr('post_id')
+    $pic = $("[pic_id=#{pid}]")
+    $('.images img').removeClass('img-border-color')
+    $pic.addClass('img-border-color')
+    $topPic = $('.images img').first()
+    $('.images').animate
+      scrollTop: (($pic.position().top - $topPic.first().position().top) -
+                   $(window).height() / 2 + $pic.height() / 2)
+      , 400
+
+  $('.word span').mouseover ->
+    $(".tr .word span").removeClass('mark text-danger')
+    $(this).addClass('mark text-danger')
+    $that = $(this)
+    $this = $(this)
+    setTimeout (-> if _.isEqual $that, $this then scrollExecute()), 600
+
 
 init_toggle = ($toggle, call_on, call_off, st) ->
   $toggle.bootstrapToggle st
   $toggle.change ->
     if $(this).prop 'checked' then call_on() else call_off()
   if st is 'on' then call_on() else call_off()
-
-
 
 
 ready = ->
@@ -143,18 +171,14 @@ ready = ->
       when 'S' then contents_n_fixed_wrap_12_n 10
       when 'M' then contents_n_fixed_wrap_12_n 9
       when 'L' then contents_n_fixed_wrap_12_n 8
-    $('.images img').width($('.fixed-wrap').width())
     $('.images').width($('.fixed-wrap').width())
-
+    $('.images img').width($('.fixed-wrap').width() - 8)
+  $('#picLarge').click()
   picturePopup()
+  scrollPictureToWord()
+  scrollWordToPicture()
   $('.dropdown-toggle').dropdown()
   $('[data-toggle=tooltip]').tooltip()
-
-  # $('.slider').slider
-  #              value: 8
-  #              min:   0
-  #              max:   12
-  #              slide: ((e, ui) -> $('.slider-value').text ui.value)
   
 $(document).ready ready
 $(document).on 'page:load', ready
