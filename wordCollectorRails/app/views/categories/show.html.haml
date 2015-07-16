@@ -2,22 +2,26 @@
 
 %ul.list-inline.fixed
   %li
+    = link_to categories_path, class: 'btn btn-success' do
+      Back
+      %span.glyphicon.glyphicon-arrow-left
+  %li
     %button#applyEdit.btn.btn-warning.btn-sm
       %span Apply Edit
       %span.glyphicon.glyphicon-pencil
     %input#editableToggle{type: 'checkbox', data: {toggle: 'toggle',
-                                                    on: 'Enable to Edit',
-                                                    off: 'Unable to Edit',
+                                                    on: 'Edit Enable',
+                                                    off: 'Edit Unable',
                                                    size: 'small'}}
   %li
     %button#deletePosts.btn.btn-danger.btn-sm
-      Delete Selected Entries
+      Delete Entries
       %span.glyphicon.glyphicon-trash
-     
+
   %li
     .btn-group
       %a.btn.btn-primary.btn-sm.dropdown-toggle{data: {toggle: 'dropdown'}}
-        Move Selected Entries
+        Move Entries
         %span.glyphicon.glyphicon-list
       %ul.dropdown-menu.scrollable-menu
         %li.dropdown-header Choose a Destination
@@ -31,8 +35,8 @@
 
   %li
     %input#pictureToggle{type: 'checkbox', data: {toggle: 'toggle',
-                                                      on: 'Show Picture',
-                                                     off: 'Hide Picture',
+                                                      on: 'Picture On',
+                                                     off: 'Picture Off',
                                                     size: 'small'}}
   %li
     .btn-group#picSize
@@ -67,11 +71,6 @@
                 = link_to edit_post_path(p.id), class: 'btn btn-warning' do
                   Edit
                   %span.glyphicon.glyphicon-pencil
-   
-   
-    = link_to categories_path, class: 'btn btn-success' do
-      %span.glyphicon.glyphicon-arrow-left
-      Back to Categories
 
   .fixed-wrap.col-md-4.col-xs-4
     .images
