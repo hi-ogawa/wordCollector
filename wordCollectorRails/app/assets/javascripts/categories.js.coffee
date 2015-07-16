@@ -115,6 +115,8 @@ scrollPictureToWord = ->
       scrollTop: ($sp.offset().top - $(window).height() / 2)
       , 200
   $('.images img').mouseover ->
+    $('.images img').removeClass('img-border-color')
+    $(this).addClass('img-border-color')
     $that = $(this)
     $this = $(this)
     setTimeout (-> if _.isEqual $that, $this then scrollExecute()), 600
