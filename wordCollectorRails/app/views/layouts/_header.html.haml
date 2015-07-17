@@ -1,0 +1,9 @@
+%ul.pull-right
+  .btn-group
+    = link_to 'Home', root_path, class: 'btn btn-default'
+    - if user_signed_in?
+      = link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-default'
+      = link_to 'Log Out', destroy_user_session_path,method: 'delete',class: 'btn btn-default'
+    - else
+      = link_to 'Sing In', new_user_session_path,      class: 'btn btn-default'  
+      = link_to 'Sing Up', new_user_registration_path, class: 'btn btn-default' 
