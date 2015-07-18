@@ -1,17 +1,16 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
-  before_action :set_categories, only: [:index, :show]
 
   # GET /categories
   # GET /categories.json
   def index
-    # @categories = Category.all.order(:name)
+    @categories = Category.all.order(:name)
   end
 
   # GET /categories/1
   # GET /categories/1.json
   def show
-    # @categories = Category.all.order(:name)
+    @categories = Category.all.order(:name)
     @posts = @category.posts.order(:order)
   end
 
@@ -65,13 +64,6 @@ class CategoriesController < ApplicationController
   end
 
   private
-
-  # get the set of categories corresponds to the user
-  def set_categories
-    @categories = current_user.categories.order(:name)
-  end
-
-
     # Use callbacks to share common setup or constraints between actions.
     def set_category
       @category = Category.find(params[:id])

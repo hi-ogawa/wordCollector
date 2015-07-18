@@ -73,22 +73,19 @@ $('body').on('mouseup', (e) ->
   e.preventDefault()
 
 
-# set popover behaviour (run only once at the later one, lookupword or lookupeijiro)
-clickUpload = ->
-  $input2.val $(this).text()
-  shootAndUpload()
-
+# set popover behaviour
 setPopover = ->
   $('[data-toggle=popover]').on 'show.bs.popover', ->
     $('[data-toggle=popover]').not($(this)).popover 'hide'
- 
+
   $('.my-bootstrap-container').mouseleave ->
     $('[data-toggle=popover]').popover 'hide'
- 
+
   $('[data-toggle=popover]').on 'shown.bs.popover', ->
     $('.popover').css('position', 'fixed')
-    $('.popover-content-a').off('click', clickUpload)
-    $('.popover-content-a').click clickUpload
+    $('.popover-content-a').click ->
+      $input2.val $(this).text()
+      shootAndUpload()
 
 lookUpWord = ->
   console.log '--- LookUpWord'
