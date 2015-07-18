@@ -18,7 +18,6 @@ createCategory = ->
 
       xhr = new XMLHttpRequest()
       xhr.open "POST", "http://often-test-app.xyz/chrome_categories_create", true
-      # xhr.open "POST", "http://localhost:3000/chrome_categories_create", true
       xhr.onload = ->
         obj = $.parseJSON(xhr.responseText)
         $a = $('<a>').text(obj.name).click ->
@@ -39,8 +38,7 @@ initCategories = ->
       fd.append "email", items.email
      
       xhr = new XMLHttpRequest()
-      xhr.open "GET", "http://often-test-app.xyz/chrome_categories_index", true
-      # xhr.open "POST", "http://localhost:3000/chrome_categories_index", true
+      xhr.open "POST", "http://often-test-app.xyz/chrome_categories_index", true
       xhr.onload = ->
         $.parseJSON(xhr.responseText).forEach (c) ->
           $a = $('<a>').text(c.name).click ->

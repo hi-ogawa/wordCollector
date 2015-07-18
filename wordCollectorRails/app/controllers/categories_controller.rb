@@ -1,9 +1,9 @@
 class CategoriesController < ApplicationController
+  before_action :check_user, except: [:chrome_categories_create, :chrome_categories_index]
   before_action :set_category, only: [:show, :edit, :update, :destroy]
   before_action :set_categories, only: [:index, :show]
   skip_before_action  :verify_authenticity_token, only: [:chrome_categories_create,
                                                          :chrome_categories_index]
-  before_action :check_user, except: [:chrome_categories_create, :chrome_categories_index]
   before_action :check_chrome, only: [:chrome_categories_create, :chrome_categories_index]
 
   # access from chrome

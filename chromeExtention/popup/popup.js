@@ -52,7 +52,7 @@
         fd = new FormData();
         fd.append("email", items.email);
         xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://often-test-app.xyz/chrome_categories_index", true);
+        xhr.open("POST", "http://often-test-app.xyz/chrome_categories_index", true);
         xhr.onload = function() {
           $.parseJSON(xhr.responseText).forEach(function(c) {
             var $a;

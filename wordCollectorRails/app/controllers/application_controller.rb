@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
     redirect_to home_show_path unless session[:user_id]
   end
 
+  # check_user has to be called before current_user
   def current_user
-    check_user # check_user has to be called before current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 end

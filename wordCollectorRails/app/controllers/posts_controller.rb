@@ -1,14 +1,14 @@
 require 'nokogiri'
 
 class PostsController < ApplicationController
+  before_action :check_user, except: [:chrome,
+                                      :iphone_word,
+                                      :iphone_pic]
   before_action :set_post, only: [:edit, :update]
   before_action :set_categories, only: [:edit, :new]
   skip_before_action  :verify_authenticity_token, only: [:chrome,
                                                          :iphone_word,
                                                          :iphone_pic]
-  before_action :check_user, except: [:chrome,
-                                      :iphone_word,
-                                      :iphone_pic]
   before_action :check_chrome, only: [:chrome]
 
   def chrome  # POST /chrome

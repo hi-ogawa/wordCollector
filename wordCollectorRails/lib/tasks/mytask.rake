@@ -36,7 +36,7 @@ end
 # http://stackoverflow.com/questions/1164091/how-to-stop-a-daemon-server-in-rails
 # http://stackoverflow.com/questions/577944/how-to-run-rake-tasks-from-within-rake-tasks
 desc "restart daemon server"
-task :restart, [:user, :pass, :port] do |t, args|
+task :restart, [:remote, :port] do |t, args|
   args.with_defaults(port: '3000')
   Rake::Task['stop'].execute
   Rake::Task['start'].execute(args)
@@ -48,10 +48,13 @@ task :stop do
 end
 
 desc "start daemon server"
-task :start, [:user, :pass, :port] do |t, args|
+task :start, [:remote,:port] do |t, args|
   args.with_defaults(port: '3000')
-  sh "source lib/tasks/secret; rails s -d -p #{args[:port]}"
-  # sh "export TEST_USER=#{args[:user]}; export TEST_PASS=#{args[:pass]}; rails s -d -p #{args[:port]}"
+  if args[:remote]
+    sh "source lib/tasks/secret_sakura; rails s -d -p #{args[:port]}"
+  else
+    sh "source lib/tasks/secret; rails s -d -p #{args[:port]}"
+  end
 end
 
 
