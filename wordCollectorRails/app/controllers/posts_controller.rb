@@ -1,7 +1,9 @@
 require 'nokogiri'
 
 class PostsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:chrome, :iphone_word, :iphone_pic, :change_category, :sort, :multiple_delete, :multiple_edit]
   before_action :set_post, only: [:edit, :update]
+
 
   def chrome  # POST /chrome
     p = Post.create(:word        => params[:word],
@@ -88,13 +90,15 @@ class PostsController < ApplicationController
   ## usual resources ##
 
   def edit # GET /posts/1/edit
-    @categories = Category.all.order(:name)
+    # @categories = Category.all.order(:name)
+    @categories = current_user.categories.order(:name)
   end
   
   def new  # GET /posts/new
     @post = Post.new
     @category = nil
-    @categories = Category.all.order(:name)
+    # @categories = Category.all.order(:name)
+    @categories = current_user.categories.order(:name)
   end
   
   def create # POST /posts (.json)
