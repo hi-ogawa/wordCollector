@@ -8,4 +8,8 @@
     = csrf_meta_tags
   %body
     .container-fluid
+      - if notice
+        = notice
+      - if alert
+        = alert
       = yield

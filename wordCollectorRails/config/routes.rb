@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
 
+  # https://richonrails.com/articles/google-authentication-in-ruby-on-rails
+  get 'sessions/create'
+  get 'sessions/destroy'
+  get 'home/show'
+
+  get 'auth/:provider/callback' => 'sessions#create'
+  get 'auth/failure'            => redirect('/')
+  get 'signout'                 => 'sessions#destroy', as: 'signout'
+
+  root 'home#show'
+
+
   # http://guides.rubyonrails.org/routing.html#controller-namespaces-and-routing
   # resources :categories
   get    'categories'          => 'categories#index',  as: 'categories'
@@ -33,7 +45,7 @@ Rails.application.routes.draw do
   get  'iphone_word' => 'posts#iphone_word'
   post 'iphone_pic'  => 'posts#iphone_pic'
    
-  root 'categories#index'
+  # root 'categories#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

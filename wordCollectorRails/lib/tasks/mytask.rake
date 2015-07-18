@@ -50,7 +50,8 @@ end
 desc "start daemon server"
 task :start, [:user, :pass, :port] do |t, args|
   args.with_defaults(port: '3000')
-  sh "export TEST_USER=#{args[:user]}; export TEST_PASS=#{args[:pass]}; rails s -d -p #{args[:port]}"
+  sh "source lib/tasks/secret; rails s -d -p #{args[:port]}"
+  # sh "export TEST_USER=#{args[:user]}; export TEST_PASS=#{args[:pass]}; rails s -d -p #{args[:port]}"
 end
 
 
