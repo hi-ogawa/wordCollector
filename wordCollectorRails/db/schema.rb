@@ -11,13 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150718095935) do
+ActiveRecord::Schema.define(version: 20150718124643) do
 
   create_table "categories", force: true do |t|
     t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "categories", ["user_id"], name: "index_categories_on_user_id"
 
   create_table "posts", force: true do |t|
     t.text     "word"
@@ -43,6 +46,7 @@ ActiveRecord::Schema.define(version: 20150718095935) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "email"
   end
 
 end

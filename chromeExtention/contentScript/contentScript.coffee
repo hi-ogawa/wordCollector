@@ -217,6 +217,7 @@ shootAndUpload = ->
   chrome.runtime.sendMessage
     type: 'contentScript: shootAndUpload'
     url: 'http://often-test-app.xyz/chrome'
+    # url: 'http://localhost:3000/chrome'
     word: $input0.val().trim()
     sentence: $input1.val().trim()
     meaning: $input2.val().trim()

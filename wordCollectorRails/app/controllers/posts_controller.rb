@@ -2,6 +2,14 @@ require 'nokogiri'
 
 class PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update]
+  before_action :set_categories, only: [:edit, :new]
+  skip_before_action  :verify_authenticity_token, only: [:chrome,
+                                                         :iphone_word,
+                                                         :iphone_pic]
+  before_action :check_user, except: [:chrome,
+                                      :iphone_word,
+                                      :iphone_pic]
+  before_action :check_chrome, only: [:chrome]
 
   def chrome  # POST /chrome
     p = Post.create(:word        => params[:word],
@@ -134,6 +142,19 @@ class PostsController < ApplicationController
   end
 
   private
+
+    def check_chrome
+      logger.debug params
+      if User.where(email: params[:email]).length == 0
+        render :json => {status: "failure", data: {from: "application - check_chrome"}}
+      else
+        @chrome_user = User.where(email: params[:email]).first
+      end
+    end
+
+    def set_categories
+      @categories = current_user.categories.all.order(:name)
+    end
 
     # parameters are set nil if they are emptry array [], that's why we deal with nil check
     # at the server side, seven hells.

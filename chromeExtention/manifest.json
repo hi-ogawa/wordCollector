@@ -18,10 +18,18 @@
     	"persistent": false
     },
     "permissions": [
+	"identity",
 	"tabs",
 	"storage",
 	"activeTab",
 	"http://www.dictionaryapi.com/api/v1/references/collegiate/xml/*",
 	"<all_urls>"
-    ]
+    ],
+
+    "oauth2": {
+	"client_id": "712903495105-o26t7jl825bthhp1oeq88smuct20lhno.apps.googleusercontent.com",
+	"scopes": [
+	    "https://www.googleapis.com/auth/userinfo.email"
+	]
+    }
 }

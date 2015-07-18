@@ -14,10 +14,21 @@ dataURLtoBlob = (dataurl) ->
 # in order to avoid some trouble around https
 chrome.runtime.onMessage.addListener (request, sender, callback) ->
 
+  if request.type is 'popup #login'
+    chrome.identity.getAuthToken {'interactive': true}, (token) ->
+      console.log token
+      xhr = new XMLHttpRequest()
+      xhr.open 'GET', 'https://www.googleapis.com/plus/v1/people/me'
+      xhr.setRequestHeader 'Authorization', "Bearer #{token}"
+      xhr.onload = ->
+        console.log xhr.status
+        console.log xhr.response
+        console.log email = JSON.parse(xhr.response).emails[0].value
+        chrome.storage.sync.set {email: email}
+        callback xhr.response
+      xhr.send()
 
-
-
-  if request.type is "contentScript: lookUpWord"
+  else if request.type is "contentScript: lookUpWord"
     
     fd = new FormData()
     fd.append "key" , request.key
@@ -46,17 +57,20 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
 
       chrome.storage.sync.get {cat: "uncategorized", cat_id: 8}, (items) ->
 
-        fd = new FormData()
-        fd.append "picture" , (dataURLtoBlob dataurl), "hello.jpg"
-        fd.append "word"    , request.word
-        fd.append "sentence", request.sentence
-        fd.append "meaning", request.meaning
-        fd.append "cat_id"  , items.cat_id
-       
-        xhr = new XMLHttpRequest()
-        xhr.open "POST", request.url, true
-        xhr.onload = -> callback xhr.responseText
-        xhr.onerror = -> callback "failure"  # to clean up the communication port.
-        xhr.send fd
+        chrome.storage.sync.get (items) ->
+          if items? and items.email?
+            fd = new FormData()
+            fd.append "picture" , (dataURLtoBlob dataurl), "hello.jpg"
+            fd.append "word"    , request.word
+            fd.append "sentence", request.sentence
+            fd.append "meaning", request.meaning
+            fd.append "cat_id"  , items.cat_id
+            fd.append "email"  , items.email
+           
+            xhr = new XMLHttpRequest()
+            xhr.open "POST", request.url, true
+            xhr.onload = -> callback xhr.responseText
+            xhr.onerror = -> callback "failure"  # to clean up the communication port.
+            xhr.send fd
 
   true # prevents the callback from being called too early on return

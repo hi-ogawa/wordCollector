@@ -1,0 +1,7 @@
+.btn-group
+  - if current_user
+    = link_to 'Sign out', signout_path, class: 'btn btn-default'
+    = link_to "#{current_user.name} : #{current_user.email}", '#',   class: 'btn btn-default disable'
+  - else
+    = link_to 'Sing in with Google Account', '/auth/google_oauth2',
+               class: 'btn btn-default'

@@ -19,7 +19,28 @@
 
   chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     var fd, xhr;
-    if (request.type === "contentScript: lookUpWord") {
+    if (request.type === 'popup #login') {
+      chrome.identity.getAuthToken({
+        'interactive': true
+      }, function(token) {
+        var xhr;
+        console.log(token);
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://www.googleapis.com/plus/v1/people/me');
+        xhr.setRequestHeader('Authorization', "Bearer " + token);
+        xhr.onload = function() {
+          var email;
+          console.log(xhr.status);
+          console.log(xhr.response);
+          console.log(email = JSON.parse(xhr.response).emails[0].value);
+          chrome.storage.sync.set({
+            email: email
+          });
+          return callback(xhr.response);
+        };
+        return xhr.send();
+      });
+    } else if (request.type === "contentScript: lookUpWord") {
       fd = new FormData();
       fd.append("key", request.key);
       xhr = new XMLHttpRequest();
@@ -50,21 +71,26 @@
           cat: "uncategorized",
           cat_id: 8
         }, function(items) {
-          fd = new FormData();
-          fd.append("picture", dataURLtoBlob(dataurl), "hello.jpg");
-          fd.append("word", request.word);
-          fd.append("sentence", request.sentence);
-          fd.append("meaning", request.meaning);
-          fd.append("cat_id", items.cat_id);
-          xhr = new XMLHttpRequest();
-          xhr.open("POST", request.url, true);
-          xhr.onload = function() {
-            return callback(xhr.responseText);
-          };
-          xhr.onerror = function() {
-            return callback("failure");
-          };
-          return xhr.send(fd);
+          return chrome.storage.sync.get(function(items) {
+            if ((items != null) && (items.email != null)) {
+              fd = new FormData();
+              fd.append("picture", dataURLtoBlob(dataurl), "hello.jpg");
+              fd.append("word", request.word);
+              fd.append("sentence", request.sentence);
+              fd.append("meaning", request.meaning);
+              fd.append("cat_id", items.cat_id);
+              fd.append("email", items.email);
+              xhr = new XMLHttpRequest();
+              xhr.open("POST", request.url, true);
+              xhr.onload = function() {
+                return callback(xhr.responseText);
+              };
+              xhr.onerror = function() {
+                return callback("failure");
+              };
+              return xhr.send(fd);
+            }
+          });
         });
       });
     }

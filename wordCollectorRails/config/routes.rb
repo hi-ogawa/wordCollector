@@ -1,16 +1,14 @@
 Rails.application.routes.draw do
 
+  get 'home/show'
+
   # https://richonrails.com/articles/google-authentication-in-ruby-on-rails
   get 'sessions/create'
   get 'sessions/destroy'
-  get 'home/show'
 
   get 'auth/:provider/callback' => 'sessions#create'
   get 'auth/failure'            => redirect('/')
   get 'signout'                 => 'sessions#destroy', as: 'signout'
-
-  root 'home#show'
-
 
   # http://guides.rubyonrails.org/routing.html#controller-namespaces-and-routing
   # resources :categories
@@ -44,8 +42,11 @@ Rails.application.routes.draw do
   post 'chrome'      => 'posts#chrome'
   get  'iphone_word' => 'posts#iphone_word'
   post 'iphone_pic'  => 'posts#iphone_pic'
+
+  post 'chrome_categories_create' => 'categories#chrome_categories_create'
+  post 'chrome_categories_index'  => 'categories#chrome_categories_index'
    
-  # root 'categories#index'
+  root 'categories#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
