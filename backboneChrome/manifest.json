@@ -19,7 +19,7 @@
 	"chrome_style": true
     },
     "background": {
-    	"scripts": ["eventPage/eventPage.js"],
+    	"scripts": ["lib/jquery.js", "eventPage/eventPage.js"],
     	"persistent": false
     },
     "web_accessible_resources": [

@@ -21,9 +21,9 @@
 
 
 # load the extension content into the body of the page
-$extWrapper = $('<div>').attr('id', 'ext-wrapper')
-$('body').append $extWrapper
-$extWrapper.load chrome.extension.getURL("contentScript/contentScript.html"), ->
+# $extWrapper = $('<div>').attr('id', 'ext-wrapper')
+# $('body').append $extWrapper
+# $extWrapper.load chrome.extension.getURL("contentScript/contentScript.html"), ->
 
-  # instantiate backbone app
-  new extBackboneApp.AppView()
+#   # instantiate backbone app
+#   new extBackboneApp.AppView()

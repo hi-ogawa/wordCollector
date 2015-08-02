@@ -6,48 +6,95 @@
 
   app.DictionaryView = Backbone.View.extend({
     tagName: "div",
-    className: "ext-dictionary",
+    className: "ext-dictionary panel",
     initialize: function(data) {
       this.template = _.template($("#ext-dictionary-t").html());
       this.$el.html(this.template({
         data: data
       }));
-      return this.styling();
+      return this.initPopover();
     },
-    styling: function() {
-      return this.$('[data-toggle="popover"]').each(function() {
+    events: {
+      "click .suggestion": function(e) {
+        app.appView.$inputWord.val($(e.currentTarget).text());
+        return app.appView.searchWord();
+      }
+    },
+    initPopover: function() {
+      var $popovers;
+      $popovers = this.$('[data-toggle="popover"]');
+      $popovers.each(function() {
         var $popoverContent;
         $popoverContent = $(this).next().clone();
-        $popoverContent.find("a").click(function() {
-          return alert("fudge");
+        $popoverContent.find(".meaning").click(function() {
+          return app.appView.$inputMeaning.val($(this).text());
         });
         $(this).popover({
           content: $popoverContent
         });
         return $(this).next().remove();
       });
+      $popovers.mouseover(function() {
+        return $(this).popover('show');
+      }).on('show.bs.popover', function() {
+        return $popovers.not($(this)).popover('hide');
+      });
+      return this.$el.mouseleave(function() {
+        return $popovers.popover('hide');
+      });
     }
   });
 
   app.AppView = Backbone.View.extend({
-    el: "#ext-content",
-    sampleUrls: [chrome.extension.getURL("contentScript/backbone/dictionary0.json"), chrome.extension.getURL("contentScript/backbone/dictionary1.json")],
     initialize: function() {
       this.$dictionaries = this.$("#ext-dictionaries");
-      return this.render();
+      this.$inputWord = this.$("#ext-word");
+      this.$inputSentence = this.$("#ext-sentence");
+      return this.$inputMeaning = this.$("#ext-meaning");
     },
-    render: function() {
-      return _.each(this.sampleUrls, (function(_this) {
-        return function(url) {
-          return $.getJSON(url, function(data) {
-            var dictionaryView;
-            dictionaryView = new app.DictionaryView(data);
-            _this.$dictionaries.append(dictionaryView.$el);
-            return _this.$('[data-toggle="popover"]').popover();
-          });
-        };
-      })(this));
+    events: {
+      "keypress #ext-word": function(e) {
+        if (e.which === 13) {
+          return this.searchWord();
+        }
+      }
+    },
+    searchWord: function() {
+      var word;
+      word = this.$inputWord.val().trim();
+      if (word !== "") {
+        this.$dictionaries.empty();
+        extLib.Eijiro(word)["catch"](function(err) {
+          return console.log("error in eijiro: " + err);
+        }).then((function(_this) {
+          return function(data) {
+            if (_this.eijiroView != null) {
+              _this.eijiroView.remove();
+            }
+            _this.eijiroView = new app.DictionaryView(data);
+            return _this.$dictionaries.append(_this.eijiroView.$el);
+          };
+        })(this));
+        return extLib.DictionaryAPI(word)["catch"](function(err) {
+          return console.log("error in dicAPI: " + err);
+        }).then((function(_this) {
+          return function(data) {
+            if (_this.dAPIView != null) {
+              _this.dAPIView.remove();
+            }
+            _this.dAPIView = new app.DictionaryView(data);
+            return _this.$dictionaries.append(_this.dAPIView.$el);
+          };
+        })(this));
+      }
     }
+  });
+
+  $.get(chrome.extension.getURL("contentScript/contentScript.html"), function(data) {
+    app.appView = new app.AppView({
+      el: data
+    });
+    return $('body').append(app.appView.$el);
   });
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;

@@ -1,25 +1,37 @@
-<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'>
 <div class='my-bootstrap-container' id='ext-content'>
-  <div id='ext-settings'></div>
-  <div id='ext-dictionaries'>
-    <script id='ext-dictionary-t' type='text/template'>
-      <p><% data.dictionary %></p>
+  <div id='ext-settings'>
+    <input class='form-control' id='ext-word' placeholder='Word'>
+    <input class='form-control' id='ext-sentence' placeholder='Sentence'>
+    <input class='form-control' id='ext-meaning' placeholder='Meaning'>
+  </div>
+  <div id='ext-dictionaries'></div>
+</div>
+<script id='ext-dictionary-t' type='text/template'>
+  <p class='from'><%= data.dictionary %> (<%= data.type %>)</p>
+  <% if(data.type === "entries") { %>
+  <ul>
+    <% _.each(data.entries, function(entry){ %>
+    <li>
+      <a data-html='true' data-placement='left' data-toggle='popover'>
+        <%= entry.word %>
+      </a>
       <ul>
-        <% _.each(data.entries, function(entry){ %>
+        <% _.each(entry.meanings, function(meaning){ %>
         <li>
-          <a data-html='true' data-placement='left' data-toggle='popover'>
-            <%= entry.word %>
-          </a>
-          <ul>
-            <% _.each(entry.meanings, function(meaning){ %>
-            <li>
-              <a><%= meaning %></a>
-            </li>
-            <% }) %>
-          </ul>
+          <a class='meaning'><%= meaning %></a>
         </li>
         <% }) %>
       </ul>
-    </script>
-  </div>
-</div>
+    </li>
+    <% }) %>
+  </ul>
+  <% } else if(data.type === "suggestions") { %>
+  <ul>
+    <% _.each(data.suggestions, function(suggestion){ %>
+    <li>
+      <a class='suggestion'><%= suggestion %></a>
+    </li>
+    <% }) %>
+  </ul>
+  <% } %>
+</script>

@@ -1,0 +1,7 @@
+-# adopt https <- calling ajax from eventPage
+- desgin by bootstrap
+  -# popover properly
+  - show/hide setting
+-# popover ui: mouseover, mouseleave
+
+- 

@@ -17,8 +17,9 @@ $ ->
     'lib/bootstrap.js'
     'lib/underscore.js'
     'lib/backbone.js'
+    'contentScript/backbone/mylib.js'
     'contentScript/backbone/app.js'
-    'contentScript/contentScript.js'
+    # 'contentScript/contentScript.js'
   ]
   csss.forEach (css) ->
     chrome.tabs.insertCSS
