@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    - csss = %W[/lib/my_bootstrap_container.css popup.css]
+    - csss.each do |css|
+      %link{rel: "stylesheet", type: 'text/css', href: css}
+    - jss = %W[/lib/jquery.js  /lib/bootstrap.js  popup.js]
+    - jss.each do |js|
+      %script{:src => js}
+  %body
+
+  .my-bootstrap-container
+    .container
+      Hello World

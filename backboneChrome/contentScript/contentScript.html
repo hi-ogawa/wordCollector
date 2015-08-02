@@ -1,0 +1,25 @@
+<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'>
+<div class='my-bootstrap-container' id='ext-content'>
+  <div id='ext-settings'></div>
+  <div id='ext-dictionaries'>
+    <script id='ext-dictionary-t' type='text/template'>
+      <p><% data.dictionary %></p>
+      <ul>
+        <% _.each(data.entries, function(entry){ %>
+        <li>
+          <a data-html='true' data-placement='left' data-toggle='popover'>
+            <%= entry.word %>
+          </a>
+          <ul>
+            <% _.each(entry.meanings, function(meaning){ %>
+            <li>
+              <a><%= meaning %></a>
+            </li>
+            <% }) %>
+          </ul>
+        </li>
+        <% }) %>
+      </ul>
+    </script>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+{
+    "manifest_version": 2,
+
+    "name": "test backbone.js in chrome extension",
+    "description": "",
+
+    "version": "1.0",
+
+    "icons": { "16":   "icons/16.png",
+	       "48":   "icons/48.png",
+	       "128": "icons/128.png"
+    },
+    "browser_action": {
+	"default_icon": "icons/16.png",
+	"default_popup": "popup/popup.html"
+    },
+    "options_ui": {
+	"page": "options/options.html",
+	"chrome_style": true
+    },
+    "background": {
+    	"scripts": ["eventPage/eventPage.js"],
+    	"persistent": false
+    },
+    "web_accessible_resources": [
+	"contentScript/contentScript.html",
+	"contentScript/backbone/dictionary0.json",
+	"contentScript/backbone/dictionary1.json"
+    ],
+    "permissions": [
+	"tabs",
+	"<all_urls>"
+    ]
+    // content scripts can be inserted programically, see popup/popup.js
+}

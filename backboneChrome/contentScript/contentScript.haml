@@ -1,0 +1,21 @@
+%link{rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"}
+
+#ext-content.my-bootstrap-container
+  #ext-settings
+
+  #ext-dictionaries
+    %script#ext-dictionary-t{type: "text/template"}
+      %p <% data.dictionary %>
+      %ul
+        <% _.each(data.entries, function(entry){ %>
+        %li 
+          %a{data: {toggle: "popover", html: "true", placement: "left"}}
+            <%= entry.word %>
+
+          -# popover effect is attached in dictionaryView
+          %ul
+            <% _.each(entry.meanings, function(meaning){ %>
+            %li 
+              %a <%= meaning %>
+            <% }) %>
+        <% }) %>
