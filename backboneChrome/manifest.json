@@ -19,13 +19,18 @@
 	"chrome_style": true
     },
     "background": {
-    	"scripts": ["lib/jquery.js", "eventPage/eventPage.js"],
+    	"scripts": [
+	    "lib/jquery.js",
+	    "lib/underscore.js", 
+	    "contentScript/backbone/mylib.js",
+	    "eventPage/eventPage.js"],
     	"persistent": false
     },
     "web_accessible_resources": [
 	"contentScript/contentScript.html",
-	"contentScript/backbone/dictionary0.json",
-	"contentScript/backbone/dictionary1.json"
+	"contentScript/backbone/sampleAPI/dictionary0.json",
+	"contentScript/backbone/sampleAPI/dictionary1.json",
+	"contentScript/backbone/sampleAPI/categories.json"
     ],
     "permissions": [
 	"tabs",

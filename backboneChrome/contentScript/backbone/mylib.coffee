@@ -1,5 +1,29 @@
 lib = {}
 
+lib.dataURLtoBlob = (dataurl) ->
+  arr = dataurl.split ','
+  mime = arr[0].match(/:(.*?);/)[1]
+  bstr = atob(arr[1])
+  n = bstr.length
+  u8arr = new Uint8Array(n)
+  while n--
+    u8arr[n] = bstr.charCodeAt(n);
+  new Blob [u8arr], {type:mime}
+
+
+lib.tabCapture = (fdHash) ->
+  new Promise (resolve, reject) ->
+    chrome.runtime.sendMessage
+      type: "captureVisibleTab"
+      , (response) ->
+        switch response.status
+          when "success"
+            resolve response.data
+          when "error"
+            reject "error: lib.tabCapture: error returned from eventPage"
+    setTimeout(( -> reject "error: lib.tabCapture - timeout"), 5000)
+
+
 lib.ultraAjax = (settings) ->
 
   new Promise (resolve, reject) ->
@@ -11,7 +35,9 @@ lib.ultraAjax = (settings) ->
           when "success"
             resolve response.data
           when "error"
-            reject "error: ultraAjax - #{response.data}"
+            reject "error: lib.ultraAjax - #{response.data}"
+    setTimeout(( -> reject "error: lib.ultraAjax - timeout"), 5000)
+
 
 lib.Eijiro = (word) ->
 

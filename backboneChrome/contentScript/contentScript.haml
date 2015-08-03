@@ -1,16 +1,43 @@
--# %link{rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"}
+%link{rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"}
+
 #ext-content.my-bootstrap-container
   #ext-settings
-    %input.form-control#ext-word{placeholder: "Word"}
-    %input.form-control#ext-sentence{placeholder: "Sentence"}
-    %input.form-control#ext-meaning{placeholder: "Meaning"}
+    %input.input-sm.form-control#ext-word{placeholder: "Word"}
+    %input.input-sm.form-control#ext-sentence{placeholder: "Sentence"}
+    %input.input-sm.form-control#ext-meaning{placeholder: "Meaning"}
+
+    -# template: #ext-categories-t
+    -# .input-group.input-group-sm
+
 
   #ext-dictionaries
+    -# template: #ext-dictionary-t
+    -# .ext-dictionary.panel
 
 
+
+-# template for choosing a category
+%script#ext-categories-t{type: "text/template"}
+  %a.btn.btn-default.form-control.dropdown-toggle{'data-toggle' => 'dropdown'}
+    .fake-div
+      .dropdown-title.pull-left -- Choose Category --
+    .caret.pull-right{style: "margin-top: 8px;"}
+  %ul.dropdown-menu{role: 'menu'}
+    <% _.each(categories, function(category){ %>
+    %li
+      %a{"data-id" => "<%= category.id %>"} <%= category.name %>
+    <% }) %>
+  %a.upload.btn.btn-default.input-group-addon
+    %span.fa.fa-upload
+
+
+-# template for a dictionary view
 %script#ext-dictionary-t{type: "text/template"}
-  %p.from <%= data.dictionary %> (<%= data.type %>)
-
+  .from
+    <%= data.dictionary %> (<%= data.type %>)
+    .remove.btn.btn-default.btn-sm.pull-right
+      %i.fa.fa-remove
+  
   <% if(data.type === "entries") { %>
   %ul
     <% _.each(data.entries, function(entry){ %>

@@ -4,4 +4,12 @@
   - show/hide setting
 -# popover ui: mouseover, mouseleave
 
-- 
+-# listen clicks on body content
+  -# take in words, sentences
+
+- take tab screenshot
+- category set
+  - storage
+- login/logout
+
+- animation

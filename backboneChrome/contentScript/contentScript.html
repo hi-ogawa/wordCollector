@@ -1,13 +1,38 @@
+<link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'>
 <div class='my-bootstrap-container' id='ext-content'>
   <div id='ext-settings'>
-    <input class='form-control' id='ext-word' placeholder='Word'>
-    <input class='form-control' id='ext-sentence' placeholder='Sentence'>
-    <input class='form-control' id='ext-meaning' placeholder='Meaning'>
+    <input class='input-sm form-control' id='ext-word' placeholder='Word'>
+    <input class='input-sm form-control' id='ext-sentence' placeholder='Sentence'>
+    <input class='input-sm form-control' id='ext-meaning' placeholder='Meaning'>
   </div>
-  <div id='ext-dictionaries'></div>
+  <div id='ext-dictionaries'>
+  </div>
 </div>
+<script id='ext-categories-t' type='text/template'>
+  <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
+    <div class='fake-div'>
+      <div class='dropdown-title pull-left'>-- Choose Category --</div>
+    </div>
+    <div class='caret pull-right' style='margin-top: 8px;'></div>
+  </a>
+  <ul class='dropdown-menu' role='menu'>
+    <% _.each(categories, function(category){ %>
+    <li>
+      <a data-id='<%= category.id %>'><%= category.name %></a>
+    </li>
+    <% }) %>
+  </ul>
+  <a class='upload btn btn-default input-group-addon'>
+    <span class='fa fa-upload'></span>
+  </a>
+</script>
 <script id='ext-dictionary-t' type='text/template'>
-  <p class='from'><%= data.dictionary %> (<%= data.type %>)</p>
+  <div class='from'>
+    <%= data.dictionary %> (<%= data.type %>)
+    <div class='remove btn btn-default btn-sm pull-right'>
+      <i class='fa fa-remove'></i>
+    </div>
+  </div>
   <% if(data.type === "entries") { %>
   <ul>
     <% _.each(data.entries, function(entry){ %>

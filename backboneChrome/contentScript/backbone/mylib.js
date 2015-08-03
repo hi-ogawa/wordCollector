@@ -4,9 +4,42 @@
 
   lib = {};
 
+  lib.dataURLtoBlob = function(dataurl) {
+    var arr, bstr, mime, n, u8arr;
+    arr = dataurl.split(',');
+    mime = arr[0].match(/:(.*?);/)[1];
+    bstr = atob(arr[1]);
+    n = bstr.length;
+    u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {
+      type: mime
+    });
+  };
+
+  lib.tabCapture = function(fdHash) {
+    return new Promise(function(resolve, reject) {
+      chrome.runtime.sendMessage({
+        type: "captureVisibleTab"
+      }, function(response) {
+        switch (response.status) {
+          case "success":
+            return resolve(response.data);
+          case "error":
+            return reject("error: lib.tabCapture: error returned from eventPage");
+        }
+      });
+      return setTimeout((function() {
+        return reject("error: lib.tabCapture - timeout");
+      }), 5000);
+    });
+  };
+
   lib.ultraAjax = function(settings) {
     return new Promise(function(resolve, reject) {
-      return chrome.runtime.sendMessage({
+      chrome.runtime.sendMessage({
         type: 'ajax',
         settings: settings
       }, function(response) {
@@ -14,9 +47,12 @@
           case "success":
             return resolve(response.data);
           case "error":
-            return reject("error: ultraAjax - " + response.data);
+            return reject("error: lib.ultraAjax - " + response.data);
         }
       });
+      return setTimeout((function() {
+        return reject("error: lib.ultraAjax - timeout");
+      }), 5000);
     });
   };
 
