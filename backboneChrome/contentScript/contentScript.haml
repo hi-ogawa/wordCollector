@@ -5,64 +5,65 @@
     %input.input-sm.form-control#ext-word{placeholder: "Word"}
     %input.input-sm.form-control#ext-sentence{placeholder: "Sentence"}
     %input.input-sm.form-control#ext-meaning{placeholder: "Meaning"}
-
     -# template: #ext-categories-t
-    -# .input-group.input-group-sm
-
 
   #ext-dictionaries
     -# template: #ext-dictionary-t
-    -# .ext-dictionary.panel
 
 
 
 -# template for choosing a category
 %script#ext-categories-t{type: "text/template"}
-  %a.btn.btn-default.form-control.dropdown-toggle{'data-toggle' => 'dropdown'}
-    .fake-div
-      .dropdown-title.pull-left
-        <% if(current.exists) { %>
-        <%= current.name %>
-        <% } else { %>
-        = "-- Choose Category --"
-        <% } %>
-    .caret.pull-right{style: "margin-top: 8px;"}
-  %ul.dropdown-menu{role: 'menu'}
-    <% _.each(categories, function(category){ %>
-    %li
-      %a{"data-id" => "<%= category.id %>"} <%= category.name %>
-    <% }) %>
-  %a.upload.btn.btn-default.input-group-addon
-    %span.fa.fa-upload
+  .input-group.input-group-sm
+    %a.btn.btn-default.form-control.dropdown-toggle{'data-toggle' => 'dropdown'}
+      .fake-div
+        .dropdown-title.pull-left -- Choose Category --
+      .caret.pull-right{style: "margin-top: 8px;"}
+    %ul.dropdown-menu{role: 'menu'}
+      <% _.each(categories, function(category){ %>
+      %li
+        %a{"data-id" => "<%= category.id %>"} <%= category.name %>
+      <% }) %>
+    %a#new-category.btn.btn-default.input-group-addon{data: {toggle: "popover", html: "true",
+                                                             placement: "bottom",
+                                                             container: "#ext-categories"}}
+      %span.fa.fa-plus
+    %a#upload.btn.btn-default.input-group-addon.disabled
+      %span.fa.fa-upload
+  
+  #new-category-popover-content
+    %label Make New Category (Hit Enter to Finish)
+    %input#new-category-name.form-control.input-sm{placeholder: "Category Name"}
 
 
 -# template for a dictionary view
 %script#ext-dictionary-t{type: "text/template"}
-  .from
-    <%= data.dictionary %> (<%= data.type %>)
-    .remove.btn.btn-default.btn-sm.pull-right
-      %i.fa.fa-remove
-  
-  <% if(data.type === "entries") { %>
-  %ul
-    <% _.each(data.entries, function(entry){ %>
-    %li 
-      %a{data: {toggle: "popover", html: "true", placement: "left"}}
-        <%= entry.word %>
-
-      -# popover effect is attached in dictionaryView in a somewhat wierd way
-      %ul
-        <% _.each(entry.meanings, function(meaning){ %>
-        %li 
-          %a.meaning <%= meaning %>
-        <% }) %>
-    <% }) %>
-
-
-  <% } else if(data.type === "suggestions") { %>
-  %ul
-    <% _.each(data.suggestions, function(suggestion){ %>
-    %li 
-      %a.suggestion <%= suggestion %>
-    <% }) %>
-  <% } %>
+  .ext-dictionary.panel
+    .from
+      <%= data.dictionary %> (<%= data.type %>)
+      .remove.btn.btn-default.btn-sm.pull-right
+        %i.fa.fa-remove
+    
+    <% if(data.type === "entries") { %>
+    %ul
+      <% _.each(data.entries, function(entry){ %>
+      %li 
+        %a{data: {toggle: "popover", html: "true", placement: "left"}}
+          <%= entry.word %>
+   
+        -# popover effect is attached in dictionaryView in a somewhat wierd way
+        %ul
+          <% _.each(entry.meanings, function(meaning){ %>
+          %li 
+            %a.meaning <%= meaning %>
+          <% }) %>
+      <% }) %>
+   
+   
+    <% } else if(data.type === "suggestions") { %>
+    %ul
+      <% _.each(data.suggestions, function(suggestion){ %>
+      %li 
+        %a.suggestion <%= suggestion %>
+      <% }) %>
+    <% } %>

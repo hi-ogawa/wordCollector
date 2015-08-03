@@ -1,4 +1,6 @@
 require 'sinatra'
+require 'json'
+
 
 post '/upload' do
   puts params
@@ -7,5 +9,32 @@ post '/upload' do
     f.write params[:picture][:tempfile].read
   end
 
-  "coming from sinatra - params: #{params}"
+  {status: "success", data: "upload"}.to_json
 end
+
+
+
+categories = [
+              {name: "game of thrones", id: 0},
+              {name: "modern family", id: 1},
+              {name: "24", id: 2}
+             ]
+
+get '/categories' do
+  puts params
+  puts "categories now: #{categories.to_json}"
+  categories.to_json
+end
+
+
+post '/categories' do
+  puts params = JSON.parse(request.env["rack.input"].read)
+  obj = {
+    name: params['name'],
+    id: categories.inject(0){|m, h| [m, h[:id]].max} + 1
+  }
+  puts obj
+  categories.push obj
+  {status: "success", data: obj}.to_json
+end
+

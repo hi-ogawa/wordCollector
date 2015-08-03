@@ -8,6 +8,9 @@
     localStorage: new Backbone.LocalStorage("ext-local-data"),
     defaults: {
       id: 0
+    },
+    check: function() {
+      return app.localData.get("exists");
     }
   });
 
@@ -17,14 +20,14 @@
 
   app.Categories = Backbone.Collection.extend({
     model: app.Category,
-    url: chrome.extension.getURL("contentScript/backbone/sampleAPI/categories.json")
+    url: "http://localhost:4567/categories"
   });
 
   app.categories = new app.Categories();
 
   app.CategoriesView = Backbone.View.extend({
     tagName: "div",
-    className: "input-group input-group-sm",
+    id: "ext-categories",
     initialize: function() {
       this.collection = app.categories;
       this.collection.on("sync", this.render, this);
@@ -33,13 +36,18 @@
       return app.localData.fetch();
     },
     render: function() {
-      console.log(app.localData.toJSON());
       this.template = _.template($("#ext-categories-t").html());
       this.$el.html(this.template({
-        categories: this.collection.toJSON(),
-        current: app.localData.toJSON()
+        categories: this.collection.toJSON()
       }));
-      return $('.dropdown-toggle').dropdown();
+      $('.dropdown-toggle').dropdown();
+      $("#new-category").popover({
+        content: $("#new-category-popover-content").remove()
+      });
+      if (app.localData.check()) {
+        this.$(".dropdown-title").text(app.localData.get("name"));
+        return this.$("#upload").removeClass("disabled");
+      }
     },
     events: function() {
       return {
@@ -49,14 +57,28 @@
             name: $(e.currentTarget).text(),
             categoryId: $(e.currentTarget).attr("data-id")
           });
+        },
+        "keypress #new-category-name": "newCategory",
+        "click #upload": function() {
+          if (app.localData.check()) {
+            return app.appView.upload();
+          }
         }
       };
+    },
+    newCategory: function(e) {
+      var name;
+      name = this.$("#new-category-name").val();
+      if (e.which === 13 && name !== "") {
+        return app.categories.create({
+          name: name
+        });
+      }
     }
   });
 
   app.DictionaryView = Backbone.View.extend({
     tagName: "div",
-    className: "ext-dictionary panel",
     initialize: function(data) {
       this.template = _.template($("#ext-dictionary-t").html());
       this.$el.html(this.template({
@@ -84,14 +106,13 @@
     initPopover: function() {
       return this.$popovers.each(function() {
         var $popoverContent;
-        $popoverContent = $(this).next().clone();
+        $popoverContent = $(this).next().remove();
         $popoverContent.find(".meaning").click(function() {
           return app.appView.$inputMeaning.val($(this).text());
         });
-        $(this).popover({
+        return $(this).popover({
           content: $popoverContent
         });
-        return $(this).next().remove();
       });
     }
   });
@@ -102,7 +123,6 @@
       this.$inputWord = this.$("#ext-word");
       this.$inputSentence = this.$("#ext-sentence");
       this.$inputMeaning = this.$("#ext-meaning");
-      this.categoryId = void 0;
       this.renderCategories();
       return $('body').dblclick((function(_this) {
         return function(e) {
@@ -125,8 +145,7 @@
         if (e.which === 13) {
           return this.searchWord();
         }
-      },
-      "click .upload": "upload"
+      }
     },
     upload: function() {
       return extLib.tabCapture()["catch"](function(err) {
@@ -139,7 +158,7 @@
             word: _this.$inputWord.val(),
             sentence: _this.$inputSentence.val(),
             meaning: _this.$inputMeaning.val(),
-            category_id: _this.categoryId
+            category_id: app.localData.categoryID
           };
           return extLib.ultraAjax({
             url: "http://localhost:4567/upload",

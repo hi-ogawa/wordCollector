@@ -5,20 +5,23 @@ app = {}
 app.LocalData = Backbone.Model.extend
   localStorage: new Backbone.LocalStorage "ext-local-data"
   defaults: {id: 0}
+  check: -> # check if the current destination really exists (if not, do something)
+    app.localData.get("exists")    
+
 app.localData = new app.LocalData()
 
 
 # for now, just load data, not create
 app.Category = Backbone.Model
+
 app.Categories = Backbone.Collection.extend
   model: app.Category
-  url: chrome.extension.getURL("contentScript/backbone/sampleAPI/categories.json")
+  url: "http://localhost:4567/categories"
 app.categories = new app.Categories()
-
 
 app.CategoriesView = Backbone.View.extend
   tagName: "div"
-  className: "input-group input-group-sm"
+  id: "ext-categories"
 
   initialize: ->
     @.collection = app.categories
@@ -31,8 +34,12 @@ app.CategoriesView = Backbone.View.extend
 
   render: ->
     @.template = _.template $("#ext-categories-t").html()
-    @.$el.html @.template({categories: @.collection.toJSON(), current: app.localData.toJSON()})
+    @.$el.html @.template({categories: @.collection.toJSON()})
     $('.dropdown-toggle').dropdown()
+    $("#new-category").popover({content: $("#new-category-popover-content").remove()})
+    if app.localData.check()
+      @.$(".dropdown-title").text app.localData.get("name")
+      @.$("#upload").removeClass("disabled")
 
   events: ->
     "click .dropdown-menu a": (e) ->
@@ -40,11 +47,17 @@ app.CategoriesView = Backbone.View.extend
         exists: true
         name: $(e.currentTarget).text()
         categoryId: $(e.currentTarget).attr("data-id")
+    "keypress #new-category-name": "newCategory"
+    "click #upload": -> if app.localData.check() then app.appView.upload()
+
+  newCategory: (e) ->
+    name = @.$("#new-category-name").val()
+    if e.which is 13 and name isnt ""
+      app.categories.create {name: name}
 
 
 app.DictionaryView = Backbone.View.extend
   tagName: "div"
-  className: "ext-dictionary panel"
 
   initialize: (data) ->
     @.template = _.template $("#ext-dictionary-t").html()
@@ -70,12 +83,10 @@ app.DictionaryView = Backbone.View.extend
 
   initPopover: ->
     @.$popovers.each ->
-      $popoverContent = $(this).next().clone()
+      $popoverContent = $(this).next().remove()
       $popoverContent.find(".meaning").click ->
         app.appView.$inputMeaning.val $(this).text()
-
-      $(this).popover({content: $popoverContent})
-      $(this).next().remove()
+      $(this).popover {content: $popoverContent}
 
 
 app.AppView = Backbone.View.extend
@@ -85,7 +96,6 @@ app.AppView = Backbone.View.extend
     @.$inputWord     = @.$("#ext-word")   # these are the single sources of truth (but, it turned out it's hard to keep this as good source since it's not easy to bind an event to input DOM. Other option seems to be using handlebars?)
     @.$inputSentence = @.$("#ext-sentence")
     @.$inputMeaning  = @.$("#ext-meaning")
-    @.categoryId = undefined
 
     @.renderCategories()
 
@@ -104,7 +114,6 @@ app.AppView = Backbone.View.extend
 
   events:
     "keypress #ext-word": (e) -> if e.which is 13 then @.searchWord()
-    "click .upload": "upload"
 
   upload: ->
     extLib.tabCapture()
@@ -117,7 +126,7 @@ app.AppView = Backbone.View.extend
           word        : @.$inputWord.val()      
           sentence    : @.$inputSentence.val()  
           meaning     : @.$inputMeaning.val()   
-          category_id : @.categoryId            
+          category_id : app.localData.categoryID
 
         extLib.ultraAjax(
           url: "http://localhost:4567/upload"

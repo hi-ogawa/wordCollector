@@ -27,10 +27,10 @@
     	"persistent": false
     },
     "web_accessible_resources": [
-	"contentScript/contentScript.html",
-	"contentScript/backbone/sampleAPI/dictionary0.json",
-	"contentScript/backbone/sampleAPI/dictionary1.json",
-	"contentScript/backbone/sampleAPI/categories.json"
+	"contentScript/contentScript.html"
+	// "contentScript/backbone/sampleAPI/dictionary0.json",
+	// "contentScript/backbone/sampleAPI/dictionary1.json",
+	// "contentScript/backbone/sampleAPI/categories.json"
     ],
     "permissions": [
 	"tabs",
