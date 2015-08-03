@@ -11,7 +11,13 @@
 <script id='ext-categories-t' type='text/template'>
   <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
     <div class='fake-div'>
-      <div class='dropdown-title pull-left'>-- Choose Category --</div>
+      <div class='dropdown-title pull-left'>
+        <% if(current.exists) { %>
+        <%= current.name %>
+        <% } else { %>
+        -- Choose Category --
+        <% } %>
+      </div>
     </div>
     <div class='caret pull-right' style='margin-top: 8px;'></div>
   </a>

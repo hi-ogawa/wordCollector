@@ -1,5 +1,6 @@
 lib = {}
 
+
 lib.dataURLtoBlob = (dataurl) ->
   arr = dataurl.split ','
   mime = arr[0].match(/:(.*?);/)[1]
@@ -9,7 +10,6 @@ lib.dataURLtoBlob = (dataurl) ->
   while n--
     u8arr[n] = bstr.charCodeAt(n);
   new Blob [u8arr], {type:mime}
-
 
 lib.tabCapture = (fdHash) ->
   new Promise (resolve, reject) ->
@@ -22,6 +22,8 @@ lib.tabCapture = (fdHash) ->
           when "error"
             reject "error: lib.tabCapture: error returned from eventPage"
     setTimeout(( -> reject "error: lib.tabCapture - timeout"), 5000)
+
+
 
 
 lib.ultraAjax = (settings) ->
@@ -37,6 +39,7 @@ lib.ultraAjax = (settings) ->
           when "error"
             reject "error: lib.ultraAjax - #{response.data}"
     setTimeout(( -> reject "error: lib.ultraAjax - timeout"), 5000)
+
 
 
 lib.Eijiro = (word) ->

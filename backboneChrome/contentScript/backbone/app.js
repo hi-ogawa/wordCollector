@@ -4,6 +4,15 @@
 
   app = {};
 
+  app.LocalData = Backbone.Model.extend({
+    localStorage: new Backbone.LocalStorage("ext-local-data"),
+    defaults: {
+      id: 0
+    }
+  });
+
+  app.localData = new app.LocalData();
+
   app.Category = Backbone.Model;
 
   app.Categories = Backbone.Collection.extend({
@@ -19,20 +28,27 @@
     initialize: function() {
       this.collection = app.categories;
       this.collection.on("sync", this.render, this);
-      return this.collection.fetch();
+      app.localData.on("change", this.render, this);
+      this.collection.fetch();
+      return app.localData.fetch();
     },
     render: function() {
+      console.log(app.localData.toJSON());
       this.template = _.template($("#ext-categories-t").html());
       this.$el.html(this.template({
-        categories: this.collection.toJSON()
+        categories: this.collection.toJSON(),
+        current: app.localData.toJSON()
       }));
       return $('.dropdown-toggle').dropdown();
     },
     events: function() {
       return {
         "click .dropdown-menu a": function(e) {
-          this.$(".dropdown-title").text($(e.currentTarget).text());
-          return app.appView.categoryId = $(e.currentTarget).attr("data-id");
+          return app.localData.save({
+            exists: true,
+            name: $(e.currentTarget).text(),
+            categoryId: $(e.currentTarget).attr("data-id")
+          });
         }
       };
     }

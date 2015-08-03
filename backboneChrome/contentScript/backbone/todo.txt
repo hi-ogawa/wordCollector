@@ -7,9 +7,10 @@
 -# listen clicks on body content
   -# take in words, sentences
 
-- take tab screenshot
+-# take tab screenshot
 - category set
   - storage
+
 - login/logout
 
 - animation

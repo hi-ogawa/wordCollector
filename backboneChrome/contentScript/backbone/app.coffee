@@ -1,8 +1,15 @@
 app = {}
 
+# this model keeps current destination category name and id
+# and does some validation here, before uploading
+app.LocalData = Backbone.Model.extend
+  localStorage: new Backbone.LocalStorage "ext-local-data"
+  defaults: {id: 0}
+app.localData = new app.LocalData()
+
+
 # for now, just load data, not create
 app.Category = Backbone.Model
-
 app.Categories = Backbone.Collection.extend
   model: app.Category
   url: chrome.extension.getURL("contentScript/backbone/sampleAPI/categories.json")
@@ -15,18 +22,24 @@ app.CategoriesView = Backbone.View.extend
 
   initialize: ->
     @.collection = app.categories
+
     @.collection.on "sync", @.render, @
+    app.localData.on "change", @.render, @
+
     @.collection.fetch()
+    app.localData.fetch()
 
   render: ->
     @.template = _.template $("#ext-categories-t").html()
-    @.$el.html @.template({categories: @.collection.toJSON()})
+    @.$el.html @.template({categories: @.collection.toJSON(), current: app.localData.toJSON()})
     $('.dropdown-toggle').dropdown()
 
-  events: -> # this shouldn't be done as a event (but in render giving arguments)
+  events: ->
     "click .dropdown-menu a": (e) ->
-      @.$(".dropdown-title").text $(e.currentTarget).text()
-      app.appView.categoryId = $(e.currentTarget).attr("data-id")
+      app.localData.save
+        exists: true
+        name: $(e.currentTarget).text()
+        categoryId: $(e.currentTarget).attr("data-id")
 
 
 app.DictionaryView = Backbone.View.extend

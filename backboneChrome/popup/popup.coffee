@@ -17,6 +17,7 @@ $ ->
     'lib/bootstrap.js'
     'lib/underscore.js'
     'lib/backbone.js'
+    'lib/backbone.localStorage.js'
     'contentScript/backbone/mylib.js'
     'contentScript/backbone/app.js'
     # 'contentScript/contentScript.js'

@@ -20,7 +20,12 @@
 %script#ext-categories-t{type: "text/template"}
   %a.btn.btn-default.form-control.dropdown-toggle{'data-toggle' => 'dropdown'}
     .fake-div
-      .dropdown-title.pull-left -- Choose Category --
+      .dropdown-title.pull-left
+        <% if(current.exists) { %>
+        <%= current.name %>
+        <% } else { %>
+        = "-- Choose Category --"
+        <% } %>
     .caret.pull-right{style: "margin-top: 8px;"}
   %ul.dropdown-menu{role: 'menu'}
     <% _.each(categories, function(category){ %>
