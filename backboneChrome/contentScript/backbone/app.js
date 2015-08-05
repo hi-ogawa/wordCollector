@@ -235,13 +235,29 @@
     }
   });
 
-  $.get(chrome.extension.getURL("contentScript/contentScript.html"), function(html) {
-    var $extWrapper;
-    $extWrapper = $(html);
-    $('body').append($extWrapper);
-    return app.appView = new app.AppView({
-      el: $extWrapper
-    });
+  extLib.ultraAjax({
+    url: "http://localhost:4567/chrome_login",
+    dataType: "json"
+  })["catch"](function(err) {
+    return console.log("error: AppView.upload - " + err);
+  }).then(function(response) {
+    if (response.status === "success") {
+      return $.get(chrome.extension.getURL("contentScript/contentScript.html"), function(html) {
+        var $extWrapper;
+        $extWrapper = $(html);
+        $('body').append($extWrapper);
+        return app.appView = new app.AppView({
+          el: $extWrapper
+        });
+      });
+    } else {
+      if (confirm("you need to login first from this webpage\nhttp://often-test-app.xyz\nIf you click 'OK', you will be redirected to there.")) {
+        return chrome.runtime.sendMessage({
+          type: "createTab",
+          url: "http://often-test-app.xyz"
+        });
+      }
+    }
   });
 
 }).call(this);

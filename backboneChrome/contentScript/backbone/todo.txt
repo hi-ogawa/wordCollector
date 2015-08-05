@@ -11,7 +11,8 @@
 -# category set
   -# storage (not by localstorage, but by chrome.storage since localstorage won't share data beyond different webpage (probably, domain?))
 
-- login/logout should be achieved in popup
+-# login/logout should be achieved in popu
+  - log out
 
 - animation
 

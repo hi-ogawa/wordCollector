@@ -28,4 +28,7 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
         callback {status: "success", data: dataurl}
       setTimeout(( -> callback {status: "error"}), 1000)
 
+    when "createTab"
+      chrome.tabs.create {url: request.url}
+
   true # necessary to wait a moment to give arguments to callback

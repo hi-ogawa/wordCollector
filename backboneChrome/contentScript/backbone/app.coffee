@@ -163,11 +163,24 @@ app.AppView = Backbone.View.extend
           @$dictionaries.append @dAPIView.$el
         
 
-$.get chrome.extension.getURL("contentScript/contentScript.html"), (html) ->
-  $extWrapper = $(html)
-  $('body').append $extWrapper
-  app.appView = new app.AppView({el: $extWrapper})
-  
 
-# root = exports ? this
-# root.extBackboneApp = app
+# user authentication
+extLib.ultraAjax({url: "http://localhost:4567/chrome_login", dataType: "json"})
+.catch((err) -> console.log "error: AppView.upload - #{err}")
+.then (response) ->
+  if response.status is "success"
+
+    # if it works, instantiate the main view
+    $.get chrome.extension.getURL("contentScript/contentScript.html"), (html) ->
+      $extWrapper = $(html)
+      $('body').append $extWrapper
+      app.appView = new app.AppView({el: $extWrapper})
+  else
+
+    # if not, notify the user
+    if confirm "you need to login first from this webpage\n\
+                http://often-test-app.xyz\n\
+                If you click 'OK', you will be redirected to there."
+      chrome.runtime.sendMessage
+        type: "createTab"
+        url: "http://often-test-app.xyz"

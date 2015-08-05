@@ -2,6 +2,12 @@ require 'sinatra'
 require 'json'
 
 
+get '/chrome_login' do
+  # {status: "error"}.to_json
+  {status: "success"}.to_json
+end
+
+
 post '/upload' do
   puts params
 

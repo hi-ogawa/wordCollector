@@ -45,6 +45,11 @@
             status: "error"
           });
         }), 1000);
+        break;
+      case "createTab":
+        chrome.tabs.create({
+          url: request.url
+        });
     }
     return true;
   });
