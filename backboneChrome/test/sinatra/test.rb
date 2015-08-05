@@ -23,7 +23,7 @@ categories = [
 get '/categories' do
   puts params
   puts "categories now: #{categories.to_json}"
-  categories.to_json
+  {status: "success", data: categories}.to_json
 end
 
 

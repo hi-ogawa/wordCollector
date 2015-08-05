@@ -8,9 +8,11 @@
   -# take in words, sentences
 
 -# take tab screenshot
-- category set
-  - storage
+-# category set
+  -# storage (not by localstorage, but by chrome.storage since localstorage won't share data beyond different webpage (probably, domain?))
 
-- login/logout
+- login/logout should be achieved in popup
 
 - animation
+
+-# insertJS should happen only once when popup is pressed at the first time

@@ -4,23 +4,50 @@
 
   app = {};
 
-  app.LocalData = Backbone.Model.extend({
-    localStorage: new Backbone.LocalStorage("ext-local-data"),
-    defaults: {
-      id: 0
+  app.myStorage = new MyStorage();
+
+  app.Category = Backbone.Model.extend({
+    parse: function(response, options) {
+      if (options.collection) {
+        return response;
+      } else {
+        return response.data;
+      }
     },
-    check: function() {
-      return app.localData.get("exists");
+    initialize: function() {
+      return this.on("sync", (function(_this) {
+        return function() {
+          return app.myStorage.update(_this.toJSON());
+        };
+      })(this));
     }
   });
 
-  app.localData = new app.LocalData();
-
-  app.Category = Backbone.Model;
-
   app.Categories = Backbone.Collection.extend({
     model: app.Category,
-    url: "http://localhost:4567/categories"
+    url: "http://localhost:4567/categories",
+    parse: function(response) {
+      return response.data;
+    },
+    initialize: function() {
+      return this.on("sync", (function(_this) {
+        return function() {
+          return app.myStorage.get().then(function(items) {
+            if (_.some(_(_this.toJSON()).map(function(c) {
+              return _(c).isEqual(_(items).pick(["name", "id"]));
+            }))) {
+              return app.myStorage.update({
+                status: "ok"
+              });
+            } else {
+              return app.myStorage.update({
+                status: "wrong"
+              });
+            }
+          });
+        };
+      })(this));
+    }
   });
 
   app.categories = new app.Categories();
@@ -30,10 +57,18 @@
     id: "ext-categories",
     initialize: function() {
       this.collection = app.categories;
-      this.collection.on("sync", this.render, this);
-      app.localData.on("change", this.render, this);
+      this.collection.on("sync", (function(_this) {
+        return function() {
+          return _this.render();
+        };
+      })(this));
+      app.myStorage.on("update", (function(_this) {
+        return function() {
+          return _this.render();
+        };
+      })(this));
       this.collection.fetch();
-      return app.localData.fetch();
+      return app.myStorage.fetch();
     },
     render: function() {
       this.template = _.template($("#ext-categories-t").html());
@@ -44,26 +79,21 @@
       $("#new-category").popover({
         content: $("#new-category-popover-content").remove()
       });
-      if (app.localData.check()) {
-        this.$(".dropdown-title").text(app.localData.get("name"));
+      if (app.myStorage.items.status === "ok") {
+        this.$(".dropdown-title").text(app.myStorage.items.name);
         return this.$("#upload").removeClass("disabled");
       }
     },
     events: function() {
       return {
         "click .dropdown-menu a": function(e) {
-          return app.localData.save({
-            exists: true,
-            name: $(e.currentTarget).text(),
-            categoryId: $(e.currentTarget).attr("data-id")
-          });
+          this.collection.fetch();
+          return app.myStorage.update($(e.currentTarget).data('category'));
         },
-        "keypress #new-category-name": "newCategory",
         "click #upload": function() {
-          if (app.localData.check()) {
-            return app.appView.upload();
-          }
-        }
+          return app.appView.upload();
+        },
+        "keypress #new-category-name": "newCategory"
       };
     },
     newCategory: function(e) {
@@ -158,7 +188,7 @@
             word: _this.$inputWord.val(),
             sentence: _this.$inputSentence.val(),
             meaning: _this.$inputMeaning.val(),
-            category_id: app.localData.categoryID
+            category_id: app.myStorage.items.id
           };
           return extLib.ultraAjax({
             url: "http://localhost:4567/upload",

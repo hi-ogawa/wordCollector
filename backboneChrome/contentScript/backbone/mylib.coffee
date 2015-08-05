@@ -1,6 +1,5 @@
 lib = {}
 
-
 lib.dataURLtoBlob = (dataurl) ->
   arr = dataurl.split ','
   mime = arr[0].match(/:(.*?);/)[1]

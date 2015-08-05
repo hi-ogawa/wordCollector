@@ -19,7 +19,7 @@
     <ul class='dropdown-menu' role='menu'>
       <% _.each(categories, function(category){ %>
       <li>
-        <a data-id='<%= category.id %>'><%= category.name %></a>
+        <a data-category='<%= JSON.stringify(category) %>'><%= category.name %></a>
       </li>
       <% }) %>
     </ul>

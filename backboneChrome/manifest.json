@@ -33,6 +33,7 @@
 	// "contentScript/backbone/sampleAPI/categories.json"
     ],
     "permissions": [
+	"storage",
 	"tabs",
 	"<all_urls>"
     ]

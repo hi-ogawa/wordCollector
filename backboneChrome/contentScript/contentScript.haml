@@ -22,7 +22,7 @@
     %ul.dropdown-menu{role: 'menu'}
       <% _.each(categories, function(category){ %>
       %li
-        %a{"data-id" => "<%= category.id %>"} <%= category.name %>
+        %a{"data-category" => "<%= JSON.stringify(category) %>"} <%= category.name %>
       <% }) %>
     %a#new-category.btn.btn-default.input-group-addon{data: {toggle: "popover", html: "true",
                                                              placement: "bottom",
