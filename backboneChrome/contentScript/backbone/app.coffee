@@ -69,8 +69,9 @@ app.DictionaryView = Backbone.View.extend
 
   renderData: (data) ->
     @$el.html @template({data: data})
+    finalHeight = @$el.height()
     @$el.css("height", "20px")
-    @$el.animate {"height": "230px"}, "slow"
+    @$el.animate {"height": finalHeight}, "slow"
     @$popovers = @$('[data-toggle="popover"]')
     @initPopover()
 

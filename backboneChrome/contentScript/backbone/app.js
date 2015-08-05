@@ -116,12 +116,14 @@
       }));
     },
     renderData: function(data) {
+      var finalHeight;
       this.$el.html(this.template({
         data: data
       }));
+      finalHeight = this.$el.height();
       this.$el.css("height", "20px");
       this.$el.animate({
-        "height": "230px"
+        "height": finalHeight
       }, "slow");
       this.$popovers = this.$('[data-toggle="popover"]');
       return this.initPopover();
