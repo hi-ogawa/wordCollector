@@ -119,6 +119,10 @@
       this.$el.html(this.template({
         data: data
       }));
+      this.$el.css("height", "20px");
+      this.$el.animate({
+        "height": "230px"
+      }, "slow");
       this.$popovers = this.$('[data-toggle="popover"]');
       return this.initPopover();
     },
