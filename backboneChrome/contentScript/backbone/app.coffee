@@ -66,6 +66,9 @@ app.DictionaryView = Backbone.View.extend
   initialize: (data) ->
     @template = _.template $("#ext-dictionary-t").html()
     @$el.html @template({data: data})
+
+  renderData: (data) ->
+    @$el.html @template({data: data})
     @$popovers = @$('[data-toggle="popover"]')
     @initPopover()
 
@@ -148,20 +151,21 @@ app.AppView = Backbone.View.extend
     if word isnt ""
       @$dictionaries.empty()
 
+      
+      if @eijiroView? then @eijiroView.remove()
+      @eijiroView = new app.DictionaryView({dictionary: "Eijiro", type: "", loading: true})
+      @$dictionaries.append @eijiroView.$el
       extLib.Eijiro(word)
         .catch((err) -> console.log "error in eijiro: #{err}")
-        .then (data) =>
-          if @eijiroView? then @eijiroView.remove()
-          @eijiroView = new app.DictionaryView(data)
-          @$dictionaries.append @eijiroView.$el
+        .then (data) => @eijiroView.renderData data
+          
         
+      if @dAPIView? then @dAPIView.remove()
+      @dAPIView = new app.DictionaryView({dictionary: "Merriam-Webster", type: "", loading: true})
+      @$dictionaries.append @dAPIView.$el
       extLib.DictionaryAPI(word)
         .catch((err) -> console.log "error in dicAPI: #{err}")
-        .then (data) =>
-          if @dAPIView? then @dAPIView.remove()
-          @dAPIView = new app.DictionaryView(data)
-          @$dictionaries.append @dAPIView.$el
-        
+        .then (data) => @dAPIView.renderData data
 
 
 # user authentication
@@ -177,7 +181,7 @@ extLib.ultraAjax({url: "http://localhost:4567/chrome_login", dataType: "json"})
       app.appView = new app.AppView({el: $extWrapper})
   else
 
-    # if not, notify the user
+    # if not, notify and redirect the user
     if confirm "you need to login first from this webpage\n\
                 http://often-test-app.xyz\n\
                 If you click 'OK', you will be redirected to there."

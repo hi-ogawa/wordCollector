@@ -40,7 +40,10 @@
 %script#ext-dictionary-t{type: "text/template"}
   .ext-dictionary.panel
     .from
-      <%= data.dictionary %> (<%= data.type %>)
+      <%= data.dictionary %>: <%= data.type %>
+      <% if(data.loading){ %>
+      %i.fa.fa-spinner.fa-spin
+      <% } %>
       .remove.btn.btn-default.btn-sm.pull-right
         %i.fa.fa-remove
     

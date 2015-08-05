@@ -38,7 +38,10 @@
 <script id='ext-dictionary-t' type='text/template'>
   <div class='ext-dictionary panel'>
     <div class='from'>
-      <%= data.dictionary %> (<%= data.type %>)
+      <%= data.dictionary %>: <%= data.type %>
+      <% if(data.loading){ %>
+      <i class='fa fa-spinner fa-spin'></i>
+      <% } %>
       <div class='remove btn btn-default btn-sm pull-right'>
         <i class='fa fa-remove'></i>
       </div>

@@ -111,6 +111,11 @@
     tagName: "div",
     initialize: function(data) {
       this.template = _.template($("#ext-dictionary-t").html());
+      return this.$el.html(this.template({
+        data: data
+      }));
+    },
+    renderData: function(data) {
       this.$el.html(this.template({
         data: data
       }));
@@ -209,26 +214,36 @@
       word = this.$inputWord.val().trim();
       if (word !== "") {
         this.$dictionaries.empty();
+        if (this.eijiroView != null) {
+          this.eijiroView.remove();
+        }
+        this.eijiroView = new app.DictionaryView({
+          dictionary: "Eijiro",
+          type: "",
+          loading: true
+        });
+        this.$dictionaries.append(this.eijiroView.$el);
         extLib.Eijiro(word)["catch"](function(err) {
           return console.log("error in eijiro: " + err);
         }).then((function(_this) {
           return function(data) {
-            if (_this.eijiroView != null) {
-              _this.eijiroView.remove();
-            }
-            _this.eijiroView = new app.DictionaryView(data);
-            return _this.$dictionaries.append(_this.eijiroView.$el);
+            return _this.eijiroView.renderData(data);
           };
         })(this));
+        if (this.dAPIView != null) {
+          this.dAPIView.remove();
+        }
+        this.dAPIView = new app.DictionaryView({
+          dictionary: "Merriam-Webster",
+          type: "",
+          loading: true
+        });
+        this.$dictionaries.append(this.dAPIView.$el);
         return extLib.DictionaryAPI(word)["catch"](function(err) {
           return console.log("error in dicAPI: " + err);
         }).then((function(_this) {
           return function(data) {
-            if (_this.dAPIView != null) {
-              _this.dAPIView.remove();
-            }
-            _this.dAPIView = new app.DictionaryView(data);
-            return _this.$dictionaries.append(_this.dAPIView.$el);
+            return _this.dAPIView.renderData(data);
           };
         })(this));
       }
