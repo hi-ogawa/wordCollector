@@ -6,17 +6,19 @@ module Request
   end
 
   module HeaderHelpers
-    def api_header(version = 1)
-      request.headers['Accept'] = "application/vnd.railsAPI.v#{version}"
+    def header_accept_version(version = 1)
+      request.headers['Accept'] = "#{request.headers['Accept']},application/vnd.railsAPI.v#{version}"
     end
 
-    def api_response_format
+    def header_content_type_json
+      request.headers['Accept'] = "#{request.headers['Accept']},application/json"
       request.headers['Content-Type'] = Mime::JSON.to_s
     end
+  end
 
-    def include_default_accept_headers
-      api_header
-      api_response_format
+  module AuthHelpers
+    def header_authorization(token)
+      request.headers["Authorization"] = token
     end
   end
 end

@@ -19,11 +19,9 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   config.include Request::JsonHelpers, type: :controller
   config.include Request::HeaderHelpers, type: :controller
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Request::AuthHelpers, type: :controller
 
-  config.before(:each, type: :controller) do
-    include_default_accept_headers
-  end
+  config.include Devise::TestHelpers, type: :controller
 
   # ## Mock Framework
   #
