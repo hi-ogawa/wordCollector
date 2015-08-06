@@ -33,4 +33,17 @@ describe User do
       expect(@user.auth_token).not_to eql existing_user.auth_token
     end
   end
+
+  describe "has_many :products, dependent: :destroy" do
+    let(:user)       {FactoryGirl.create(:user)}
+    before           {3.times {FactoryGirl.create :category, user: user}}
+    let(:categories) {user.categories}
+
+    it "destroys all associated categories once user is destroyed" do
+      user.destroy
+      categories.each do |category|
+        expect(Category.find(category)).to raise_error "ActiveRecord::RecordNotFound"
+      end
+    end
+  end
 end
