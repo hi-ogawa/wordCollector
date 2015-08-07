@@ -10,59 +10,64 @@ describe Api::V1::CategoriesController do
       3.times {FactoryGirl.create :category, user: user}
       get :index
     end
-    it {expect(json_response[:categories].length).to eql 3}
+    it { expect(response.body).to have_json_size(3).at_path "categories" }
   end
 
   describe "GET #show" do
     before { get :show, id: category.id }
-    it { expect(json_response[:category]).to eql symbolized_json(category) }
+    it { expect(response.body).to be_json_eql(category.to_json).at_path "category" }
   end
 
   describe "POST #create" do
+    let(:valid_attr) {FactoryGirl.attributes_for :category}
+    let(:invalid_attr) {FactoryGirl.attributes_for :category_desc_nil}
+
     context "with a proper authentication token" do
       before(:each) {header_authorization user.auth_token}
-   
-      context "when params are valid" do
-        let(:valid_attr) {FactoryGirl.attributes_for :category}
+      context "with valid params" do
         before(:each) {get :create, {category: valid_attr}}
-        it {skip}
+        it { expect(response.body).to be_json_eql(valid_attr.to_json)
+                                     .at_path("category")
+             .excluding(:id, :created_at, :updated_at, :user_id)
+        }
+        it { is_expected.to respond_with 201 }
       end
 
-      context "when params are invalid" do
-        let(:invalid_attr) {FactoryGirl.attributes_for :category_desc_nil}
+      context "with invalid params" do
         before {get :create, {category: invalid_attr}}
-        it {skip}
+        it { expect(response.body).to be_json_eql(["can't be nil"].to_json)
+                                     .at_path("errors/description") 
+        }
+        it { is_expected.to respond_with 422 }
       end
     end
 
     context "without a proper authentication token" do
-      it ""
+      it { skip "hard to test :("}
     end
   end
 
   describe "PUT/PATCH #update" do
-    let(:new_attr) {FactoryGirl.attributes_for :category}
+    let(:valid_attr)     {FactoryGirl.attributes_for :category}
+    let(:invalid_attr) {FactoryGirl.attributes_for :category_desc_nil}
     before(:each) {header_authorization user.auth_token}
 
     context "with proper existing category id" do
-      context "params good" do
-        before(:each) {put :update, {id: category.id, category: new_attr}}
-        it do 
-          expect(response.body).to be_json_eql(new_attr.to_json).at_path("category")
-         .excluding("created_at", "updated_at", "id", "user_id")
-        end
+      context "with valid params" do
+        before(:each) {put :update, {id: category.id, category: valid_attr}}
+        it { expect(response.body).to be_json_eql(valid_attr.to_json).at_path("category")
+                                .excluding("created_at", "updated_at", "id", "user_id")
+        }
+        it { is_expected.to respond_with 200 }
       end
-      context "params bad" do
-        it ""
+      context "with invalid params" do
+        before(:each) { put :update, {id: category.id, category: invalid_attr} }
+        it { is_expected.to respond_with 422 }
       end
     end
     context "with non-exist category id" do
-      before(:each) do
-        put :update, {id: 1234, category: new_attr}
-      end
-      it "" do
-        respond_with 404
-      end
+      before(:each) { put :update, {id: 1234, category: valid_attr} }
+      it { is_expected.to respond_with 404 }
     end
   end
 
@@ -71,9 +76,7 @@ describe Api::V1::CategoriesController do
       header_authorization user.auth_token
       delete :destroy, id: category.id
     end
-    it "" do
-      respond_with 204
-    end
+    it { is_expected.to respond_with 204 }
   end
   
 end

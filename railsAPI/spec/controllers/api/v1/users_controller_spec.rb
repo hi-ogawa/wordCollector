@@ -40,10 +40,10 @@ describe Api::V1::UsersController do
     before(:each) do
       get :show, id: user.id
     end
-    it "returns user record in json" do
-      expect(json_response[:user][:email]).to eql user.email
+    it do
+      expect(response.body).to be_json_eql(user.to_json).at_path("user")
     end
-    it {should respond_with 200}
+    it { is_expected.to respond_with 200}
   end
 
   describe "POST #create" do
@@ -51,20 +51,17 @@ describe Api::V1::UsersController do
     context "params valid" do
       let(:attr)    {FactoryGirl.attributes_for :user}
       before(:each) {post :create, user: attr}
-      
-      it "returns a user record just created" do
-        expect(json_response[:user][:email]).to eql attr[:email]
-      end
-      it {should respond_with 201}
+      it { expect(response.body).to be_json_eql(attr[:email].to_json)
+                                   .at_path("user/email") }
+      it { is_expected.to respond_with 201 }
     end
 
     context "params invalid" do
       let(:invalid_attr) {FactoryGirl.attributes_for :user_wrong_email}
       before(:each)      {post :create, user: invalid_attr}
-      it "returns a json error" do
-        expect(json_response).to have_key(:errors)
-      end
-      it {should respond_with 422}
+      it { expect(response.body).to include_json("is invalid".to_json)
+                                   .at_path("errors/email") }
+      it { is_expected.to respond_with 422}
     end
   end
 
@@ -75,20 +72,17 @@ describe Api::V1::UsersController do
     context "params valid" do
       let(:new_attr)    {FactoryGirl.attributes_for :user}
       before(:each) {put :update, {id: user.id, user: new_attr}}
-
-      it "returns the updated user record" do
-        expect(json_response[:user][:email]).to eql new_attr[:email]
-      end
-      it {should respond_with 200}
+      it { expect(response.body).to be_json_eql(new_attr[:email].to_json)
+                                   .at_path("user/email") }
+      it { is_expected.to respond_with 200}
     end
 
     context "params invalid" do
       let(:invalid_attr) {FactoryGirl.attributes_for :user_wrong_password}
       before(:each)      {put :update, {id: user.id, user: invalid_attr}}
-      it "returns a json error" do
-        expect(json_response).to have_key(:errors)
-      end
-      it {should respond_with 422}
+      it { expect(response.body).to include_json("is too short (minimum is 8 characters)".to_json)
+                                   .at_path("errors/password") }
+      it { is_expected.to respond_with 422}
     end
   end
 

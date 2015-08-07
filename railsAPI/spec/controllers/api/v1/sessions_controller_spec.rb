@@ -8,8 +8,9 @@ describe API::V1::SessionsController do
     context "with good params" do
       before(:each) {post :create, {session: {email: user.email, password: user.password}}}
 
-      it "returns auth_token" do
-        expect(json_response[:user][:auth_token]).to eql user.auth_token
+      it do
+        expect(response.body).to be_json_eql(user.auth_token.to_json)
+                                 .at_path "user/auth_token"
       end
       it {should respond_with 200}
     end
