@@ -15,7 +15,13 @@ describe Api::V1::CategoriesController do
 
   describe "GET #show" do
     before { get :show, id: category.id }
-    it { expect(response.body).to be_json_eql(category.to_json).at_path "category" }
+    it { expect(response.body).to be_json_eql(category.to_json)
+                                 .at_path("category")
+                                 .excluding(:user_id, :user)                          
+    }
+    it { expect(response.body).to be_json_eql(category.user.to_json)
+                                 .at_path("category/user")
+    }
   end
 
   describe "POST #create" do
@@ -28,7 +34,10 @@ describe Api::V1::CategoriesController do
         before(:each) {get :create, {category: valid_attr}}
         it { expect(response.body).to be_json_eql(valid_attr.to_json)
                                      .at_path("category")
-             .excluding(:id, :created_at, :updated_at, :user_id)
+                                     .excluding(:id, :created_at, :updated_at, :user)
+        }
+        it { expect(response.body).to be_json_eql(user.to_json)
+                                     .at_path("category/user")
         }
         it { is_expected.to respond_with 201 }
       end
@@ -55,8 +64,12 @@ describe Api::V1::CategoriesController do
     context "with proper existing category id" do
       context "with valid params" do
         before(:each) {put :update, {id: category.id, category: valid_attr}}
-        it { expect(response.body).to be_json_eql(valid_attr.to_json).at_path("category")
-                                .excluding("created_at", "updated_at", "id", "user_id")
+        it { expect(response.body).to be_json_eql(valid_attr.to_json)
+                                     .at_path("category")
+                                     .excluding(:id, :created_at, :updated_at, :user)
+        }
+        it { expect(response.body).to be_json_eql(user.to_json)
+                                     .at_path("category/user")
         }
         it { is_expected.to respond_with 200 }
       end
