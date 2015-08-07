@@ -16,7 +16,13 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+
+JsonSpec.configure do
+  exclude_keys
+end
+
 RSpec.configure do |config|
+
   config.include Request::JsonHelpers, type: :controller
   config.include Request::HeaderHelpers, type: :controller
   config.include Request::AuthHelpers, type: :controller

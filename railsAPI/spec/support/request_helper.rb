@@ -3,6 +3,10 @@ module Request
     def json_response
       @json_response ||= JSON.parse(response.body, symbolize_names: true)
     end
+
+    def symbolized_json(model)
+      JSON.parse(model.to_json, symbolize_names: true)
+    end
   end
 
   module HeaderHelpers
