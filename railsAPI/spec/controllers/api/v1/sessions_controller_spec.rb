@@ -9,7 +9,7 @@ describe API::V1::SessionsController do
       before(:each) {post :create, {session: {email: user.email, password: user.password}}}
 
       it "returns auth_token" do
-        expect(json_response[:auth_token]).to eql user.auth_token
+        expect(json_response[:user][:auth_token]).to eql user.auth_token
       end
       it {should respond_with 200}
     end

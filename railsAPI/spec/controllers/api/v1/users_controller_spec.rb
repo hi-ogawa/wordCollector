@@ -41,7 +41,7 @@ describe Api::V1::UsersController do
       get :show, id: user.id
     end
     it "returns user record in json" do
-      expect(json_response[:email]).to eql user.email
+      expect(json_response[:user][:email]).to eql user.email
     end
     it {should respond_with 200}
   end
@@ -53,7 +53,7 @@ describe Api::V1::UsersController do
       before(:each) {post :create, user: attr}
       
       it "returns a user record just created" do
-        expect(json_response[:email]).to eql attr[:email]
+        expect(json_response[:user][:email]).to eql attr[:email]
       end
       it {should respond_with 201}
     end
@@ -77,7 +77,7 @@ describe Api::V1::UsersController do
       before(:each) {put :update, {id: user.id, user: new_attr}}
 
       it "returns the updated user record" do
-        expect(json_response[:email]).to eql new_attr[:email]
+        expect(json_response[:user][:email]).to eql new_attr[:email]
       end
       it {should respond_with 200}
     end

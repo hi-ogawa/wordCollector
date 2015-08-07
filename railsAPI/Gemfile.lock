@@ -1,3 +1,11 @@
+GIT
+  remote: git@github.com:rails-api/active_model_serializers.git
+  revision: 8d31f7ee8c0ea3ed83ab871765f1444291278b41
+  branch: 0-8-stable
+  specs:
+    active_model_serializers (0.8.3)
+      activemodel (>= 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -150,6 +158,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers!
   coffee-rails (~> 4.0.0)
   devise
   factory_girl_rails

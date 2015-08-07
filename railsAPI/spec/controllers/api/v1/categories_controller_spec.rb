@@ -11,7 +11,7 @@ describe Api::V1::CategoriesController do
       get :index
     end
     it "" do
-      expect(json_response.length).to eql 3
+      expect(json_response[:categories].length).to eql 3
     end
   end
 
