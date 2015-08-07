@@ -18,7 +18,7 @@ describe Api::V1::CategoriesController do
   describe "GET #show" do
     before {get :show, id: category.id}
     it "returns the same attrubtes in json as the original model" do
-      expect(json_response).to eql JSON.parse(category.to_json, symbolize_names: true)
+      expect(json_response[:category]).to eql JSON.parse(category.to_json, symbolize_names: true)
     end
   end
 
@@ -58,7 +58,7 @@ describe Api::V1::CategoriesController do
         before(:each) {put :update, {id: category.id, category: new_attr}}
         let(:eq_keys) {[:name, :description]}
         it "" do
-          expect(json_response.select{|k,v| eq_keys.include? k}).to eql new_attr
+          expect(json_response[:category].select{|k,v| eq_keys.include? k}).to eql new_attr
         end
       end
       context "params bad" do
