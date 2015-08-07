@@ -3,4 +3,5 @@ class Category < ActiveRecord::Base
   validates :description, length: { minimum: 0, allow_nil: false, message: "can't be nil" }
 
   belongs_to :user
+  has_many :items
 end
