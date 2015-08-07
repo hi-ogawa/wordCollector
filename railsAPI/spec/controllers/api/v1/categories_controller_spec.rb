@@ -6,11 +6,12 @@ describe Api::V1::CategoriesController do
   let(:category) {FactoryGirl.create :category, user: user}
 
   describe "GET #index" do
-    before do
-      3.times {FactoryGirl.create :category, user: user}
-      get :index
-    end
-    it { expect(response.body).to have_json_size(3).at_path "categories" }
+    let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
+    before(:each) {get :index}
+    it { expect(response.body).to be_json_eql(categories.to_json)
+                                 .at_path("categories")
+                                 .excluding(:category_id, :user_id, :user)
+    }
   end
 
   describe "GET #show" do
@@ -21,6 +22,10 @@ describe Api::V1::CategoriesController do
     }
     it { expect(response.body).to be_json_eql(category.user.to_json)
                                  .at_path("category/user")
+                                 .excluding(:category_ids)
+    }
+    it { expect(response.body).to be_json_eql(category.user.categories.map(&:id).to_json)
+                                 .at_path("category/user/category_ids")
     }
   end
 
@@ -38,6 +43,7 @@ describe Api::V1::CategoriesController do
         }
         it { expect(response.body).to be_json_eql(user.to_json)
                                      .at_path("category/user")
+                                     .excluding(:category_ids)
         }
         it { is_expected.to respond_with 201 }
       end
@@ -70,6 +76,7 @@ describe Api::V1::CategoriesController do
         }
         it { expect(response.body).to be_json_eql(user.to_json)
                                      .at_path("category/user")
+                                     .excluding(:category_ids)
         }
         it { is_expected.to respond_with 200 }
       end

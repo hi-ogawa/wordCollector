@@ -35,15 +35,21 @@ describe Api::V1::UsersController do
 
 
   let(:user) {FactoryGirl.create :user}
+  let(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
 
   describe "GET #show" do
+    let!(:ids) { categories.map(&:id) }
     before(:each) do
       get :show, id: user.id
     end
-    it do
-      expect(response.body).to be_json_eql(user.to_json).at_path("user")
-    end
-    it { is_expected.to respond_with 200}
+    it { expect(response.body).to be_json_eql(user.to_json)
+                                 .at_path("user")
+                                 .excluding(:category_ids) 
+    }
+    it { expect(response.body).to be_json_eql(ids.to_json)
+                                 .at_path("user/category_ids") 
+    }
+    it { is_expected.to respond_with 200 }
   end
 
   describe "POST #create" do
