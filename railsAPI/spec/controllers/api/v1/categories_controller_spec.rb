@@ -58,7 +58,8 @@ describe Api::V1::CategoriesController do
     end
 
     context "without a proper authentication token" do
-      it { skip "hard to test :("}
+      before(:each) {post :create, {category: valid_attr}}
+      it { is_expected.to respond_with 401 }
     end
   end
 
