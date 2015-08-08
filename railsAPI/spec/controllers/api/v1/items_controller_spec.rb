@@ -31,7 +31,6 @@ describe Api::V1::ItemsController do
       before(:each) { header_authorization user.auth_token }
 
       context "with existing category_id" do
-
         context "with valid item params" do
           before(:each) { post :create, {category_id: category.id, item: item_attr} }
           it_has "http status", 201
