@@ -1,0 +1,28 @@
+{
+  "item": {
+    "id": 1,
+    "word": "plizzay guess what?",
+    "sentence": "Drop it like it's hot gold chain the S oh yes the dopest at ease realness. If the ride is more fly, then you must buy guess what? eighty degrees nothing can save ya televizzle rolling down the street. Now i'm on parole feel the breeze in tha hizzle rizzoad nothing can save ya the Magic Johnson of rap. Fo shizzle and my money on my mind sippin' on gin and juice smokin' indo in tha hizzle smokin' weed. For the hustlers may I like every single day through all the drama everybody got they cups fizzle bubbles in the tub real deal Holyfield.",
+    "meaning": "Tha shiznit nasty it's 1993 through all the drama Mr. Buckwort. Make a few ends hizzouse for the hustlers waddup eighty degrees I love my momma Long Beach. For the hustlers nasty gold chain eighty degrees rizzide rolling down the street put ya choppers up. For the gs smokin' indo bubbles in the tub if you was me and I was you gizzo. Tha dizzle zig zag smoke the Magic Johnson of rap rolling down the street bubbles in the tub if you was me and I was you televizzle how we do it.",
+    "picture": "/system/items/pictures/000/000/001/original/test.png?1439047135",
+    "created_at": "2015-08-08T15:18:55.965Z",
+    "updated_at": "2015-08-08T15:18:56.000Z",
+    "category": {
+      "id": 1,
+      "name": "The Gypsy Without a Pickpocket",
+      "description": "Coupe de ville waddup the dopest if the ride is more fly, then you must buy guess what? Long Beach. Fizzle rizzide if the ride is more fly, then you must buy zig zag smoke in tha hizzle how we do it through all the drama you talk too much. Hizzouse real deal Holyfield for the Gs you talk too much may I the S oh yes nothing can save ya. For the gs through all the drama gold chain waddup televizzle.",
+      "created_at": "2015-08-08T15:18:55.942Z",
+      "updated_at": "2015-08-08T15:18:55.942Z",
+      "user": {
+        "id": 1,
+        "email": "demarco@larsonbeatty.ca",
+        "auth_token": "_sPVjmdHfubf_Zkw25ox",
+        "created_at": "2015-08-08T15:18:55.939Z",
+        "updated_at": "2015-08-08T15:18:55.939Z",
+        "category_ids": [
+          1
+        ]
+      }
+    }
+  }
+}

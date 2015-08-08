@@ -1,0 +1,82 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "word": "gold chain realness",
+      "sentence": "Doggfada at ease Coupe de Ville plizzay waddup how we do it. You talk too much bubbles in the tub fo rizzle pizzle plizzay rizzoad drizzle for the hustlers. Bubbles in the tub in tha hizzle rizzoad televizzle bionic tha shiznit. The diggy real deal Holyfield nothing can save ya the Dogg Pound you talk too much Snoopy your chrome smokin' indo. Guess what? put ya choppers up with my mind on my money smokin' indo gold chain bionic the Magic Johnson of rap plizzay nothing can save ya.",
+      "meaning": "The lbc pizzle gizzo at ease plizzay now I'm on parole make a few ends rolling down the street may I. Fizzle bionic if the ride is more fly, then you must buy put ya choppers up Snoop. The lbc smokin' indo and my money on my mind if you was me and I was you Long Beach zig zag smoke.",
+      "picture": "/system/items/pictures/000/000/001/original/test.png?1439047134",
+      "created_at": "2015-08-08T15:18:54.865Z",
+      "updated_at": "2015-08-08T15:18:54.865Z",
+      "category": {
+        "id": 1,
+        "name": "Action Brains",
+        "description": "Tha shiznit through all the drama for the hustlers in tha hizzle rolling down the street bubbles in the tub. Smokin' weed waddup make a few ends gold chain if the ride is more fly, then you must buy may I I love my momma your chrome why is you. Every single one your chrome the Magic Johnson of rap put ya choppers up guess what? for the hustlers everybody got they cups.",
+        "created_at": "2015-08-08T15:18:54.824Z",
+        "updated_at": "2015-08-08T15:18:54.824Z",
+        "user": {
+          "id": 1,
+          "email": "daryl.doyle@ortiz.info",
+          "auth_token": "e86_XagaKDvHznLMTFns",
+          "created_at": "2015-08-08T15:18:54.779Z",
+          "updated_at": "2015-08-08T15:18:54.779Z",
+          "category_ids": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "word": "roll with gold chain",
+      "sentence": "For the gs the LBC zig zag smoke fo shizzle the dopest hizzouse every single one sippin' on gin and juice. The lbc drizzle Mr. Buckwort like every single day rizzide tha shiznit now I'm on parole. Drizzle fo rizzle used to sell loot smokin' indo everybody got they cups smokin' weed rolling down the street at ease if you was me and I was you.",
+      "meaning": "At ease drop it like it's hot now I'm on parole drizzle bubbles in the tub real deal Holyfield with my mind on my money. Recognize televizzle realer bubbles in the tub nothing can save ya waddup. Like every single day realness eighty degrees now I'm on parole your chrome I love my momma smokin' weed why is you. Bionic sippin' on gin and juice at ease gold chain waddup you talk too much rizzide fo shizzle.",
+      "picture": "/system/items/pictures/000/000/002/original/test.png?1439047134",
+      "created_at": "2015-08-08T15:18:54.892Z",
+      "updated_at": "2015-08-08T15:18:54.892Z",
+      "category": {
+        "id": 1,
+        "name": "Action Brains",
+        "description": "Tha shiznit through all the drama for the hustlers in tha hizzle rolling down the street bubbles in the tub. Smokin' weed waddup make a few ends gold chain if the ride is more fly, then you must buy may I I love my momma your chrome why is you. Every single one your chrome the Magic Johnson of rap put ya choppers up guess what? for the hustlers everybody got they cups.",
+        "created_at": "2015-08-08T15:18:54.824Z",
+        "updated_at": "2015-08-08T15:18:54.824Z",
+        "user": {
+          "id": 1,
+          "email": "daryl.doyle@ortiz.info",
+          "auth_token": "e86_XagaKDvHznLMTFns",
+          "created_at": "2015-08-08T15:18:54.779Z",
+          "updated_at": "2015-08-08T15:18:54.779Z",
+          "category_ids": [
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": 3,
+      "word": "zig zag smoke everybody got they cups",
+      "sentence": "Roll with drizzle gold chain real deal Holyfield how we do it your chrome. Coupe de ville for the Gs may I televizzle now I'm on parole. The lbc nasty zig zag smoke bionic Coupe de Ville nothing can save ya.",
+      "meaning": "Through all the drama the Magic Johnson of rap the dopest fizzle real deal Holyfield fo shizzle televizzle. The dopest hizzouse for the Gs through all the drama every single one. You talk too much used to sell loot rolling down the street nasty Doggfada.",
+      "picture": "/system/items/pictures/000/000/003/original/test.png?1439047134",
+      "created_at": "2015-08-08T15:18:54.921Z",
+      "updated_at": "2015-08-08T15:18:54.921Z",
+      "category": {
+        "id": 1,
+        "name": "Action Brains",
+        "description": "Tha shiznit through all the drama for the hustlers in tha hizzle rolling down the street bubbles in the tub. Smokin' weed waddup make a few ends gold chain if the ride is more fly, then you must buy may I I love my momma your chrome why is you. Every single one your chrome the Magic Johnson of rap put ya choppers up guess what? for the hustlers everybody got they cups.",
+        "created_at": "2015-08-08T15:18:54.824Z",
+        "updated_at": "2015-08-08T15:18:54.824Z",
+        "user": {
+          "id": 1,
+          "email": "daryl.doyle@ortiz.info",
+          "auth_token": "e86_XagaKDvHznLMTFns",
+          "created_at": "2015-08-08T15:18:54.779Z",
+          "updated_at": "2015-08-08T15:18:54.779Z",
+          "category_ids": [
+            1
+          ]
+        }
+      }
+    }
+  ]
+}

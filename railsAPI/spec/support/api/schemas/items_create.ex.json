@@ -1,0 +1,28 @@
+{
+  "item": {
+    "id": 1,
+    "word": "for the hustlers bionic",
+    "sentence": "Sippin' on gin and juice laid back I love my momma every single one smokin' indo your chrome the diggy at ease. Snoop gizzo nothing can save ya fo rizzle and my money on my mind how we do it nasty real deal Holyfield the Magic Johnson of rap. Hizzouse the Magic Johnson of rap and my money on my mind the diggy zig zag smoke bubbles in the tub how we do it like every single day the LBC.",
+    "meaning": "With my mind on my money hizzouse roll with bubbles in the tub fo rizzle how we do it in tha hizzle if the ride is more fly, then you must buy sippin' on gin and juice. Put ya choppers up waddup for the Gs Snoopy feel the breeze. Plizzay Mr. Buckwort pizzle put ya choppers up recognize bubbles in the tub it's 1993 Snoop.",
+    "picture": "/system/items/pictures/000/000/001/original/test.png?1439047135",
+    "created_at": "2015-08-08T15:18:55.645Z",
+    "updated_at": "2015-08-08T15:18:55.645Z",
+    "category": {
+      "id": 1,
+      "name": "Christmas on Kyra Harbor",
+      "description": "Eighty degrees why is you rizzide zig zag smoke may I. Fo shizzle hizzouse eighty degrees through all the drama in tha hizzle real deal Holyfield televizzle put ya choppers up. Through all the drama bubbles in the tub nasty fo shizzle if you was me and I was you Coupe de Ville like every single day. Used to sell loot the LBC waddup eighty degrees at ease.",
+      "created_at": "2015-08-08T15:18:55.611Z",
+      "updated_at": "2015-08-08T15:18:55.611Z",
+      "user": {
+        "id": 1,
+        "email": "jamaal.powlowski@medhurstbeier.com",
+        "auth_token": "WDVsNzi6Wnksw-n1x4Nz",
+        "created_at": "2015-08-08T15:18:55.606Z",
+        "updated_at": "2015-08-08T15:18:55.606Z",
+        "category_ids": [
+          1
+        ]
+      }
+    }
+  }
+}
