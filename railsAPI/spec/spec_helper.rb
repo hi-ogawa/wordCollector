@@ -23,6 +23,7 @@ end
 
 RSpec.configure do |config|
 
+  config.include JsonSpec::Helpers
   config.include Request::HeaderHelpers, type: :controller
   config.include Request::AuthHelpers, type: :controller
 
