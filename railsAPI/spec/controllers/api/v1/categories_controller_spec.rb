@@ -36,7 +36,7 @@ describe Api::V1::CategoriesController do
     context "with a proper authentication token" do
       before(:each) {header_authorization user.auth_token}
       context "with valid params" do
-        before(:each) {get :create, {category: valid_attr}}
+        before(:each) {post :create, {category: valid_attr}}
         it { expect(response.body).to be_json_eql(valid_attr.to_json)
                                      .at_path("category")
                                      .excluding(:id, :created_at, :updated_at, :user)
@@ -49,7 +49,7 @@ describe Api::V1::CategoriesController do
       end
 
       context "with invalid params" do
-        before {get :create, {category: invalid_attr}}
+        before {post :create, {category: invalid_attr}}
         it { expect(response.body).to be_json_eql(["can't be nil"].to_json)
                                      .at_path("errors/description") 
         }
