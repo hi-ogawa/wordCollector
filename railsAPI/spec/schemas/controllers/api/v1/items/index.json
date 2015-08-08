@@ -2,9 +2,12 @@
   "type": "object",
   "properties": {
     "items": {
+      "type": "array",
       "minItems": 3,
-      "items": [
-        {
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "properties": {
           "id": {
             "type": "integer"
           },
@@ -63,19 +66,19 @@
                     "type": "string"
                   },
                   "category_ids": {
+                    "type": "array",
                     "minItems": 1,
-                    "items": [
-                      {
-                        "type": "integer"
-                      }
-                    ]
+                    "maxItems": 1,
+                    "items": {
+                      "type": "integer"
+                    }
                   }
                 }
               }
             }
           }
         }
-      ]
+      }
     }
   }
 }

@@ -2,12 +2,14 @@ require 'spec_helper'
 
 describe Api::V1::CategoriesController do
 
-  let(:user)     {FactoryGirl.create :user}
-  let(:category) {FactoryGirl.create :category, user: user}
+  let(:user)     { FactoryGirl.create :user }
+  let(:category) { FactoryGirl.create :category, user: user }
+  let(:items)    { 3.times.map {FactoryGirl.create :item, category: category} }
 
   describe "GET #index" do
     let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
     before(:each) {get :index}
+    it {should match_response_schema "categories/index"}
     it { expect(response.body).to be_json_eql(categories.to_json)
                                  .at_path("categories")
                                  .excluding(:category_id, :user_id, :user)
@@ -16,6 +18,7 @@ describe Api::V1::CategoriesController do
 
   describe "GET #show" do
     before { get :show, id: category.id }
+    it {should match_response_schema "categories/show"}
     it { expect(response.body).to be_json_eql(category.to_json)
                                  .at_path("category")
                                  .excluding(:user_id, :user)                          

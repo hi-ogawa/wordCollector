@@ -21,6 +21,6 @@ RSpec::Matchers.define :match_response_schema do |schema|
     File.open(example_path, "w") do |f|
       f.write JSON.pretty_generate(parse_json(response.body))
     end
-    JSON::Validator.validate!(json_path, response.body, strict: true)
+    JSON::Validator.validate!(json_path, parse_json(response.body), strict: true)
   end
 end
