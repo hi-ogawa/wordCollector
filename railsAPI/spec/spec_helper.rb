@@ -26,7 +26,7 @@ RSpec.configure do |config|
   config.include Request::HeaderHelpers, type: :controller
   config.include Request::AuthHelpers, type: :controller
 
-  config.include Devise::TestHelpers, type: :controller
+  # config.include Devise::TestHelpers, type: :controller
 
   # ## Mock Framework
   #
