@@ -1,14 +1,13 @@
-RSpec.configure do |c|
-  c.alias_it_should_behave_like_to :it_has, ''
-end
-
-shared_examples "http status" do |code|
-  it {expect(subject.status).to eql code}
-end
-
-# ex.
-# subject {response}
-# it_has "http status", 200
+# usage
+# 
+# it {is_expected.to have_http_status 200}
 # =>
-# http status
-#   should eql 200
+# it should have_http_status 200
+
+require 'rspec/expectations'
+
+RSpec::Matchers.define :have_http_status do |code|
+  match do |actual|
+    response.status == code
+  end
+end
