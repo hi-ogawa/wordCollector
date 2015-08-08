@@ -40,6 +40,7 @@ describe Api::V1::CategoriesController do
       before(:each) {header_authorization user.auth_token}
       context "with valid params" do
         before(:each) {post :create, {category: valid_attr}}
+        it {should match_response_schema "categories/create"}
         it { expect(response.body).to be_json_eql(valid_attr.to_json)
                                      .at_path("category")
                                      .excluding(:id, :created_at, :updated_at, :user)
@@ -74,6 +75,7 @@ describe Api::V1::CategoriesController do
     context "with proper existing category id" do
       context "with valid params" do
         before(:each) {put :update, {id: category.id, category: valid_attr}}
+        it {should match_response_schema "categories/update"}
         it { expect(response.body).to be_json_eql(valid_attr.to_json)
                                      .at_path("category")
                                      .excluding(:id, :created_at, :updated_at, :user)

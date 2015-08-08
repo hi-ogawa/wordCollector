@@ -15,7 +15,11 @@
 /log/*.log
 /tmp
 
+# emacs misc files
 *~
 
 # paperclip pictures
 /public/system
+
+# controller response example files in rspec
+*.ex.json

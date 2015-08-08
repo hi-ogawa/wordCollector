@@ -2,11 +2,13 @@ require 'spec_helper'
 
 describe Api::V1::SessionsController do
 
-  let(:user) {FactoryGirl.create :user}
+  let(:user)     {FactoryGirl.create :user}
+  let!(:category) {FactoryGirl.create :category, user: user}
 
   describe "POST #create" do
     context "with good params" do
       before(:each) {post :create, {session: {email: user.email, password: user.password}}}
+      it {should match_response_schema "sessions/create"}
       it { expect(response.body).to be_json_eql(user.auth_token.to_json)
                                    .at_path "user/auth_token"
       }

@@ -19,3 +19,15 @@ category:
     created_at:  {type: "date-time"}
     updated_at:  {type: "date-time"}
     user:        {$ref: "#/user"}
+
+item:
+  type: "object"
+  properties:
+    id:          {type: "integer"}
+    word:        {type: "string"}
+    sentence:    {type: "string"}
+    meaning:     {type: "string"}
+    picture:     {type: "uri"}
+    created_at:  {type: "date-time"}
+    updated_at:  {type: "date-time"}
+    category:    {$ref: "#/category"}

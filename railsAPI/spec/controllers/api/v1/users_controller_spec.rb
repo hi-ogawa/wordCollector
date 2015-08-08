@@ -34,14 +34,15 @@ describe Api::V1::UsersController do
   end
 
 
-  let(:user) {FactoryGirl.create :user}
-  let(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
+  let!(:user)       { FactoryGirl.create :user}
+  let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
 
   describe "GET #show" do
     let!(:ids) { categories.map(&:id) }
     before(:each) do
       get :show, id: user.id
     end
+    it {should match_response_schema "users/show"}
     it { expect(response.body).to be_json_eql(user.to_json)
                                  .at_path("user")
                                  .excluding(:category_ids) 
@@ -56,7 +57,8 @@ describe Api::V1::UsersController do
 
     context "params valid" do
       let(:attr)    {FactoryGirl.attributes_for :user}
-      before(:each) {post :create, user: attr}
+      before(:each) { post :create, user: attr }
+      it {should match_response_schema "users/create"}
       it { expect(response.body).to be_json_eql(attr[:email].to_json)
                                    .at_path("user/email") }
       it { is_expected.to respond_with 201 }
@@ -78,6 +80,7 @@ describe Api::V1::UsersController do
     context "params valid" do
       let(:new_attr)    {FactoryGirl.attributes_for :user}
       before(:each) {put :update, {id: user.id, user: new_attr}}
+      it {should match_response_schema "users/update"}
       it { expect(response.body).to be_json_eql(new_attr[:email].to_json)
                                    .at_path("user/email") }
       it { is_expected.to respond_with 200}
