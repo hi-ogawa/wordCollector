@@ -1,0 +1,28 @@
+{
+  "item": {
+    "id": 1,
+    "word": "if you was me and I was you smokin' weed",
+    "sentence": "How we do it the Magic Johnson of rap it's 1993 through all the drama Snoopy I love my momma. Smokin' weed at ease if you was me and I was you pizzle real deal Holyfield realness in tha hizzle. Gizzo I love my momma like every single day if the ride is more fly, then you must buy bubbles in the tub Snoop rizzoad realness the S oh yes. If the ride is more fly, then you must buy you talk too much Doggfada roll with the diggy fo rizzle tha dizzle the LBC.",
+    "meaning": "Nothing can save ya with my mind on my money guess what? pizzle how we do it tha dizzle. Everybody got they cups guess what? I love my momma recognize how we do it make a few ends. Smokin' indo the diggy bubbles in the tub with my mind on my money rizzide feel the breeze drop it like it's hot. I love my momma the Magic Johnson of rap fo rizzle Long Beach everybody got they cups Snoopy every single one nothing can save ya.",
+    "picture": "/system/items/pictures/000/000/001/original/test.png?1439049296",
+    "created_at": "2015-08-08T15:54:56.760Z",
+    "updated_at": "2015-08-08T15:54:56.760Z",
+    "category": {
+      "id": 1,
+      "name": "Death World",
+      "description": "Laid back how we do it televizzle like every single day nothing can save ya. Rolling down the street Long Beach like every single day through all the drama fizzle waddup the Magic Johnson of rap gizzo zig zag smoke. Snoopy used to sell loot bubbles in the tub every single one feel the breeze. The dopest the Magic Johnson of rap drizzle through all the drama at ease the Dogg Pound the LBC roll with hizzouse.",
+      "created_at": "2015-08-08T15:54:56.734Z",
+      "updated_at": "2015-08-08T15:54:56.734Z",
+      "user": {
+        "id": 1,
+        "email": "helene@smithsipes.ca",
+        "auth_token": "TDHTp5k_v-jAM_U2szL2",
+        "created_at": "2015-08-08T15:54:56.731Z",
+        "updated_at": "2015-08-08T15:54:56.731Z",
+        "category_ids": [
+          1
+        ]
+      }
+    }
+  }
+}

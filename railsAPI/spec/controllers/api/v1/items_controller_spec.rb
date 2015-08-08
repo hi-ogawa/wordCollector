@@ -10,14 +10,14 @@ describe Api::V1::ItemsController do
   describe "GET #index" do
     before(:each) { 3.times {FactoryGirl.create :item, category: category} }
     before(:each) { get :index }
-    it {should match_response_schema "items_index"}
+    it {should match_response_schema "items/index"}
     it { should have_http_status 200 }
   end
   
   describe "GET #show" do
     context "with existing item id" do
       before(:each) { get :show, {id: item.id} }
-      it {should match_response_schema "items_show"}
+      it {should match_response_schema "items/show"}
       it {should have_http_status 200}
     end
     context "with not-existing item id" do
@@ -33,7 +33,7 @@ describe Api::V1::ItemsController do
       context "with existing category_id" do
         context "with valid item params" do
           before(:each) { post :create, {category_id: category.id, item: item_attr} }
-          it {should match_response_schema "items_create"}
+          it {should match_response_schema "items/create"}
           it {should have_http_status 201}
         end
 
@@ -61,7 +61,7 @@ describe Api::V1::ItemsController do
       context "with existing category_id" do
         context "with valid item params" do
           before(:each) { put :update, {id: item.id, category_id: category.id, item: item_attr} }
-          it {should match_response_schema "items_update"}
+          it {should match_response_schema "items/update"}
           it {should have_http_status 200}
         end
         context "with invalid item params" do; it {skip}; end
