@@ -16,3 +16,6 @@
 /tmp
 
 *~
+
+# paperclip pictures
+/public/system
