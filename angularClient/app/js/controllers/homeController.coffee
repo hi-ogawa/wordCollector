@@ -1,4 +1,5 @@
 HomeController = ($rootScope) ->
+  @test = "HomeController is working"
   
 HomeController.$inject = ['$rootScope']
 

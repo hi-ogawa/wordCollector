@@ -2,7 +2,9 @@
 (function() {
   var HomeController;
 
-  HomeController = function($rootScope) {};
+  HomeController = function($rootScope) {
+    return this.test = "HomeController is working";
+  };
 
   HomeController.$inject = ['$rootScope'];
 
