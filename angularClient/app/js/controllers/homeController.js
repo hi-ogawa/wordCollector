@@ -2,11 +2,9 @@
 (function() {
   var HomeController;
 
-  HomeController = function($rootScope) {
-    return this.test = "HomeController is working";
-  };
+  HomeController = function() {};
 
-  HomeController.$inject = ['$rootScope'];
+  HomeController.$inject = [];
 
   angular.module("app").controller('HomeController', HomeController);
 

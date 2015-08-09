@@ -1,7 +1,7 @@
-HomeController = ($rootScope) ->
-  @test = "HomeController is working"
+HomeController = ->
+
   
-HomeController.$inject = ['$rootScope']
+HomeController.$inject = []
 
 
 angular.module("app")

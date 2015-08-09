@@ -2,9 +2,9 @@
 (function() {
   var LoginController;
 
-  LoginController = function($rootScope) {};
+  LoginController = function() {};
 
-  LoginController.$inject = ['$rootScope'];
+  LoginController.$inject = [];
 
   angular.module("app").controller('LoginController', LoginController);
 

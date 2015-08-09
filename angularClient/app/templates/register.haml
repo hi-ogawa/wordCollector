@@ -1,8 +1,7 @@
 %h3 Register
 
-{{ vm.error }}
-
-{{ form.$valid }}
+.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => '"alert-#{vm.flash.getStatus()}"'}
+  {{ vm.flash.getMessage() }}
 
 %form{name: "form", "ng-submit" => "vm.register()", novalidate: true}
   .form-group

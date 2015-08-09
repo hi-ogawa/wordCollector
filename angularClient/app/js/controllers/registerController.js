@@ -2,26 +2,33 @@
 (function() {
   var RegisterController;
 
-  RegisterController = function(UserService, $rootScope) {
-    var vm;
+  RegisterController = function(UserService, $location, FlashService) {
+    var onError, onSuccess, vm;
     vm = this;
+    vm.flash = FlashService;
     vm.user = {
       email: "hiogawa@hiogawa",
       password: "12345678",
       password_confirmation: "12345678"
     };
+    onSuccess = function(data) {
+      console.log(data);
+      FlashService.set("Registration successful", "success");
+      return $location.path("/login");
+    };
+    onError = function(err) {
+      console.log(err);
+      FlashService.set("Registration failed, please try again", "error");
+      vm.dataLoading = false;
+      return $location.path("/register");
+    };
     vm.register = function() {
-      var newUser;
-      newUser = UserService.create(vm.user);
-      return newUser.$promise.then((function(data) {
-        return console.log(data);
-      }), function(err) {
-        return console.log(err);
-      });
+      vm.dataLoading = true;
+      return UserService.create(vm.user, onSuccess, onError);
     };
   };
 
-  RegisterController.$inject = ["UserService", "$rootScope"];
+  RegisterController.$inject = ["UserService", "$location", "FlashService"];
 
   angular.module("app").controller("RegisterController", RegisterController);
 
