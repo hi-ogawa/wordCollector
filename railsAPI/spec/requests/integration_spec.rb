@@ -13,7 +13,7 @@ describe "-- integration API chain --" do
 
 
     puts "login (return auth_token)"
-    post "api/sessions", {session: {email: user_attr[:email], password: user_attr[:password]}}
+    post "api/sessions", {user: {email: user_attr[:email], password: user_attr[:password]}}
     should have_http_status 200
 
 
