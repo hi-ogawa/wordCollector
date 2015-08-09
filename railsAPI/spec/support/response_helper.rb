@@ -19,8 +19,8 @@ RSpec::Matchers.define :match_response_schema do |schema|
     example_path = "#{Rails.root}/spec/schemas/controllers/api/v1/#{schema}.ex.json"
     `cson2json #{cson_path} > #{json_path}`
     File.open(example_path, "w") do |f|
-      f.write JSON.pretty_generate(parse_json(response.body))
+      f.write JSON.pretty_generate(JSON.parse(response.body))
     end
-    JSON::Validator.validate!(json_path, parse_json(response.body), strict: true)
+    JSON::Validator.validate!(json_path, response.body, strict: true)
   end
 end

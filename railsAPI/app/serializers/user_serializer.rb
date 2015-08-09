@@ -1,5 +1,9 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :auth_token, :created_at, :updated_at
-  embed :ids
-  has_many :categories
+
+  # explicitly define by myself
+  attributes :category_ids
+  def category_ids
+    object.categories.map(&:id)
+  end
 end

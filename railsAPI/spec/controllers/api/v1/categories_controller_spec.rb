@@ -10,26 +10,13 @@ describe Api::V1::CategoriesController do
     let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
     before(:each) {get :index}
     it {should match_response_schema "categories/index"}
-    it { expect(response.body).to be_json_eql(categories.to_json)
-                                 .at_path("categories")
-                                 .excluding(:category_id, :user_id, :user)
-    }
+    it {should have_http_status 200}
   end
 
   describe "GET #show" do
     before { get :show, id: category.id }
     it {should match_response_schema "categories/show"}
-    it { expect(response.body).to be_json_eql(category.to_json)
-                                 .at_path("category")
-                                 .excluding(:user_id, :user)                          
-    }
-    it { expect(response.body).to be_json_eql(category.user.to_json)
-                                 .at_path("category/user")
-                                 .excluding(:category_ids)
-    }
-    it { expect(response.body).to be_json_eql(category.user.categories.map(&:id).to_json)
-                                 .at_path("category/user/category_ids")
-    }
+    it {should have_http_status 200}
   end
 
   describe "POST #create" do
@@ -41,29 +28,18 @@ describe Api::V1::CategoriesController do
       context "with valid params" do
         before(:each) {post :create, {category: valid_attr}}
         it {should match_response_schema "categories/create"}
-        it { expect(response.body).to be_json_eql(valid_attr.to_json)
-                                     .at_path("category")
-                                     .excluding(:id, :created_at, :updated_at, :user)
-        }
-        it { expect(response.body).to be_json_eql(user.to_json)
-                                     .at_path("category/user")
-                                     .excluding(:category_ids)
-        }
-        it { is_expected.to respond_with 201 }
+        it {should have_http_status 201}
       end
 
       context "with invalid params" do
         before {post :create, {category: invalid_attr}}
-        it { expect(response.body).to be_json_eql(["can't be nil"].to_json)
-                                     .at_path("errors/description") 
-        }
-        it { is_expected.to respond_with 422 }
+        it {should have_http_status 422}
       end
     end
 
     context "without a proper authentication token" do
       before(:each) {post :create, {category: valid_attr}}
-      it { is_expected.to respond_with 401 }
+      it {should have_http_status 401}
     end
   end
 
@@ -76,24 +52,16 @@ describe Api::V1::CategoriesController do
       context "with valid params" do
         before(:each) {put :update, {id: category.id, category: valid_attr}}
         it {should match_response_schema "categories/update"}
-        it { expect(response.body).to be_json_eql(valid_attr.to_json)
-                                     .at_path("category")
-                                     .excluding(:id, :created_at, :updated_at, :user)
-        }
-        it { expect(response.body).to be_json_eql(user.to_json)
-                                     .at_path("category/user")
-                                     .excluding(:category_ids)
-        }
-        it { is_expected.to respond_with 200 }
+        it {should have_http_status 200}
       end
       context "with invalid params" do
         before(:each) { put :update, {id: category.id, category: invalid_attr} }
-        it { is_expected.to respond_with 422 }
+        it {should have_http_status 422}
       end
     end
     context "with non-exist category id" do
       before(:each) { put :update, {id: 1234, category: valid_attr} }
-      it { is_expected.to respond_with 404 }
+      it {should have_http_status 404}
     end
   end
 
@@ -102,7 +70,7 @@ describe Api::V1::CategoriesController do
       header_authorization user.auth_token
       delete :destroy, id: category.id
     end
-    it { is_expected.to respond_with 204 }
+    it {should have_http_status 204}
   end
   
 end

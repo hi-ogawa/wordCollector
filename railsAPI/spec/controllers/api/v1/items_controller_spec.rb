@@ -37,7 +37,7 @@ describe Api::V1::ItemsController do
           it {should have_http_status 201}
         end
 
-        context "with invalid item params" do; it {skip}; end
+        # context "with invalid item params" do; it {skip}; end
       end
 
       context "with non-existing category_id" do
@@ -51,7 +51,7 @@ describe Api::V1::ItemsController do
       end
     end
 
-    context "without valid auth token" do; it {skip}; end
+    # context "without valid auth token" do; it {skip}; end
   end
 
 
@@ -64,11 +64,11 @@ describe Api::V1::ItemsController do
           it {should match_response_schema "items/update"}
           it {should have_http_status 200}
         end
-        context "with invalid item params" do; it {skip}; end
+        # context "with invalid item params" do; it {skip}; end
       end
-      context "with non-existing category_id" do; it {skip}; end
+      # context "with non-existing category_id" do; it {skip}; end
     end
-    context "without valid auth token" do; it {skip}; end
+    # context "without valid auth token" do; it {skip}; end
   end
 
   describe "DELETE #destroy" do
@@ -78,7 +78,7 @@ describe Api::V1::ItemsController do
         before(:each) { delete :destroy, {id: item.id, category_id: category.id} }
         it {should have_http_status 204}
       end
-      context "with non-existing item id" do; it {skip}; end
+      # context "with non-existing item id" do; it {skip}; end
     end    
   end
 end

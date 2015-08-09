@@ -17,17 +17,11 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 
-JsonSpec.configure do
-  exclude_keys
-end
-
 RSpec.configure do |config|
 
-  config.include JsonSpec::Helpers
   config.include Request::HeaderHelpers, type: :controller
   config.include Request::AuthHelpers, type: :controller
 
-  # config.include Devise::TestHelpers, type: :controller
 
   # ## Mock Framework
   #
