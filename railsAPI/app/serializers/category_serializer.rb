@@ -3,8 +3,8 @@ class CategorySerializer < ActiveModel::Serializer
 
   has_one :user
 
-  # attributes :item_ids
-  # def item_ids
-  #   object.items.map(&:id)
-  # end
+  attributes :item_ids
+  def item_ids
+    object.items.map(&:id)
+  end
 end

@@ -19,6 +19,10 @@ category:
     created_at:  {type: "date-time"}
     updated_at:  {type: "date-time"}
     user:        {$ref: "#/user"}
+    item_ids:
+      type: "array"
+      items:
+        type: "integer"
 
 item:
   type: "object"

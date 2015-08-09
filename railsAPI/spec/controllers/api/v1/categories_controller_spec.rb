@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Api::V1::CategoriesController do
 
-  let(:user)     { FactoryGirl.create :user }
-  let(:category) { FactoryGirl.create :category, user: user }
-  let(:items)    { 3.times.map {FactoryGirl.create :item, category: category} }
+  let!(:user)     { FactoryGirl.create :user }
+  let!(:category) { FactoryGirl.create :category, user: user }
+  let!(:items)    { 3.times.map {FactoryGirl.create :item, category: category} }
 
   describe "GET #index" do
     let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }

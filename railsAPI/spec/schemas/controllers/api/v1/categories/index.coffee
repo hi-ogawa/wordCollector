@@ -2,7 +2,7 @@ type: "object"
 properties:
   categories:
     type: "array"
-    minItems: 3
-    maxItems: 3
+    minItems: 4
+    maxItems: 4
     items:
       $ref: "../definitions.json#/category"
