@@ -16,13 +16,20 @@
         category_ids: []
       };
     };
-    return $httpBackend.whenPOST('/api/users').respond(function(method, url, data) {
+    $httpBackend.whenPOST('/api/users').respond(function(method, url, data) {
       var user;
       user = angular.fromJson(data);
-      console.log("-- mock backend --");
+      console.log("-- mock backend: /api/users --");
       console.log(user);
       users.push(user);
       return [201, mockResponse(user.email)];
+    });
+    return $httpBackend.whenPOST('/api/sessions').respond(function(method, url, data) {
+      var user;
+      user = angular.fromJson(data);
+      console.log("-- mock backend: /api/sessions --");
+      console.log(user);
+      return [200, mockResponse(user.email)];
     });
   };
 

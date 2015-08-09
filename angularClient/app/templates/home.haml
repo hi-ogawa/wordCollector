@@ -1,3 +1,4 @@
 %h3 You're logged in.
 
-{{ vm.test }}
+.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
+  {{ vm.flash.getMessage() }}

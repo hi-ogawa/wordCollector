@@ -1,4 +1,4 @@
-LoginController = (UserService, $location, FlashService) ->
+LoginController = (AuthService, $location, FlashService) ->
   vm = @
 
   vm.flash = FlashService
@@ -8,9 +8,10 @@ LoginController = (UserService, $location, FlashService) ->
     password: "12345678"
 
   onSuccess = (data) ->
-    console.log data
+    console.log data.auth_token
     FlashService.set("Login successful", "success")
-    $location.path "/home"
+    $location.path "/"
+    console.log 
 
   onError   = (err) ->
     console.log err
@@ -18,9 +19,9 @@ LoginController = (UserService, $location, FlashService) ->
     vm.dataLoading = false
     FlashService.apply()
     
-  vm.register = ->
+  vm.login = ->
     vm.dataLoading = true
-    UserService.create(vm.user, onSuccess, onError)
+    AuthService.create(vm.user, onSuccess, onError)
 
   return
 LoginController.$inject = ["AuthService", "$location", "FlashService"]

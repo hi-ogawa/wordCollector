@@ -2,7 +2,7 @@
 (function() {
   var LoginController;
 
-  LoginController = function(UserService, $location, FlashService) {
+  LoginController = function(AuthService, $location, FlashService) {
     var onError, onSuccess, vm;
     vm = this;
     vm.flash = FlashService;
@@ -11,9 +11,10 @@
       password: "12345678"
     };
     onSuccess = function(data) {
-      console.log(data);
+      console.log(data.auth_token);
       FlashService.set("Login successful", "success");
-      return $location.path("/home");
+      $location.path("/");
+      return console.log;
     };
     onError = function(err) {
       console.log(err);
@@ -21,9 +22,9 @@
       vm.dataLoading = false;
       return FlashService.apply();
     };
-    vm.register = function() {
+    vm.login = function() {
       vm.dataLoading = true;
-      return UserService.create(vm.user, onSuccess, onError);
+      return AuthService.create(vm.user, onSuccess, onError);
     };
   };
 

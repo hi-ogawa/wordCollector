@@ -13,10 +13,16 @@ run = ($httpBackend) ->
 
   $httpBackend.whenPOST('/api/users').respond (method, url, data) ->
     user = angular.fromJson data
-    console.log "-- mock backend --"
+    console.log "-- mock backend: /api/users --"
     console.log user
     users.push user
     return [201, mockResponse(user.email)]
+
+  $httpBackend.whenPOST('/api/sessions').respond (method, url, data) ->
+    user = angular.fromJson data
+    console.log "-- mock backend: /api/sessions --"
+    console.log user
+    return [200, mockResponse(user.email)]
 
 
 run.$inject = ["$httpBackend"]

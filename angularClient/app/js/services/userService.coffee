@@ -5,7 +5,6 @@ UserService = (AuthService, $resource) ->
       update:  {method: "PUT"   , headers: {"Authorization": AuthService.token}}
       destroy: {method: "DELETE", headers: {"Authorization": AuthService.token}}
 
-
 UserService.$inject = ["AuthService", "$resource"]
 angular.module("app")
        .factory "UserService", UserService

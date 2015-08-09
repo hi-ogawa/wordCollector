@@ -1,2 +1,4 @@
 <h3>You're logged in.</h3>
-{{ vm.test }}
+<div class='alert' ng-class="'alert-' + vm.flash.getStatus()" ng-if='vm.flash.getStatus()'>
+  {{ vm.flash.getMessage() }}
+</div>
