@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe "API version routing" do
 
-  let(:v1) { {"HTTP_ACCEPT" => "application/vnd.railsAPI.v1"} }
-  let(:v2) { {"HTTP_ACCEPT" => "application/vnd.railsAPI.v2"} }
+  let(:v1) { {"Accept" => "application/vnd.railsAPI.v1"} }
+  let(:v2) { {"Accept" => "application/vnd.railsAPI.v2"} }
 
   context "without version on header" do
     before(:each) {get "api/items", {}}
