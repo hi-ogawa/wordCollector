@@ -6,25 +6,24 @@ LoginController = (UserService, $location, FlashService) ->
   vm.user =
     email: "hiogawa@hiogawa"
     password: "12345678"
-    password_confirmation: "12345678"
 
   onSuccess = (data) ->
     console.log data
-    FlashService.set("Registration successful", "success")
-    $location.path "/login"
+    FlashService.set("Login successful", "success")
+    $location.path "/home"
 
   onError   = (err) ->
     console.log err
-    FlashService.set("Registration failed, please try again", "error")
+    FlashService.set("Login failed, please try again", "danger")
     vm.dataLoading = false
-    $location.path "/register"
+    FlashService.apply()
     
   vm.register = ->
     vm.dataLoading = true
     UserService.create(vm.user, onSuccess, onError)
 
   return
-LoginController.$inject = ["UserService", "$location", "FlashService"]
+LoginController.$inject = ["AuthService", "$location", "FlashService"]
 angular.module("app")
        .controller 'LoginController', LoginController
 

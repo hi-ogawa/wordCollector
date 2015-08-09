@@ -3,17 +3,19 @@
   var FlashService;
 
   FlashService = function($rootScope) {
-    var currentMassage, currentStatus, keepedMessage, keepedStatue, service;
-    currentMassage = "";
+    var apply, currentMessage, currentStatus, keepedMessage, keepedStatus, service;
+    currentMessage = "";
     currentStatus = "";
     keepedMessage = "";
-    keepedStatue = "";
-    $rootScope.$on("$routeChangeSuccess", function() {
-      var currentMessage, keepedStatus;
+    keepedStatus = "";
+    apply = function() {
       currentMessage = keepedMessage;
       currentStatus = keepedStatus;
       keepedMessage = "";
-      return keepedStatus = "none";
+      return keepedStatus = "";
+    };
+    $rootScope.$on("$routeChangeSuccess", function() {
+      return apply();
     });
     service = {
       getStatus: function() {
@@ -24,8 +26,9 @@
       },
       set: function(message, status) {
         keepedMessage = message;
-        return keepedStatue = status;
-      }
+        return keepedStatus = status;
+      },
+      apply: apply
     };
     return service;
   };

@@ -1,15 +1,17 @@
 FlashService = ($rootScope) ->
-  currentMassage = ""
+  currentMessage = ""
   currentStatus = "" # this could be used as a bootstrap alert class (e.g. success, danger)
   keepedMessage = ""
-  keepedStatue  = ""
+  keepedStatus  = ""
 
-  
-  $rootScope.$on "$routeChangeSuccess", ->
+  apply = ->
     currentMessage = keepedMessage
     currentStatus = keepedStatus
     keepedMessage = ""
-    keepedStatus  = "none"
+    keepedStatus  = ""
+
+  $rootScope.$on "$routeChangeSuccess", -> apply()
+    
 
   service =
     getStatus: ->
@@ -20,7 +22,9 @@ FlashService = ($rootScope) ->
 
     set: (message, status) ->
       keepedMessage = message
-      keepedStatue  = status
+      keepedStatus = status
+
+    apply: apply
 
   return service
 FlashService.$inject = ["$rootScope"]

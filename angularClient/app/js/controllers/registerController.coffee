@@ -15,9 +15,9 @@ RegisterController = (UserService, $location, FlashService) ->
 
   onError   = (err) ->
     console.log err
-    FlashService.set("Registration failed, please try again", "error")
+    FlashService.set("Registration failed, please try again", "danger")
     vm.dataLoading = false
-    $location.path "/register"
+    FlashService.apply()
     
   vm.register = ->
     vm.dataLoading = true

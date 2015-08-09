@@ -1,3 +1,21 @@
 %h3 Login
 
-{{ vm.test }}
+.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
+  {{ vm.flash.getMessage() }}
+
+%form{name: "form", "ng-submit" => "vm.login()", novalidate: true}
+  .form-group
+    %label Email address
+    %input.form-control{"ng-model" => "vm.user.email", required: true, type: "email"}
+
+  .form-group
+    %label Password
+    %input.form-control{"ng-model" => "vm.user.password",
+                        required: true, minlength: "8", type: "password"}
+
+  .form-actions
+    %button.btn.btn-primary{type: "submit",
+                           "ng-disabled"=> "form.$invalid || vm.dataLoading"}
+      Login
+    %a.btn.btn-link{href: "#/register"} Register
+    %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}

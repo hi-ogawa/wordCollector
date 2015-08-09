@@ -2,9 +2,32 @@
 (function() {
   var LoginController;
 
-  LoginController = function() {};
+  LoginController = function(UserService, $location, FlashService) {
+    var onError, onSuccess, vm;
+    vm = this;
+    vm.flash = FlashService;
+    vm.user = {
+      email: "hiogawa@hiogawa",
+      password: "12345678"
+    };
+    onSuccess = function(data) {
+      console.log(data);
+      FlashService.set("Login successful", "success");
+      return $location.path("/home");
+    };
+    onError = function(err) {
+      console.log(err);
+      FlashService.set("Login failed, please try again", "danger");
+      vm.dataLoading = false;
+      return FlashService.apply();
+    };
+    vm.register = function() {
+      vm.dataLoading = true;
+      return UserService.create(vm.user, onSuccess, onError);
+    };
+  };
 
-  LoginController.$inject = [];
+  LoginController.$inject = ["AuthService", "$location", "FlashService"];
 
   angular.module("app").controller('LoginController', LoginController);
 

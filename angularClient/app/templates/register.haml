@@ -1,6 +1,6 @@
 %h3 Register
 
-.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => '"alert-#{vm.flash.getStatus()}"'}
+.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
   {{ vm.flash.getMessage() }}
 
 %form{name: "form", "ng-submit" => "vm.register()", novalidate: true}
@@ -22,5 +22,5 @@
     %button.btn.btn-primary{type: "submit",
                            "ng-disabled"=> "form.$invalid || vm.dataLoading || vm.user.password != vm.user.password_confirmation"}
       Register
+    %a.btn.btn-link{href: "#/login"} Login
     %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
-    %button.btn.btn-link{href: "#/login"} Login

@@ -18,9 +18,9 @@
     };
     onError = function(err) {
       console.log(err);
-      FlashService.set("Registration failed, please try again", "error");
+      FlashService.set("Registration failed, please try again", "danger");
       vm.dataLoading = false;
-      return $location.path("/register");
+      return FlashService.apply();
     };
     vm.register = function() {
       vm.dataLoading = true;
