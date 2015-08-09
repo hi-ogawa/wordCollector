@@ -1,1 +1,1 @@
-mainApp = angular.module 'mainApp', []
+angular.module 'app', ['ngRoute', 'ngCookies']
