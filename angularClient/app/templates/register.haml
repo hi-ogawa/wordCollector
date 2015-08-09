@@ -20,8 +20,8 @@
                         required: true, type: "password"}
 
   .form-actions
-    %a.btn.btn-primary{type: "submit",
-                       "ng-disabled"=> "form.$invalid || vm.dataLoading || vm.user.password != vm.user.password_confirmation"}
+    %button.btn.btn-primary{type: "submit",
+                           "ng-disabled"=> "form.$invalid || vm.dataLoading || vm.user.password != vm.user.password_confirmation"}
       Register
     %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
-    %a.btn.btn-link{href: "#/login"} Login
+    %button.btn.btn-link{href: "#/login"} Login

@@ -2,12 +2,27 @@
 (function() {
   var RegisterController;
 
-  RegisterController = function($rootScope) {
-    return this.test = "RegisterController is working";
+  RegisterController = function(UserService, $rootScope) {
+    var vm;
+    vm = this;
+    vm.user = {
+      email: "hiogawa@hiogawa",
+      password: "12345678",
+      password_confirmation: "12345678"
+    };
+    vm.register = function() {
+      var newUser;
+      newUser = UserService.create(vm.user);
+      return newUser.$promise.then((function(data) {
+        return console.log(data);
+      }), function(err) {
+        return console.log(err);
+      });
+    };
   };
 
-  RegisterController.$inject = ['$rootScope'];
+  RegisterController.$inject = ["UserService", "$rootScope"];
 
-  angular.module("app").controller('RegisterController', RegisterController);
+  angular.module("app").controller("RegisterController", RegisterController);
 
 }).call(this);
