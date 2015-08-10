@@ -3,7 +3,8 @@ class Api::V1::SessionsController < ApplicationController
   def create
     user_info = params.require(:user).permit(:email, :password)
     user = user_info[:email].present? && User.find_by(email: user_info[:email])
-    
+
+    return head :not_found unless user
     if user.valid_password?(user_info[:password])
       render json: user, status: :ok
     else
