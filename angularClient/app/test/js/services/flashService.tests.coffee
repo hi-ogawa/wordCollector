@@ -1,7 +1,6 @@
 describe "FlashService", ->
 
-  FlashService = null
-  $rootScope = null
+  FlashService = $rootScope = null
 
   beforeEach module "app"
   beforeEach inject (_FlashService_, _$rootScope_) ->

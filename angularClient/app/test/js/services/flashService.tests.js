@@ -2,8 +2,7 @@
 (function() {
   describe("FlashService", function() {
     var $rootScope, FlashService;
-    FlashService = null;
-    $rootScope = null;
+    FlashService = $rootScope = null;
     beforeEach(module("app"));
     beforeEach(inject(function(_FlashService_, _$rootScope_) {
       FlashService = _FlashService_;
