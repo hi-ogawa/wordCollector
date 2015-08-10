@@ -1,8 +1,7 @@
-<h3>You're logged in.</h3>
+<h3>You're logged in. ({{ vm.auth.getSession().email }})</h3>
 <div class='alert' ng-class="'alert-' + vm.flash.getStatus()" ng-if='vm.flash.getStatus()'>
   {{ vm.flash.getMessage() }}
 </div>
-<a class='btn btn-link' ng-click='vm.show()'>Show account</a>
 <a class='btn btn-link' href='#/update'>Edit account</a>
 <a class='btn btn-link' ng-click='vm.delete()'>Delete account</a>
 <a class='btn btn-link' ng-click='vm.logout()'>Logout</a>

@@ -10,6 +10,7 @@ AuthService = ($resource, $cookieStore) ->
       r.create(user).$promise.then (data) ->
         session =
           userId: data.id
+          email:  data.email
           token:  data.auth_token
         $cookieStore.put("session", session)
 

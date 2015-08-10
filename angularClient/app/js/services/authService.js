@@ -20,6 +20,7 @@
         return r.create(user).$promise.then(function(data) {
           session = {
             userId: data.id,
+            email: data.email,
             token: data.auth_token
           };
           return $cookieStore.put("session", session);

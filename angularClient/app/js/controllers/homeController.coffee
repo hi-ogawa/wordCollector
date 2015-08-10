@@ -1,9 +1,7 @@
 HomeController = (UserService, AuthService, $location, FlashService) ->
   vm = @
   vm.flash = FlashService
-
-  vm.show = ->
-
+  vm.auth = AuthService
 
   vm.delete = ->
     vm.dataLoading = true
