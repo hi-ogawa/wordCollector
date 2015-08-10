@@ -3,10 +3,10 @@
   var run;
 
   run = function($rootScope, $location, AuthService) {
-    var restrictedPages;
-    restrictedPages = ["/"];
+    var publicPages;
+    publicPages = ["/login", "/register"];
     return $rootScope.$on("$locationChangeStart", function(event, next, current) {
-      if (!AuthService.getSession() && restrictedPages.indexOf($location.path()) !== -1) {
+      if (!AuthService.getSession() && publicPages.indexOf($location.path()) === -1) {
         return $location.path("/login");
       }
     });

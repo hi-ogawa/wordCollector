@@ -1,25 +1,4 @@
 <h3>Register</h3>
-<div class='alert' ng-class="'alert-' + vm.flash.getStatus()" ng-if='vm.flash.getStatus()'>
-  {{ vm.flash.getMessage() }}
-</div>
-<form name='form' ng-submit='vm.register()' novalidate>
-  <div class='form-group'>
-    <label>Email address</label>
-    <input class='form-control' ng-model='vm.user.email' required type='email'>
-  </div>
-  <div class='form-group'>
-    <label>Password (longer than 8 characters)</label>
-    <input class='form-control' minlength='8' ng-model='vm.user.password' required type='password'>
-  </div>
-  <div class='form-group'>
-    <label>Password Confirmation</label>
-    <input class='form-control' ng-model='vm.user.password_confirmation' required type='password'>
-  </div>
-  <div class='form-actions'>
-    <button class='btn btn-primary' ng-disabled='form.$invalid || vm.dataLoading || vm.user.password != vm.user.password_confirmation' type='submit'>
-      Register
-    </button>
-    <a class='btn btn-link' href='#/login'>Login</a>
-    <i class='fa fa-spinner fa-spin' ng-if='vm.dataLoading'></i>
-  </div>
-</form>
+<ng-include src="'templates/form.html'"></ng-include>
+<br>
+<a class='btn btn-default' href='#/login'>Login</a>

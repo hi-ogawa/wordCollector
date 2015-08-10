@@ -10,6 +10,8 @@ UserService = (AuthService, $resource) ->
 
         update:
           method: "PUT"
+          params:
+            userId: -> AuthService.getSession().userId
           headers:
             Authorization: -> AuthService.getSession().token
 

@@ -18,8 +18,15 @@ run = ($httpBackend) ->
     users.push user
     return [201, mockResponse(user.email)]
 
+  $httpBackend.whenPUT(/\/api\/users\/.*/).respond (method, url, data, headers) ->
+    console.log "-- mock backend: PUT /api/users --"
+    console.log url
+    console.log headers
+    console.log data
+    return [200]
+
   $httpBackend.whenDELETE(/\/api\/users\/.*/).respond (method, url, data, headers) ->
-    console.log "-- mock backend: DELETE /api/sessions --"
+    console.log "-- mock backend: DELETE /api/users --"
     console.log url
     console.log headers
     return [204]

@@ -8,7 +8,7 @@ RegisterController = (UserService, $location, FlashService) ->
     password: "12345678"
     password_confirmation: "12345678"
 
-  vm.register = ->
+  vm.submit = ->
     vm.dataLoading = true
     UserService.create(vm.user)
     .then ->

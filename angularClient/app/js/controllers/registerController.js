@@ -11,7 +11,7 @@
       password: "12345678",
       password_confirmation: "12345678"
     };
-    vm.register = function() {
+    vm.submit = function() {
       vm.dataLoading = true;
       return UserService.create(vm.user).then(function() {
         FlashService.set("Registration successful", "success");

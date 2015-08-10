@@ -1,9 +1,9 @@
 run = ($rootScope, $location, AuthService) ->
 
-  restrictedPages = ["/"]
+  publicPages = ["/login", "/register"]
 
   $rootScope.$on "$locationChangeStart", (event, next, current) ->
-    if !AuthService.getSession() and restrictedPages.indexOf($location.path()) isnt -1
+    if !AuthService.getSession() and publicPages.indexOf($location.path()) is -1
       $location.path "/login"
 
 

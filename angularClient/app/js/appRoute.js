@@ -15,6 +15,10 @@
       controller: "RegisterController",
       templateUrl: "templates/register.html",
       controllerAs: "vm"
+    }).when("/update", {
+      controller: "UpdateController",
+      templateUrl: "templates/update.html",
+      controllerAs: "vm"
     }).otherwise({
       redirectTo: "/login"
     });
