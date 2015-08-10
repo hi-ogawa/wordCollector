@@ -23,7 +23,7 @@ FlashService = ($rootScope) ->
       keepedMessage = message
       keepedStatus = status
 
-    apply: apply
+    apply: -> apply()
 
   return service
 FlashService.$inject = ["$rootScope"]

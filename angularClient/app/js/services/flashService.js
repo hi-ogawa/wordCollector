@@ -28,7 +28,9 @@
         keepedMessage = message;
         return keepedStatus = status;
       },
-      apply: apply
+      apply: function() {
+        return apply();
+      }
     };
     return service;
   };
