@@ -16,7 +16,7 @@
         FlashService.set("Login successful", "success");
         return $location.path("/");
       }, function() {
-        FlashService.set("Login failed, please try again", "danger");
+        FlashService.set("Login failed", "danger");
         vm.dataLoading = false;
         return FlashService.apply();
       });

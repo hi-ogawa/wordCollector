@@ -18,14 +18,22 @@ run = ($httpBackend) ->
     users.push user
     return [201, mockResponse(user.email)]
 
+  $httpBackend.whenDELETE(/\/api\/users\/.*/).respond (method, url, data, headers) ->
+    console.log "-- mock backend: DELETE /api/sessions --"
+    console.log url
+    console.log headers
+    return [204]
+
   $httpBackend.whenPOST('/api/sessions').respond (method, url, data) ->
     user = angular.fromJson data
     console.log "-- mock backend: POST /api/sessions --"
     console.log user
     return [200, mockResponse(user.email)]
 
-  $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond (method, url, data) ->
+  $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond (method, url, data, headers) ->
     console.log "-- mock backend: DELETE /api/sessions --"
+    console.log url
+    console.log headers
     return [204]
 
 

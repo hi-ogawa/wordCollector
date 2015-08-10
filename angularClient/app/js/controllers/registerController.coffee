@@ -15,7 +15,7 @@ RegisterController = (UserService, $location, FlashService) ->
       FlashService.set("Registration successful", "success")
       $location.path "/login"
     ,->
-      FlashService.set("Registration failed, please try again", "danger")
+      FlashService.set("Registration failed", "danger")
       vm.dataLoading = false
       FlashService.apply()
     

@@ -17,7 +17,7 @@
         FlashService.set("Registration successful", "success");
         return $location.path("/login");
       }, function() {
-        FlashService.set("Registration failed, please try again", "danger");
+        FlashService.set("Registration failed", "danger");
         vm.dataLoading = false;
         return FlashService.apply();
       });

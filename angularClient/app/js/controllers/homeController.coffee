@@ -4,9 +4,17 @@ HomeController = (UserService, AuthService, $location, FlashService) ->
 
   vm.show = ->
 
+
   vm.delete = ->
-
-
+    vm.dataLoading = true
+    UserService.destroy()
+    .then ->
+      FlashService.set("Account Deleted", "success")
+      $location.path "/register"
+    ,->
+      vm.dataLoading = false
+      FlashService.set("Account deletion failed", "danger")
+      FlashService.apply()
 
   vm.logout = ->
     vm.dataLoading = true
@@ -16,7 +24,7 @@ HomeController = (UserService, AuthService, $location, FlashService) ->
       $location.path "/login"
     ,->
       vm.dataLoading = false
-      FlashService.set("Logout failed, please try again", "danger")
+      FlashService.set("Logout failed", "danger")
       FlashService.apply()
 
   return  

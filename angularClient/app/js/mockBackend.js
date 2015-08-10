@@ -24,6 +24,12 @@
       users.push(user);
       return [201, mockResponse(user.email)];
     });
+    $httpBackend.whenDELETE(/\/api\/users\/.*/).respond(function(method, url, data, headers) {
+      console.log("-- mock backend: DELETE /api/sessions --");
+      console.log(url);
+      console.log(headers);
+      return [204];
+    });
     $httpBackend.whenPOST('/api/sessions').respond(function(method, url, data) {
       var user;
       user = angular.fromJson(data);
@@ -31,8 +37,10 @@
       console.log(user);
       return [200, mockResponse(user.email)];
     });
-    return $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond(function(method, url, data) {
+    return $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond(function(method, url, data, headers) {
       console.log("-- mock backend: DELETE /api/sessions --");
+      console.log(url);
+      console.log(headers);
       return [204];
     });
   };

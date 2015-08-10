@@ -7,7 +7,17 @@
     vm = this;
     vm.flash = FlashService;
     vm.show = function() {};
-    vm["delete"] = function() {};
+    vm["delete"] = function() {
+      vm.dataLoading = true;
+      return UserService.destroy().then(function() {
+        FlashService.set("Account Deleted", "success");
+        return $location.path("/register");
+      }, function() {
+        vm.dataLoading = false;
+        FlashService.set("Account deletion failed", "danger");
+        return FlashService.apply();
+      });
+    };
     vm.logout = function() {
       vm.dataLoading = true;
       return AuthService.logout().then(function() {
@@ -15,7 +25,7 @@
         return $location.path("/login");
       }, function() {
         vm.dataLoading = false;
-        FlashService.set("Logout failed, please try again", "danger");
+        FlashService.set("Logout failed", "danger");
         return FlashService.apply();
       });
     };

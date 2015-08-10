@@ -13,7 +13,7 @@ LoginController = (AuthService, $location, FlashService) ->
       FlashService.set "Login successful", "success"
       $location.path "/"
     ,->
-      FlashService.set "Login failed, please try again", "danger"
+      FlashService.set "Login failed", "danger"
       vm.dataLoading = false
       FlashService.apply()
 
