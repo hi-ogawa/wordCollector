@@ -3,11 +3,17 @@
   var UserService;
 
   UserService = function(AuthService, $resource) {
-    return $resource("/api/users/:userId", {
+    var r, service;
+    r = $resource("/api/users/:userId", {
       userId: "@id"
     }, {
       show: {
-        method: "GET"
+        method: "GET",
+        params: {
+          userId: function() {
+            return AuthService.getSession().userId;
+          }
+        }
       },
       create: {
         method: "POST"
@@ -15,16 +21,40 @@
       update: {
         method: "PUT",
         headers: {
-          "Authorization": AuthService.token
+          Authorization: function() {
+            return AuthService.getSession().token;
+          }
         }
       },
       destroy: {
         method: "DELETE",
+        params: {
+          userId: function() {
+            return AuthService.getSession().userId;
+          }
+        },
         headers: {
-          "Authorization": AuthService.token
+          Authorization: function() {
+            return AuthService.getSession().token;
+          }
         }
       }
     });
+    service = {
+      show: function() {
+        return r.show().$promise;
+      },
+      create: function(user) {
+        return r.create(user).$promise;
+      },
+      update: function(user) {
+        return r.update(user).$promise;
+      },
+      destroy: function() {
+        return r.destroy().$promise;
+      }
+    };
+    return service;
   };
 
   UserService.$inject = ["AuthService", "$resource"];

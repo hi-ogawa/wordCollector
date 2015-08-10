@@ -2,11 +2,17 @@
 (function() {
   var run;
 
-  run = function($rootScope, $location, $cookieStore, $http) {
-    return console.log("angularjs is running...");
+  run = function($rootScope, $location, AuthService) {
+    var restrictedPages;
+    restrictedPages = ["/"];
+    return $rootScope.$on("$locationChangeStart", function(event, next, current) {
+      if (!AuthService.getSession() && restrictedPages.indexOf($location.path()) !== -1) {
+        return $location.path("/login");
+      }
+    });
   };
 
-  run.$inject = ["$rootScope", "$location", "$cookieStore", "$http"];
+  run.$inject = ["$rootScope", "$location", "AuthService"];
 
   angular.module("app").run(run);
 

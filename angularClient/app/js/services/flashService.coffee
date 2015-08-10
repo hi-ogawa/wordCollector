@@ -12,7 +12,6 @@ FlashService = ($rootScope) ->
 
   $rootScope.$on "$routeChangeSuccess", -> apply()
     
-
   service =
     getStatus: ->
       currentStatus

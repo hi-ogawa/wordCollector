@@ -2,8 +2,9 @@
 (function() {
   var AuthService;
 
-  AuthService = function($resource) {
-    return $resource("/api/sessions/:token", {
+  AuthService = function($resource, $cookieStore) {
+    var r, service, session;
+    r = $resource("/api/sessions/:token", {
       token: "@id"
     }, {
       create: {
@@ -13,9 +14,33 @@
         method: "DELETE"
       }
     });
+    session = $cookieStore.get("session") || null;
+    service = {
+      login: function(user) {
+        return r.create(user).$promise.then(function(data) {
+          session = {
+            userId: data.id,
+            token: data.auth_token
+          };
+          return $cookieStore.put("session", session);
+        });
+      },
+      logout: function() {
+        return r.destroy({
+          token: session.token
+        }).$promise.then(function() {
+          session = null;
+          return $cookieStore.put("session", session);
+        });
+      },
+      getSession: function() {
+        return session;
+      }
+    };
+    return service;
   };
 
-  AuthService.$inject = ["$resource"];
+  AuthService.$inject = ["$resource", "$cookieStore"];
 
   angular.module("app").factory("AuthService", AuthService);
 

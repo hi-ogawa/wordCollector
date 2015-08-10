@@ -8,21 +8,18 @@ RegisterController = (UserService, $location, FlashService) ->
     password: "12345678"
     password_confirmation: "12345678"
 
-  onSuccess = (data) ->
-    console.log data
-    FlashService.set("Registration successful", "success")
-    $location.path "/login"
-
-  onError   = (err) ->
-    console.log err
-    FlashService.set("Registration failed, please try again", "danger")
-    vm.dataLoading = false
-    FlashService.apply()
-    
   vm.register = ->
     vm.dataLoading = true
-    UserService.create(vm.user, onSuccess, onError)
-
+    UserService.create(vm.user)
+    .then ->
+      FlashService.set("Registration successful", "success")
+      $location.path "/login"
+    ,->
+      FlashService.set("Registration failed, please try again", "danger")
+      vm.dataLoading = false
+      FlashService.apply()
+    
+    
   return
 RegisterController.$inject = ["UserService", "$location", "FlashService"]
 angular.module("app")

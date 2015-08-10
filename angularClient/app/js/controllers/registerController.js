@@ -3,7 +3,7 @@
   var RegisterController;
 
   RegisterController = function(UserService, $location, FlashService) {
-    var onError, onSuccess, vm;
+    var vm;
     vm = this;
     vm.flash = FlashService;
     vm.user = {
@@ -11,20 +11,16 @@
       password: "12345678",
       password_confirmation: "12345678"
     };
-    onSuccess = function(data) {
-      console.log(data);
-      FlashService.set("Registration successful", "success");
-      return $location.path("/login");
-    };
-    onError = function(err) {
-      console.log(err);
-      FlashService.set("Registration failed, please try again", "danger");
-      vm.dataLoading = false;
-      return FlashService.apply();
-    };
     vm.register = function() {
       vm.dataLoading = true;
-      return UserService.create(vm.user, onSuccess, onError);
+      return UserService.create(vm.user).then(function() {
+        FlashService.set("Registration successful", "success");
+        return $location.path("/login");
+      }, function() {
+        FlashService.set("Registration failed, please try again", "danger");
+        vm.dataLoading = false;
+        return FlashService.apply();
+      });
     };
   };
 

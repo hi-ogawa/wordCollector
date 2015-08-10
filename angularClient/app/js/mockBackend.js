@@ -24,12 +24,16 @@
       users.push(user);
       return [201, mockResponse(user.email)];
     });
-    return $httpBackend.whenPOST('/api/sessions').respond(function(method, url, data) {
+    $httpBackend.whenPOST('/api/sessions').respond(function(method, url, data) {
       var user;
       user = angular.fromJson(data);
-      console.log("-- mock backend: /api/sessions --");
+      console.log("-- mock backend: POST /api/sessions --");
       console.log(user);
       return [200, mockResponse(user.email)];
+    });
+    return $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond(function(method, url, data) {
+      console.log("-- mock backend: DELETE /api/sessions --");
+      return [204];
     });
   };
 

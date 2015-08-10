@@ -2,9 +2,26 @@
 (function() {
   var HomeController;
 
-  HomeController = function() {};
+  HomeController = function(UserService, AuthService, $location, FlashService) {
+    var vm;
+    vm = this;
+    vm.flash = FlashService;
+    vm.show = function() {};
+    vm["delete"] = function() {};
+    vm.logout = function() {
+      vm.dataLoading = true;
+      return AuthService.logout().then(function() {
+        FlashService.set("Logout successful", "success");
+        return $location.path("/login");
+      }, function() {
+        vm.dataLoading = false;
+        FlashService.set("Logout failed, please try again", "danger");
+        return FlashService.apply();
+      });
+    };
+  };
 
-  HomeController.$inject = [];
+  HomeController.$inject = ["UserService", "AuthService", "$location", "FlashService"];
 
   angular.module("app").controller('HomeController', HomeController);
 

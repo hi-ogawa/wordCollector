@@ -3,28 +3,23 @@
   var LoginController;
 
   LoginController = function(AuthService, $location, FlashService) {
-    var onError, onSuccess, vm;
+    var vm;
     vm = this;
     vm.flash = FlashService;
     vm.user = {
       email: "hiogawa@hiogawa",
       password: "12345678"
     };
-    onSuccess = function(data) {
-      console.log(data.auth_token);
-      FlashService.set("Login successful", "success");
-      $location.path("/");
-      return console.log;
-    };
-    onError = function(err) {
-      console.log(err);
-      FlashService.set("Login failed, please try again", "danger");
-      vm.dataLoading = false;
-      return FlashService.apply();
-    };
     vm.login = function() {
       vm.dataLoading = true;
-      return AuthService.create(vm.user, onSuccess, onError);
+      return AuthService.login(vm.user).then(function() {
+        FlashService.set("Login successful", "success");
+        return $location.path("/");
+      }, function() {
+        FlashService.set("Login failed, please try again", "danger");
+        vm.dataLoading = false;
+        return FlashService.apply();
+      });
     };
   };
 

@@ -20,9 +20,13 @@ run = ($httpBackend) ->
 
   $httpBackend.whenPOST('/api/sessions').respond (method, url, data) ->
     user = angular.fromJson data
-    console.log "-- mock backend: /api/sessions --"
+    console.log "-- mock backend: POST /api/sessions --"
     console.log user
     return [200, mockResponse(user.email)]
+
+  $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond (method, url, data) ->
+    console.log "-- mock backend: DELETE /api/sessions --"
+    return [204]
 
 
 run.$inject = ["$httpBackend"]
