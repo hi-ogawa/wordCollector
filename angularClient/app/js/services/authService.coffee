@@ -1,27 +1,27 @@
-AuthService = ($resource, $cookieStore) ->
+AuthService = ($resource, $cookies) ->
   r = $resource "/api/sessions/:token", {token: "@id"},
         create:  {method: "POST"}
         destroy: {method: "DELETE"}
 
-  session = $cookieStore.get("session") || null
+  session = $cookies.getObject("session") || null
 
   service =
     login: (user) ->
       r.create(user).$promise.then (data) ->
         session =
-          userId: data.id
-          email:  data.email
-          token:  data.auth_token
-        $cookieStore.put("session", session)
+          userId: data.user.id
+          email:  data.user.email
+          token:  data.user.auth_token
+        $cookies.putObject("session", session)
 
     logout: ->
       r.destroy({token: session.token}).$promise.then ->
         session = null
-        $cookieStore.put("session", session)
+        $cookies.putObject("session", session)
 
     getSession: -> session
 
   return service
-AuthService.$inject = ["$resource", "$cookieStore"]
+AuthService.$inject = ["$resource", "$cookies"]
 angular.module("app")
        .factory "AuthService", AuthService
