@@ -3,6 +3,8 @@ HomeController = (UserService, AuthService, $location, FlashService) ->
   vm.flash = FlashService
   vm.auth = AuthService
 
+  UserService.show().then (data) -> vm.displayedName = data.user.email
+
   vm.delete = ->
     vm.dataLoading = true
     UserService.destroy()

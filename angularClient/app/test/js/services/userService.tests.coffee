@@ -20,7 +20,7 @@ describe "UserService", ->
   beforeEach module ($provide) ->
     AuthService =
       getSession: ->
-        userId: 2
+        userId: 1
         token:  "sP3hoKN5-y-tRtagTf2B"
     $provide.value "AuthService", AuthService
     return
@@ -33,16 +33,32 @@ describe "UserService", ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
+  describe ".show", ->
+    it "", ->
+      $httpBackend.expectGET("/api/users/1", undefined, (headers) ->
+        headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
+      ).respond(response)
+      UserService.show()
+      $httpBackend.flush()
+
   describe ".create", ->
     it "", ->
-      $httpBackend.expectPOST("/api/users", userAttr).respond( -> [201])
+      $httpBackend.expectPOST("/api/users", userAttr).respond(response)
       UserService.create(userAttr)
       $httpBackend.flush()
 
   describe ".update", ->
     it "", ->
-      $httpBackend.expectPUT("/api/users/2", userAttr, (headers) ->
+      $httpBackend.expectPUT("/api/users/1", userAttr, (headers) ->
         headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
-      ).respond( -> [200])
+      ).respond(response)
       UserService.update(userAttr)
+      $httpBackend.flush()
+
+  describe ".delete", ->
+    it "", ->
+      $httpBackend.expectDELETE("/api/users/1", undefined, (headers) ->
+        headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
+      ).respond(response)
+      UserService.destroy()
       $httpBackend.flush()

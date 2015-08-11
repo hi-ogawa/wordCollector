@@ -25,7 +25,7 @@
       AuthService = {
         getSession: function() {
           return {
-            userId: 2,
+            userId: 1,
             token: "sP3hoKN5-y-tRtagTf2B"
           };
         }
@@ -40,23 +40,37 @@
       $httpBackend.verifyNoOutstandingExpectation();
       return $httpBackend.verifyNoOutstandingRequest();
     });
+    describe(".show", function() {
+      return it("", function() {
+        $httpBackend.expectGET("/api/users/1", void 0, function(headers) {
+          return headers["Authorization"] === "sP3hoKN5-y-tRtagTf2B";
+        }).respond(response);
+        UserService.show();
+        return $httpBackend.flush();
+      });
+    });
     describe(".create", function() {
       return it("", function() {
-        $httpBackend.expectPOST("/api/users", userAttr).respond(function() {
-          return [201];
-        });
+        $httpBackend.expectPOST("/api/users", userAttr).respond(response);
         UserService.create(userAttr);
         return $httpBackend.flush();
       });
     });
-    return describe(".update", function() {
+    describe(".update", function() {
       return it("", function() {
-        $httpBackend.expectPUT("/api/users/2", userAttr, function(headers) {
+        $httpBackend.expectPUT("/api/users/1", userAttr, function(headers) {
           return headers["Authorization"] === "sP3hoKN5-y-tRtagTf2B";
-        }).respond(function() {
-          return [200];
-        });
+        }).respond(response);
         UserService.update(userAttr);
+        return $httpBackend.flush();
+      });
+    });
+    return describe(".delete", function() {
+      return it("", function() {
+        $httpBackend.expectDELETE("/api/users/1", void 0, function(headers) {
+          return headers["Authorization"] === "sP3hoKN5-y-tRtagTf2B";
+        }).respond(response);
+        UserService.destroy();
         return $httpBackend.flush();
       });
     });

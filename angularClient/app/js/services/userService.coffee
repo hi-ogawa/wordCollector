@@ -4,6 +4,8 @@ UserService = (AuthService, $resource) ->
           method: "GET"
           params:
             userId: -> AuthService.getSession().userId
+          headers:
+            Authorization: -> AuthService.getSession().token
 
         create:
           method: "POST"

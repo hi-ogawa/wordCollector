@@ -3,50 +3,60 @@
   var run;
 
   run = function($httpBackend) {
-    var mockResponse, users;
+    var mockResponse;
     $httpBackend.whenGET(/templates\//).passThrough();
-    users = [];
     mockResponse = function(email) {
       return {
-        id: 1,
-        email: email,
-        auth_token: "sP3hoKN5-y-tRtagTf2B",
-        created_at: "2015-08-09T06:00:37.484Z",
-        updated_at: "2015-08-09T06:00:37.484Z",
-        category_ids: []
+        user: {
+          id: 1,
+          email: email,
+          auth_token: "sP3hoKN5-y-tRtagTf2B",
+          created_at: "2015-08-09T06:00:37.484Z",
+          updated_at: "2015-08-09T06:00:37.484Z",
+          category_ids: []
+        }
       };
     };
+    $httpBackend.whenGET(/\/api\/users\/.*/).respond(function(method, url, data, headers) {
+      console.log("-- mock backend: GET /api/users --");
+      console.log(url);
+      console.log(headers);
+      return [200, mockResponse("johndoe@john")];
+    });
     $httpBackend.whenPOST('/api/users').respond(function(method, url, data) {
       var user;
+      console.log("-- mock backend: POST /api/users --");
+      console.log(data);
       user = angular.fromJson(data);
-      console.log("-- mock backend: /api/users --");
-      console.log(user);
-      users.push(user);
       return [201, mockResponse(user.email)];
     });
     $httpBackend.whenPUT(/\/api\/users\/.*/).respond(function(method, url, data, headers) {
+      var user;
       console.log("-- mock backend: PUT /api/users --");
       console.log(url);
       console.log(headers);
       console.log(data);
-      return [200];
+      user = angular.fromJson(data);
+      return [200, mockResponse(user.email)];
     });
     $httpBackend.whenDELETE(/\/api\/users\/.*/).respond(function(method, url, data, headers) {
       console.log("-- mock backend: DELETE /api/users --");
       console.log(url);
       console.log(headers);
+      console.log(data);
       return [204];
     });
     $httpBackend.whenPOST('/api/sessions').respond(function(method, url, data) {
       var user;
-      user = angular.fromJson(data);
       console.log("-- mock backend: POST /api/sessions --");
-      console.log(user);
+      console.log(data);
+      user = angular.fromJson(data);
       return [200, mockResponse(user.email)];
     });
     return $httpBackend.whenDELETE(/\/api\/sessions\/.*/).respond(function(method, url, data, headers) {
       console.log("-- mock backend: DELETE /api/sessions --");
       console.log(url);
+      console.log(data);
       console.log(headers);
       return [204];
     });

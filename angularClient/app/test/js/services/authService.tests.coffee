@@ -37,7 +37,6 @@ describe "AuthService", ->
       $httpBackend.flush()
       expect(AuthService.getSession()).toEqual
         userId: 1
-        email:  "johndoe@john"
         token:  "sP3hoKN5-y-tRtagTf2B"
       $httpBackend.expectDELETE("/api/sessions/sP3hoKN5-y-tRtagTf2B").respond({})
       AuthService.logout()

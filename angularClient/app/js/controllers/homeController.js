@@ -7,6 +7,9 @@
     vm = this;
     vm.flash = FlashService;
     vm.auth = AuthService;
+    UserService.show().then(function(data) {
+      return vm.displayedName = data.user.email;
+    });
     vm["delete"] = function() {
       vm.dataLoading = true;
       return UserService.destroy().then(function() {

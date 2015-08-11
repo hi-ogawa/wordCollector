@@ -10,7 +10,6 @@ AuthService = ($resource, $cookies) ->
       r.create(user).$promise.then (data) ->
         session =
           userId: data.user.id
-          email:  data.user.email
           token:  data.user.auth_token
         $cookies.putObject("session", session)
 

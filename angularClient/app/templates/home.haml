@@ -1,4 +1,4 @@
-%h3 You're logged in. ({{ vm.auth.getSession().email }})
+%h3 You're logged in. ({{ vm.displayedName }})
 
 .alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
   {{ vm.flash.getMessage() }}

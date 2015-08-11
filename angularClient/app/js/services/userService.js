@@ -13,6 +13,11 @@
           userId: function() {
             return AuthService.getSession().userId;
           }
+        },
+        headers: {
+          Authorization: function() {
+            return AuthService.getSession().token;
+          }
         }
       },
       create: {
