@@ -5,7 +5,7 @@
   CategoryService = function(AuthService, $resource) {
     var r, service;
     r = $resource("/api/categories/:categoryId", {
-      categoryId: "@id"
+      categoryId: "@categoryId"
     }, {
       index: {
         method: "GET"

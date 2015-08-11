@@ -1,5 +1,5 @@
 CategoryService = (AuthService, $resource) ->
-  r = $resource "/api/categories/:categoryId", {categoryId: "@id"},
+  r = $resource "/api/categories/:categoryId", {categoryId: "@categoryId"},
         index:
           method: "GET"
 
