@@ -7,9 +7,8 @@ describe Api::V1::UsersController do
   let(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
 
   describe "GET #show" do
-    before(:each) do
-      get :show, id: user.id
-    end
+    before(:each) {header_authorization user.auth_token}
+    before(:each) {get :show, id: user.id}
     it {should match_response_schema "users/show"}
     it {should have_http_status 200}
   end
