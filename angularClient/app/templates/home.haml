@@ -3,6 +3,7 @@
 .alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
   {{ vm.flash.getMessage() }}
 
+%a.btn.btn-link{href: "#/category"}            Show categories
 %a.btn.btn-link{href: "#/update"}            Edit account
 %a.btn.btn-link{"ng-click" => "vm.delete()"} Delete account
 %a.btn.btn-link{"ng-click" => "vm.logout()"} Logout

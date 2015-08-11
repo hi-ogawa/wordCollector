@@ -20,6 +20,11 @@ config = ($routeProvider, $locationProvider) ->
         templateUrl: "templates/update.html"
         controllerAs: "vm"
 
+    .when "/category",
+        controller:  "CategoryController"
+        templateUrl: "templates/category.html"
+        controllerAs: "vm"
+
     .otherwise
         redirectTo: "/login"
 
