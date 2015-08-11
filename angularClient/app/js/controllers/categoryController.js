@@ -6,6 +6,7 @@
     var vm;
     vm = this;
     vm.test = "message from category controller";
+    vm.categories = CategoryService.index();
   };
 
   CategoryController.$inject = ["CategoryService", "UserService", "AuthService", "FlashService", "$location"];

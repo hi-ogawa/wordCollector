@@ -1,3 +1,7 @@
 %h3 Listing Categories
 
 {{ vm.test }}
+
+%ul
+  %li{"ng-repeat" => "category in vm.categories"}
+    {{category.name}}  

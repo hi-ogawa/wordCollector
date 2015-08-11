@@ -8,6 +8,8 @@ CategoryService = (AuthService, $resource) ->
 
         create:
           method: "POST"
+          headers:
+            Authorization: -> AuthService.getSession().token
 
         update:
           method: "PUT"
@@ -20,15 +22,23 @@ CategoryService = (AuthService, $resource) ->
             Authorization: -> AuthService.getSession().token
 
   service =
-    index: -> r.index().$promise
+    index: -> r.index()
 
-    # show: -> r.show().$promise
+    # show: -> r.show()
 
-    create:  (category) -> r.create(category).$promise
+    create:  (data) ->
+      r.create
+        category:
+          name:        data.category.name
+          description: data.category.description
 
-    update:  (category) -> r.update(category).$promise
+    update:  (data) ->
+      r.update
+        categoryId: data.category.id
 
-    destroy: -> r.destroy().$promise
+    destroy: (data) ->
+      r.destroy
+        categoryId: data.category.id
 
   return service
 CategoryService.$inject = ["AuthService", "$resource"]

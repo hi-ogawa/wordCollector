@@ -2,6 +2,8 @@ CategoryController = (CategoryService, UserService, AuthService, FlashService, $
   vm = @
 
   vm.test = "message from category controller"
+
+  vm.categories = CategoryService.index()
     
 
   return

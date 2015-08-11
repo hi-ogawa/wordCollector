@@ -1,2 +1,7 @@
 <h3>Listing Categories</h3>
 {{ vm.test }}
+<ul>
+  <li ng-repeat='category in vm.categories'>
+    {{category.name}}
+  </li>
+</ul>
