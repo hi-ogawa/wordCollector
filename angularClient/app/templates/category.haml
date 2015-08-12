@@ -1,53 +1,54 @@
-%h3 Listing Categories
-
-%table.table.table-striped
-  %thead
-    %tr
-      %th
-        Category Name
-        %span.badge.pull-right ?
-      %th Actions
-
-  %tbody
-    %tr{"ng-repeat" => "category in vm.categories"}
-      %td
-        {{ category.name }}
-        %span.badge.pull-right ?
-      %td
-        .btn-group
-          %a.btn.btn-info{"ng-href" => "#/category/{{category.id}}/item"}
-            Show items
-            %span.glyphicon.glyphicon-list-alt
-          %a.btn.btn-warning{"ng-click" => "vm.showForm(category)"}
-            Edit
-            %span.glyphicon.glyphicon-pencil
-          %a.btn.btn-danger{"ng-click" => "vm.deleteCategory(category)"}
-            Delete
-            %span.glyphicon.glyphicon-trash
-
-%a.btn.btn-success{"ng-click" => "vm.showForm()"}
-  %span.glyphicon.glyphicon-plus
-  New category
-
-%br
-%br
-
-.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
-  {{ vm.flash.getMessage() }}
-
-.category-form{"ng-show" => "vm.formOn"}
-  %form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}
-    %input.hide{"ng-model" => "vm.categoryForm.id"}
-    .form-group
-      %label Category name
-      %input.form-control{"ng-model" => "vm.categoryForm.name", required: true}
+.col-sm-8.col-sm-offset-2
+  %h3 Listing Categories
    
-    .form-group
-      %label Description
-      %input.form-control{"ng-model" => "vm.categoryForm.description"}
+  %table.table.table-striped
+    %thead
+      %tr
+        %th
+          Category Name
+          %span.badge.pull-right ?
+        %th Actions
    
-    .form-actions
-      %button.btn.btn-primary{type: "submit", "ng-disabled"=> "form.$invalid || vm.dataLoading"}
-        Submit
-      %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
+    %tbody
+      %tr{"ng-repeat" => "category in vm.categories"}
+        %td
+          {{ category.name }}
+          %span.badge.pull-right ?
+        %td
+          .btn-group
+            %a.btn.btn-info{"ng-href" => "#/category/{{category.id}}/item"}
+              Show items
+              %span.glyphicon.glyphicon-list-alt
+            %a.btn.btn-warning{"ng-click" => "vm.showForm(category)"}
+              Edit
+              %span.glyphicon.glyphicon-pencil
+            %a.btn.btn-danger{"ng-click" => "vm.deleteCategory(category)"}
+              Delete
+              %span.glyphicon.glyphicon-trash
+   
+  %a.btn.btn-success{"ng-click" => "vm.showForm()"}
+    %span.glyphicon.glyphicon-plus
+    New category
+   
+  %br
+  %br
+   
+  .alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
+    {{ vm.flash.getMessage() }}
+   
+  .category-form{"ng-show" => "vm.formOn"}
+    %form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}
+      %input.hide{"ng-model" => "vm.categoryForm.id"}
+      .form-group
+        %label Category name
+        %input.form-control{"ng-model" => "vm.categoryForm.name", required: true}
+     
+      .form-group
+        %label Description
+        %input.form-control{"ng-model" => "vm.categoryForm.description"}
+     
+      .form-actions
+        %button.btn.btn-primary{type: "submit", "ng-disabled"=> "form.$invalid || vm.dataLoading"}
+          Submit
+        %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
 
