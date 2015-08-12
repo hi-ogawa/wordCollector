@@ -11,10 +11,12 @@
   %tbody
     %tr{"ng-repeat" => "category in vm.categories"}
       %td
-        {{ category.name }} 
+        {{ category.name }}
+        -# %br
+        -# {{ category.description }} 
         %span.badge.pull-right ?
       %td
-        .btn-group.btn-group-sm
+        .btn-group
           %a.btn.btn-info{href: ""}
             Show items
             %span.glyphicon.glyphicon-list-alt

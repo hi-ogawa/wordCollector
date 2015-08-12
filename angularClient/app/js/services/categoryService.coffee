@@ -2,6 +2,8 @@ CategoryService = (AuthService, $resource) ->
   r = $resource "/api/categories/:categoryId", {categoryId: "@categoryId"},
         index:
           method: "GET"
+          transformResponse: (data) -> data.categories
+          isArray: true
 
         # show:
         #   method: "GET"

@@ -8,7 +8,11 @@
       categoryId: "@categoryId"
     }, {
       index: {
-        method: "GET"
+        method: "GET",
+        transformResponse: function(data) {
+          return data.categories;
+        },
+        isArray: true
       },
       create: {
         method: "POST",

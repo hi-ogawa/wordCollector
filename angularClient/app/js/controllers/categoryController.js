@@ -5,9 +5,7 @@
   CategoryController = function(CategoryService, UserService, AuthService, FlashService, $location) {
     var vm;
     vm = this;
-    CategoryService.index().$promise.then(function(data) {
-      return vm.categories = data.categories;
-    });
+    vm.categories = CategoryService.index();
   };
 
   CategoryController.$inject = ["CategoryService", "UserService", "AuthService", "FlashService", "$location"];
