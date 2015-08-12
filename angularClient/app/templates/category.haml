@@ -1,7 +1,34 @@
 %h3 Listing Categories
 
-{{ vm.test }}
+%table.table.table-striped
+  %thead
+    %tr
+      %th
+        Category Name
+        %span.badge.pull-right ?
+      %th Actions
 
-%ul
-  %li{"ng-repeat" => "category in vm.categories"}
-    {{category.name}}  
+  %tbody
+    %tr{"ng-repeat" => "category in vm.categories"}
+      %td
+        {{ category.name }} 
+        %span.badge.pull-right ?
+      %td
+        .btn-group.btn-group-sm
+          %a.btn.btn-info{href: ""}
+            Show items
+            %span.glyphicon.glyphicon-list-alt
+          %a.btn.btn-warning{href: ""}
+            Edit
+            %span.glyphicon.glyphicon-pencil
+          %a.btn.btn-danger{href: ""}
+            Delete
+            %span.glyphicon.glyphicon-trash
+
+.btn-group
+  %a.btn.btn-success{href: ""}
+    %span.glyphicon.glyphicon-plus
+    New category
+  %a.btn.btn-success{href: ""}
+    %span.glyphicon.glyphicon-plus
+    New item

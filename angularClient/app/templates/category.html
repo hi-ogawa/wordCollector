@@ -1,7 +1,46 @@
 <h3>Listing Categories</h3>
-{{ vm.test }}
-<ul>
-  <li ng-repeat='category in vm.categories'>
-    {{category.name}}
-  </li>
-</ul>
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th>
+        Category Name
+        <span class='badge pull-right'>?</span>
+      </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat='category in vm.categories'>
+      <td>
+        {{ category.name }}
+        <span class='badge pull-right'>?</span>
+      </td>
+      <td>
+        <div class='btn-group btn-group-sm'>
+          <a class='btn btn-info' href=''>
+            Show items
+            <span class='glyphicon glyphicon-list-alt'></span>
+          </a>
+          <a class='btn btn-warning' href=''>
+            Edit
+            <span class='glyphicon glyphicon-pencil'></span>
+          </a>
+          <a class='btn btn-danger' data-confirm='Are you sure?' href=''>
+            Delete
+            <span class='glyphicon glyphicon-trash'></span>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class='btn-group'>
+  <a class='btn btn-success' href=''>
+    <span class='glyphicon glyphicon-plus'></span>
+    New category
+  </a>
+  <a class='btn btn-success' href=''>
+    <span class='glyphicon glyphicon-plus'></span>
+    New item
+  </a>
+</div>

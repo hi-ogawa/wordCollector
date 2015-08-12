@@ -1,9 +1,8 @@
 CategoryController = (CategoryService, UserService, AuthService, FlashService, $location) ->
   vm = @
 
-  vm.test = "message from category controller"
-
-  vm.categories = CategoryService.index()
+  CategoryService.index().$promise
+  .then (data) -> vm.categories = data.categories
     
 
   return
