@@ -53,7 +53,11 @@
       },
       update: function(data) {
         return r.update({
-          categoryId: data.category.id
+          categoryId: data.category.id,
+          category: {
+            name: data.category.name,
+            description: data.category.description
+          }
         });
       },
       destroy: function(data) {

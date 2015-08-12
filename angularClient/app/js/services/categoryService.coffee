@@ -37,6 +37,9 @@ CategoryService = (AuthService, $resource) ->
     update:  (data) ->
       r.update
         categoryId: data.category.id
+        category:
+          name:        data.category.name
+          description: data.category.description
 
     destroy: (data) ->
       r.destroy

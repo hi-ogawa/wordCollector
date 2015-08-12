@@ -19,6 +19,12 @@ describe "CategoryService", ->
       		2
       	]
 
+  transformedRequest0 =
+    categoryId: 1
+    category:
+      name: "Electric Witch"
+      description: "With my mind on my money why is you real deal Holyfield Long Beach bubbles in the tub rizzide like every single day fizzle rolling down the street. Realness tha shiznit recognize smokin' indo guess what? nasty the diggy the dopest it's 1993. Rizzide the Magic Johnson of rap how we do it every single one plizzay nothing can save ya. Feel the breeze tha shiznit Snoop laid back plizzay used to sell loot the Dogg Pound put ya choppers up pizzle."
+
   response1 =
      categories: [
        {
