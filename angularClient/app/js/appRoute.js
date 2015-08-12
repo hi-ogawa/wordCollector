@@ -23,6 +23,10 @@
       controller: "CategoryController",
       templateUrl: "templates/category.html",
       controllerAs: "vm"
+    }).when("/category/:categoryId/item", {
+      controller: "ItemController",
+      templateUrl: "templates/item.html",
+      controllerAs: "vm"
     }).otherwise({
       redirectTo: "/login"
     });

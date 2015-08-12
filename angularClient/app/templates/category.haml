@@ -12,12 +12,10 @@
     %tr{"ng-repeat" => "category in vm.categories"}
       %td
         {{ category.name }}
-        -# %br
-        -# {{ category.description }} 
         %span.badge.pull-right ?
       %td
         .btn-group
-          %a.btn.btn-info{href: ""}
+          %a.btn.btn-info{"ng-href" => "#/category/{{category.id}}/item"}
             Show items
             %span.glyphicon.glyphicon-list-alt
           %a.btn.btn-warning{href: ""}
