@@ -2,13 +2,18 @@
 (function() {
   var ItemController;
 
-  ItemController = function(ItemService, AuthService, FlashService, $location) {
+  ItemController = function(ItemService, AuthService, FlashService, $location, $scope) {
     var vm;
     vm = this;
     vm.test = "item controller is working...";
+    $scope.$watch((function() {
+      return vm.myfile;
+    }), function(value) {
+      return console.log(value);
+    });
   };
 
-  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location"];
+  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location", "$scope"];
 
   angular.module("app").controller("ItemController", ItemController);
 

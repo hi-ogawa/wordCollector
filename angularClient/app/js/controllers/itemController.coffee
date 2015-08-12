@@ -1,11 +1,13 @@
-ItemController = (ItemService, AuthService, FlashService, $location) ->
+ItemController = (ItemService, AuthService, FlashService, $location, $scope) ->
   vm = @
 
   vm.test = "item controller is working..."
 
+  $scope.$watch (-> vm.myfile), (value) -> console.log value
+
   return
 ItemController.$inject = [
-  "ItemService", "AuthService", "FlashService", "$location"
+  "ItemService", "AuthService", "FlashService", "$location", "$scope"
 ]
 angular.module("app")
        .controller "ItemController", ItemController
