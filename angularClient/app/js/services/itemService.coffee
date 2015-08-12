@@ -1,8 +1,8 @@
 ItemService = (AuthService, $resource) ->
-  r = $resource "/api/categories/:categoryId", {categoryId: "@categoryId"},
+  r = $resource "/api/items/:itemId", {itemId: "@itemId"},
         index:
           method: "GET"
-          transformResponse: (data) -> data.categories
+          transformResponse: (data) -> data.items
           isArray: true
 
         # show:
@@ -28,22 +28,19 @@ ItemService = (AuthService, $resource) ->
 
     # show: -> r.show()
 
-    create:  (data) ->
+    create:  (item) ->
       r.create
-        category:
-          name:        data.category.name
-          description: data.category.description
+        category_id: item.category.id
+        item: _(item).pick ["word", "sentence", "meaning", "picture"]
 
-    update:  (data) ->
-      r.update
-        categoryId: data.category.id
-        category:
-          name:        data.category.name
-          description: data.category.description
+    update:  (item) ->
+      r.update {itemId: item.id},
+        category_id: item.category.id
+        item: _(item).pick ["word", "sentence", "meaning", "picture"]
 
-    destroy: (data) ->
-      r.destroy
-        categoryId: data.category.id
+    destroy: (item) ->
+      r.destroy {itemId: item.id},
+        category_id: item.category.id
 
   return service
 ItemService.$inject = ["AuthService", "$resource"]

@@ -4,13 +4,13 @@
 
   ItemService = function(AuthService, $resource) {
     var r, service;
-    r = $resource("/api/categories/:categoryId", {
-      categoryId: "@categoryId"
+    r = $resource("/api/items/:itemId", {
+      itemId: "@itemId"
     }, {
       index: {
         method: "GET",
         transformResponse: function(data) {
-          return data.categories;
+          return data.items;
         },
         isArray: true
       },
@@ -43,26 +43,25 @@
       index: function() {
         return r.index();
       },
-      create: function(data) {
+      create: function(item) {
         return r.create({
-          category: {
-            name: data.category.name,
-            description: data.category.description
-          }
+          category_id: item.category.id,
+          item: _(item).pick(["word", "sentence", "meaning", "picture"])
         });
       },
-      update: function(data) {
+      update: function(item) {
         return r.update({
-          categoryId: data.category.id,
-          category: {
-            name: data.category.name,
-            description: data.category.description
-          }
+          itemId: item.id
+        }, {
+          category_id: item.category.id,
+          item: _(item).pick(["word", "sentence", "meaning", "picture"])
         });
       },
-      destroy: function(data) {
+      destroy: function(item) {
         return r.destroy({
-          categoryId: data.category.id
+          itemId: item.id
+        }, {
+          category_id: item.category.id
         });
       }
     };
