@@ -1,6 +1,6 @@
 class Api::V1::ItemsController < ApplicationController
   before_action :authenticate_with_token!, only: [:create, :update, :destroy]
-  before_action :check_category_id, only: [:create, :update, :destroy]
+  before_action :check_category_id, only: [:create, :update]
 
   def index
     render json: Item.all, status: :ok
@@ -34,7 +34,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def destroy
-    return head :not_found unless item = current_category.items.find_by_id(params[:id])
+    return head :not_found unless item = Item.find_by_id(params[:id])
     item.destroy
     head :no_content
   end

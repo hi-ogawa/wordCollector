@@ -80,8 +80,6 @@
       destroy: function(item) {
         return r.destroy({
           itemId: item.id
-        }, {
-          category_id: item.category.id
         });
       }
     };

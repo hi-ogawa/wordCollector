@@ -75,7 +75,7 @@ describe Api::V1::ItemsController do
     context "with valid auth token" do
       before(:each) { header_authorization user.auth_token }
       context "with existing item id" do
-        before(:each) { delete :destroy, {id: item.id, category_id: category.id} }
+        before(:each) { delete :destroy, {id: item.id} }
         it {should have_http_status 204}
       end
       # context "with non-existing item id" do; it {skip}; end

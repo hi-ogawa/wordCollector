@@ -55,8 +55,7 @@ ItemService = (AuthService, $resource) ->
         item: _(item).pick ["word", "sentence", "meaning", "picture"]
 
     destroy: (item) ->
-      r.destroy {itemId: item.id},
-        category_id: item.category.id
+      r.destroy {itemId: item.id}
 
   return service
 ItemService.$inject = ["AuthService", "$resource"]
