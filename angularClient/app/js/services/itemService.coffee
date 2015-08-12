@@ -10,18 +10,33 @@ ItemService = (AuthService, $resource) ->
 
         create:
           method: "POST"
+          transformRequest: angular.identity,
           headers:
             Authorization: -> AuthService.getSession().token
+            "Content-Type": undefined
 
         update:
           method: "PUT"
+          transformRequest: angular.identity,
           headers:
             Authorization: -> AuthService.getSession().token
+            "Content-Type": undefined
 
         destroy:
           method: "DELETE"
           headers:
             Authorization: -> AuthService.getSession().token
+
+  # create FormData (able to convert objects up to depth 2)
+  json2FormData = (json) ->
+    fd = new FormData()
+    _(json).mapObject (val, key) ->
+      if !_.isObject(val)
+        fd.append key, val
+      else
+        _(val).mapObject (valChild, keyChild) ->
+          fd.append "#{key}[#{keyChild}]", valChild
+    fd
 
   service =
     index: -> r.index()
@@ -29,12 +44,13 @@ ItemService = (AuthService, $resource) ->
     # show: -> r.show()
 
     create:  (item) ->
-      r.create
+      fd = json2FormData
         category_id: item.category.id
         item: _(item).pick ["word", "sentence", "meaning", "picture"]
+      r.create fd
 
     update:  (item) ->
-      r.update {itemId: item.id},
+      r.update {itemId: item.id}, json2FormData
         category_id: item.category.id
         item: _(item).pick ["word", "sentence", "meaning", "picture"]
 

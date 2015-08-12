@@ -1,25 +1,38 @@
-ItemController = (ItemService, AuthService, FlashService, $location, $scope) ->
+ItemController = (ItemService, AuthService, FlashService, $location, $routeParams) ->
   vm = @
+  vm.flash = FlashService
+  vm.items = ItemService.index()
 
-  vm.test = "item controller is working..."
+  vm.showForm = (item) ->
+    vm.editing = !!item
+    vm.formOn = true
+    vm.itemForm = _.clone _(item || {}).extend
+      category:
+        id: $routeParams.categoryId
 
-  $scope.$watch (-> vm.myfile), (value) -> console.log value
+  vm.submit = ->
+    vm.dataLoading = true
+    p =
+      if vm.editing then ItemService.update vm.itemForm
+      else               ItemService.create vm.itemForm
+    p.$promise
+    .then ->
+      FlashService.set("Successfully Submitted", "success")
+      vm.dataLoading = false
+      FlashService.apply()
+      vm.formOn = false
+    ,->
+      FlashService.set("Submit failed", "danger")
+      vm.dataLoading = false
+      FlashService.apply()
+      vm.formOn = false
+
+  vm.deleteItem = (item) ->
+    ItemService.destroy item
 
   return
 ItemController.$inject = [
-  "ItemService", "AuthService", "FlashService", "$location", "$scope"
+  "ItemService", "AuthService", "FlashService", "$location", "$routeParams"
 ]
 angular.module("app")
        .controller "ItemController", ItemController
-
-# CategoryController = (CategoryService, UserService, AuthService, FlashService, $location) ->
-#   vm = @
-
-#   vm.categories = CategoryService.index()
-
-#   return
-# CategoryController.$inject = [
-#   "CategoryService", "UserService", "AuthService", "FlashService", "$location"
-# ]
-# angular.module("app")
-#        .controller "CategoryController", CategoryController

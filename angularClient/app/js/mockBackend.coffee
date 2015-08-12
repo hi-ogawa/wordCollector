@@ -272,6 +272,9 @@ run = ($httpBackend) ->
     console.log headers
     return [200, itemIndex]
 
+  # look into FormData object
+  # $httpBackend.whenPOST("/api/items").passThrough()
+
   $httpBackend.whenPOST("/api/items").respond (method, url, data, headers) ->
     console.log "#{method} - #{url}"
     console.log data

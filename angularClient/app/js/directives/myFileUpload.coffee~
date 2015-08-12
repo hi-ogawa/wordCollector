@@ -1,6 +1,0 @@
-MyFileUpload = () ->
-
-
-MyFileUpload.$inject = []
-angular.module('app')
-       .directive "MyFileUpload", MyFileUpload

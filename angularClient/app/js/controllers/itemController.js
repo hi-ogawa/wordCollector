@@ -2,18 +2,42 @@
 (function() {
   var ItemController;
 
-  ItemController = function(ItemService, AuthService, FlashService, $location, $scope) {
+  ItemController = function(ItemService, AuthService, FlashService, $location, $routeParams) {
     var vm;
     vm = this;
-    vm.test = "item controller is working...";
-    $scope.$watch((function() {
-      return vm.myfile;
-    }), function(value) {
-      return console.log(value);
-    });
+    vm.flash = FlashService;
+    vm.items = ItemService.index();
+    vm.showForm = function(item) {
+      vm.editing = !!item;
+      vm.formOn = true;
+      return vm.itemForm = _.clone(_(item || {}).extend({
+        category: {
+          id: $routeParams.categoryId
+        }
+      }));
+    };
+    vm.submit = function() {
+      var p;
+      vm.dataLoading = true;
+      p = vm.editing ? ItemService.update(vm.itemForm) : ItemService.create(vm.itemForm);
+      return p.$promise.then(function() {
+        FlashService.set("Successfully Submitted", "success");
+        vm.dataLoading = false;
+        FlashService.apply();
+        return vm.formOn = false;
+      }, function() {
+        FlashService.set("Submit failed", "danger");
+        vm.dataLoading = false;
+        FlashService.apply();
+        return vm.formOn = false;
+      });
+    };
+    vm.deleteItem = function(item) {
+      return ItemService.destroy(item);
+    };
   };
 
-  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location", "$scope"];
+  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location", "$routeParams"];
 
   angular.module("app").controller("ItemController", ItemController);
 

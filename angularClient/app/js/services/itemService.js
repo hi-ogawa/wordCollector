@@ -3,7 +3,7 @@
   var ItemService;
 
   ItemService = function(AuthService, $resource) {
-    var r, service;
+    var json2FormData, r, service;
     r = $resource("/api/items/:itemId", {
       itemId: "@itemId"
     }, {
@@ -16,18 +16,22 @@
       },
       create: {
         method: "POST",
+        transformRequest: angular.identity,
         headers: {
           Authorization: function() {
             return AuthService.getSession().token;
-          }
+          },
+          "Content-Type": void 0
         }
       },
       update: {
         method: "PUT",
+        transformRequest: angular.identity,
         headers: {
           Authorization: function() {
             return AuthService.getSession().token;
-          }
+          },
+          "Content-Type": void 0
         }
       },
       destroy: {
@@ -39,23 +43,39 @@
         }
       }
     });
+    json2FormData = function(json) {
+      var fd;
+      fd = new FormData();
+      _(json).mapObject(function(val, key) {
+        if (!_.isObject(val)) {
+          return fd.append(key, val);
+        } else {
+          return _(val).mapObject(function(valChild, keyChild) {
+            return fd.append(key + "[" + keyChild + "]", valChild);
+          });
+        }
+      });
+      return fd;
+    };
     service = {
       index: function() {
         return r.index();
       },
       create: function(item) {
-        return r.create({
+        var fd;
+        fd = json2FormData({
           category_id: item.category.id,
           item: _(item).pick(["word", "sentence", "meaning", "picture"])
         });
+        return r.create(fd);
       },
       update: function(item) {
         return r.update({
           itemId: item.id
-        }, {
+        }, json2FormData({
           category_id: item.category.id,
           item: _(item).pick(["word", "sentence", "meaning", "picture"])
-        });
+        }));
       },
       destroy: function(item) {
         return r.destroy({

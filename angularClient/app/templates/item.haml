@@ -1,38 +1,58 @@
 %h3 Listing Items
 
-{{ vm.test }}
+%table.table.table-striped
+  %thead
+    %tr
+      %th
+        Item
+        %span.badge.pull-right ?
+      %th Actions
 
-%input{type: "file", "my-file-upload" => "vm.myfile"}
+  %tbody
+    %tr{"ng-repeat" => "item in vm.items"}
+      %td
+        {{ item.word }}
+      %td
+        .btn-group
+          %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
+            Edit
+            %span.glyphicon.glyphicon-pencil
+          %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
+            Delete
+            %span.glyphicon.glyphicon-trash
 
--# %table.table.table-striped
--#   %thead
--#     %tr
--#       %th
--#         Category Name
--#         %span.badge.pull-right ?
--#       %th Actions
+%a.btn.btn-success{"ng-click" => "vm.showForm()"}
+  %span.glyphicon.glyphicon-plus
+  New item
 
--#   %tbody
--#     %tr{"ng-repeat" => "category in vm.categories"}
--#       %td
--#         {{ category.name }}
--#         %span.badge.pull-right ?
--#       %td
--#         .btn-group
--#           %a.btn.btn-info{href: ""}
--#             Show items
--#             %span.glyphicon.glyphicon-list-alt
--#           %a.btn.btn-warning{href: ""}
--#             Edit
--#             %span.glyphicon.glyphicon-pencil
--#           %a.btn.btn-danger{href: ""}
--#             Delete
--#             %span.glyphicon.glyphicon-trash
+%br
+%br
 
--# .btn-group
--#   %a.btn.btn-success{href: ""}
--#     %span.glyphicon.glyphicon-plus
--#     New category
--#   %a.btn.btn-success{href: ""}
--#     %span.glyphicon.glyphicon-plus
--#     New item
+.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
+  {{ vm.flash.getMessage() }}
+
+.item-form{"ng-show" => "vm.formOn"}
+  %form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}
+    %input.hide{"ng-model" => "vm.itemForm.id"}
+    %input.hide{"ng-model" => "vm.itemForm.category.id"}
+    .form-group
+      %label Word
+      %input.form-control{"ng-model" => "vm.itemForm.word", required: true}
+   
+    .form-group
+      %label Sentence
+      %input.form-control{"ng-model" => "vm.itemForm.sentence"}
+
+    .form-group
+      %label Meaning
+      %input.form-control{"ng-model" => "vm.itemForm.meaning"}
+
+    .form-group
+      %label Picture
+      %input#choose-file{type: "file", "my-file-upload" => "vm.itemForm.picture",
+                         required: true}
+   
+    .form-actions
+      %button.btn.btn-primary{type: "submit", "ng-disabled"=> "form.$invalid || vm.dataLoading"}
+        Submit
+      %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
