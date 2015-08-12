@@ -43,26 +43,21 @@
       index: function() {
         return r.index();
       },
-      create: function(data) {
+      create: function(category) {
         return r.create({
-          category: {
-            name: data.category.name,
-            description: data.category.description
-          }
+          category: _(category).pick(["name", "description"])
         });
       },
-      update: function(data) {
+      update: function(category) {
         return r.update({
-          categoryId: data.category.id,
-          category: {
-            name: data.category.name,
-            description: data.category.description
-          }
+          categoryId: category.id
+        }, {
+          category: _(category).pick(["name", "description"])
         });
       },
-      destroy: function(data) {
+      destroy: function(category) {
         return r.destroy({
-          categoryId: data.category.id
+          categoryId: category.id
         });
       }
     };

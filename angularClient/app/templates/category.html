@@ -21,11 +21,11 @@
             Show items
             <span class='glyphicon glyphicon-list-alt'></span>
           </a>
-          <a class='btn btn-warning' href=''>
+          <a class='btn btn-warning' ng-click='vm.showForm(category)'>
             Edit
             <span class='glyphicon glyphicon-pencil'></span>
           </a>
-          <a class='btn btn-danger' href=''>
+          <a class='btn btn-danger' ng-click='vm.deleteCategory(category)'>
             Delete
             <span class='glyphicon glyphicon-trash'></span>
           </a>
@@ -34,13 +34,31 @@
     </tr>
   </tbody>
 </table>
-<div class='btn-group'>
-  <a class='btn btn-success' href=''>
-    <span class='glyphicon glyphicon-plus'></span>
-    New category
-  </a>
-  <a class='btn btn-success' href=''>
-    <span class='glyphicon glyphicon-plus'></span>
-    New item
-  </a>
+<a class='btn btn-success' ng-click='vm.showForm()'>
+  <span class='glyphicon glyphicon-plus'></span>
+  New category
+</a>
+<br>
+<br>
+<div class='alert' ng-class="'alert-' + vm.flash.getStatus()" ng-if='vm.flash.getStatus()'>
+  {{ vm.flash.getMessage() }}
+</div>
+<div class='category-form' ng-show='vm.formOn'>
+  <form name='form' ng-submit='vm.submit()' novalidate>
+    <input class='hide' ng-model='vm.categoryForm.id'>
+    <div class='form-group'>
+      <label>Category name</label>
+      <input class='form-control' ng-model='vm.categoryForm.name' required>
+    </div>
+    <div class='form-group'>
+      <label>Description</label>
+      <input class='form-control' ng-model='vm.categoryForm.description'>
+    </div>
+    <div class='form-actions'>
+      <button class='btn btn-primary' ng-disabled='form.$invalid || vm.dataLoading' type='submit'>
+        Submit
+      </button>
+      <i class='fa fa-spinner fa-spin' ng-if='vm.dataLoading'></i>
+    </div>
+  </form>
 </div>

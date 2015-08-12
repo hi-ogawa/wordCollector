@@ -1,6 +1,31 @@
 describe "CategoryService", ->
 
-  request0 = response0 =
+  createArg =
+    name: "Electric Witch"
+    description: "With my mind on my money why is you real deal Holyfield Long Beach bubbles in the tub rizzide like every single day fizzle rolling down the street. Realness tha shiznit recognize smokin' indo guess what? nasty the diggy the dopest it's 1993. Rizzide the Magic Johnson of rap how we do it every single one plizzay nothing can save ya. Feel the breeze tha shiznit Snoop laid back plizzay used to sell loot the Dogg Pound put ya choppers up pizzle."
+
+  updateArg = destroyArg =
+    id: 1
+    name: "Electric Witch"
+    description: "With my mind on my money why is you real deal Holyfield Long Beach bubbles in the tub rizzide like every single day fizzle rolling down the street. Realness tha shiznit recognize smokin' indo guess what? nasty the diggy the dopest it's 1993. Rizzide the Magic Johnson of rap how we do it every single one plizzay nothing can save ya. Feel the breeze tha shiznit Snoop laid back plizzay used to sell loot the Dogg Pound put ya choppers up pizzle."
+    created_at: "2015-08-11T06:36:53.591Z"
+		updated_at: "2015-08-11T06:36:53.591Z"
+		item_ids: []
+		user:
+			id: 1
+			email: "nick_dietrich@greenholtrippin.info"
+			auth_token: "c1sszoABHfAYZxh6USd5"
+			created_at: "2015-08-11T06:36:53.486Z"
+			updated_at: "2015-08-11T06:36:53.486Z"
+			category_ids: [
+				1
+				2
+			]
+
+  createPayload = updatePayload =
+    category: createArg
+
+  createResponse = updateResponse =   
     category:
       id: 1
       name: "Electric Witch"
@@ -18,12 +43,6 @@ describe "CategoryService", ->
       		1
       		2
       	]
-
-  transformedRequest0 =
-    categoryId: 1
-    category:
-      name: "Electric Witch"
-      description: "With my mind on my money why is you real deal Holyfield Long Beach bubbles in the tub rizzide like every single day fizzle rolling down the street. Realness tha shiznit recognize smokin' indo guess what? nasty the diggy the dopest it's 1993. Rizzide the Magic Johnson of rap how we do it every single one plizzay nothing can save ya. Feel the breeze tha shiznit Snoop laid back plizzay used to sell loot the Dogg Pound put ya choppers up pizzle."
 
   response1 =
      categories: [
@@ -99,24 +118,24 @@ describe "CategoryService", ->
 
   describe ".create", ->
     it "", ->
-      $httpBackend.expectPOST("/api/categories", undefined, (headers) ->
+      $httpBackend.expectPOST("/api/categories", createPayload, (headers) ->
         headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
-      ).respond(response0)
-      CategoryService.create(request0)
+      ).respond(createResponse)
+      CategoryService.create(createArg)
       $httpBackend.flush()
 
   describe ".update", ->
     it "", ->
-      $httpBackend.expectPUT("/api/categories/1", undefined, (headers) ->
+      $httpBackend.expectPUT("/api/categories/1", updatePayload, (headers) ->
         headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
-      ).respond(response0)
-      CategoryService.update(request0)
+      ).respond(updateResponse)
+      CategoryService.update(updateArg)
       $httpBackend.flush()
 
   describe ".delete", ->
     it "", ->
       $httpBackend.expectDELETE("/api/categories/1", undefined, (headers) ->
         headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
-      ).respond(response0)
-      CategoryService.destroy(request0)
+      ).respond(-> [204])
+      CategoryService.destroy(destroyArg)
       $httpBackend.flush()

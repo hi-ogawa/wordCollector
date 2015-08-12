@@ -28,22 +28,16 @@ CategoryService = (AuthService, $resource) ->
 
     # show: -> r.show()
 
-    create:  (data) ->
+    create:  (category) ->
       r.create
-        category:
-          name:        data.category.name
-          description: data.category.description
+        category: _(category).pick ["name", "description"]
 
-    update:  (data) ->
-      r.update
-        categoryId: data.category.id
-        category:
-          name:        data.category.name
-          description: data.category.description
+    update:  (category) ->
+      r.update {categoryId: category.id},
+        category: _(category).pick ["name", "description"]
 
-    destroy: (data) ->
-      r.destroy
-        categoryId: data.category.id
+    destroy: (category) ->
+      r.destroy {categoryId: category.id}
 
   return service
 CategoryService.$inject = ["AuthService", "$resource"]
