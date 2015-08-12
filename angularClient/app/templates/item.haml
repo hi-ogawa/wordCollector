@@ -3,15 +3,18 @@
 %table.table.table-striped
   %thead
     %tr
-      %th
-        Item
-        %span.badge.pull-right ?
+      %th Word
+      %th Meaning
+      %th Sentence
       %th Actions
 
   %tbody
     %tr{"ng-repeat" => "item in vm.items"}
-      %td
-        {{ item.word }}
+      %td {{ item.word }}
+      %td {{ item.meaning }}
+      %td {{ item.sentence }}
+      -# %td
+      -#   %img{"ng-src" => "{{item.picture}}" }
       %td
         .btn-group
           %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}

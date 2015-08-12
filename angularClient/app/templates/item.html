@@ -2,18 +2,17 @@
 <table class='table table-striped'>
   <thead>
     <tr>
-      <th>
-        Item
-        <span class='badge pull-right'>?</span>
-      </th>
+      <th>Word</th>
+      <th>Meaning</th>
+      <th>Sentence</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat='item in vm.items'>
-      <td>
-        {{ item.word }}
-      </td>
+      <td>{{ item.word }}</td>
+      <td>{{ item.meaning }}</td>
+      <td>{{ item.sentence }}</td>
       <td>
         <div class='btn-group'>
           <a class='btn btn-warning' ng-click='vm.showForm(item)'>
