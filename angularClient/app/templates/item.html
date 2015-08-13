@@ -61,6 +61,9 @@
       <button class='btn btn-primary' ng-disabled='form.$invalid || vm.dataLoading' type='submit'>
         Submit
       </button>
+      <a class='btn btn-link' ng-click='vm.formOn = false'>
+        Cancel
+      </a>
       <i class='fa fa-spinner fa-spin' ng-if='vm.dataLoading'></i>
     </div>
   </form>

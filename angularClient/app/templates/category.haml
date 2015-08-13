@@ -50,5 +50,7 @@
       .form-actions
         %button.btn.btn-primary{type: "submit", "ng-disabled"=> "form.$invalid || vm.dataLoading"}
           Submit
+        %a.btn.btn-link{"ng-click" => "vm.formOn = false"}
+          Cancel
         %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
 
