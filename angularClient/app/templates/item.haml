@@ -1,35 +1,35 @@
-%h3 Listing Items
+.col-sm-8
+  %h3 Listing Items
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Word
+        %th Meaning
+        %th Sentence
+        %th Actions
+   
+    %tbody
+      %tr{"ng-repeat" => "item in vm.items"}
+        %td.word     {{ item.word }}
+        %td.meaning  {{ item.meaning }}
+        %td.sentence {{ item.sentence }}
+        %td.actions
+          .btn-group
+            %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
+              Edit
+              %span.glyphicon.glyphicon-pencil
+            %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
+              Delete
+              %span.glyphicon.glyphicon-trash
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th Word
-      %th Meaning
-      %th Sentence
-      %th Actions
+  %a.btn.btn-success{"ng-click" => "vm.showForm()"}
+    %span.glyphicon.glyphicon-plus
+    New item
 
-  %tbody
-    %tr{"ng-repeat" => "item in vm.items"}
-      %td {{ item.word }}
-      %td {{ item.meaning }}
-      %td {{ item.sentence }}
-      -# %td
-      -#   %img{"ng-src" => "{{item.picture}}" }
-      %td
-        .btn-group
-          %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
-            Edit
-            %span.glyphicon.glyphicon-pencil
-          %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
-            Delete
-            %span.glyphicon.glyphicon-trash
+.col-sm-4
+  .image-popups{"ng-repeat" => "item in vm.items"}
+    %img{"ng-src" => "{{ item.picture }}"}
 
-%a.btn.btn-success{"ng-click" => "vm.showForm()"}
-  %span.glyphicon.glyphicon-plus
-  New item
-
-%br
-%br
 
 .alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
   {{ vm.flash.getMessage() }}
