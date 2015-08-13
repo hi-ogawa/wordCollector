@@ -3,6 +3,8 @@ ItemController = (ItemService, AuthService, FlashService, $location, $routeParam
   vm.flash = FlashService
   vm.items = ItemService.index()
 
+  vm.itemOnCursor = ""
+
   vm.showForm = (item) ->
     vm.editing = !!item
     vm.formOn = true

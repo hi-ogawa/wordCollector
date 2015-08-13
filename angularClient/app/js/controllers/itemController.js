@@ -7,6 +7,7 @@
     vm = this;
     vm.flash = FlashService;
     vm.items = ItemService.index();
+    vm.itemOnCursor = "";
     vm.showForm = function(item) {
       vm.editing = !!item;
       vm.formOn = true;

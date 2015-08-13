@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-class="{'info': vm.itemForm.id == item.id &amp;&amp; vm.formOn }" ng-repeat='item in vm.items'>
+        <tr ng-class="{'info': vm.itemForm.id == item.id &amp;&amp; vm.formOn,&#x000A;'danger': vm.itemOnCursor == item.id &amp;&amp; !vm.formOn }" ng-mouseover='vm.itemOnCursor = item.id' ng-repeat='item in vm.items'>
           <td class='word-meaning'>
             <div class='h4'>{{ item.word }}</div>
             <div class='small'>{{ item.meaning }}</div>
@@ -44,7 +44,7 @@
   </div>
   <div class='col-sm-4'>
     <div class='image-popups' ng-repeat='item in vm.items'>
-      <img ng-src='{{ item.picture }}'>
+      <img class='img-thumbnail' ng-class="{'onCursor': vm.itemOnCursor == item.id &amp;&amp; !vm.formOn}" ng-mouseover='vm.itemOnCursor = item.id' ng-src='{{ item.picture }}'>
     </div>
   </div>
 </div>

@@ -28,6 +28,8 @@
 
 .image-popups img {
   width: 100%; }
+  .image-popups img.onCursor {
+    background-color: #ee6464; }
 
 .flash-message {
   -moz-transition: linear 0.2s all;
