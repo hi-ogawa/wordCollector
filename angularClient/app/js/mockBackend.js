@@ -172,7 +172,7 @@
           id: 1,
           word: "waddup tha shiznit",
           sentence: "Smokin' weed Snoopy you talk too much like every single day rizzide fo rizzle why is you. In tha hizzle recognize feel the breeze fo shizzle like every single day rizzide waddup. If the ride is more fly, then you must buy fizzle gizzo the S oh yes realness if you was me and I was you. Smokin' indo roll with rizzoad nasty at ease if you was me and I was you bubbles in the tub Snoopy. Roll with for the hustlers nothing can save ya tha shiznit hizzouse I love my momma Doggfada in tha hizzle.",
-          meaning: "Real deal holyfield fo rizzle Mr. Buckwort tha shiznit drizzle in tha hizzle used to sell loot. Fo rizzle now I'm on parole guess what? your chrome it's 1993 and my money on my mind every single one realer. Make a few ends smokin' weed for the hustlers real deal Holyfield like every single day.",
+          meaning: "Real deal holyfield fo rizzle Mr. Buckwort tha shiznit drizzle in tha hizzle used to sell loot. Fo rizzle now I'm",
           picture: picUrl0,
           created_at: "2015-08-11T06:36:54.997Z",
           updated_at: "2015-08-11T06:36:54.997Z",
@@ -196,7 +196,7 @@
           id: 2,
           word: "Snoopy Coupe de Ville",
           sentence: "Sippin' on gin and juice if the ride is more fly, then you must buy through all the drama it's 1993 may I hizzouse. Televizzle smokin' indo Snoop the Dogg Pound Snoopy gizzo at ease. Like every single day televizzle Doggfada rolling down the street may I smokin' weed sippin' on gin and juice recognize. The diggy realer bionic drizzle feel the breeze if the ride is more fly, then you must buy every single one.",
-          meaning: "The diggy guess what? nothing can save ya everybody got they cups the S oh yes in tha hizzle. Tha dizzle tha shiznit fo rizzle drop it like it's hot rizzoad guess what?. For the gs the Magic Johnson of rap drop it like it's hot every single one Long Beach in tha hizzle plizzay. Through all the drama at ease for the Gs zig zag smoke every single one feel the breeze eighty degrees guess what? bubbles in the tub.",
+          meaning: "The diggy guess what? nothing can save ya everybody got they cups the S oh yes in tha hizzle. Tha dizzle tha shiznit fo rizzle drop it like it's hot",
           picture: picUrl1,
           created_at: "2015-08-11T06:36:55.030Z",
           updated_at: "2015-08-11T06:36:55.030Z",
@@ -220,7 +220,79 @@
           id: 3,
           word: "everybody got they cups rizzoad",
           sentence: "Televizzle sippin' on gin and juice hizzouse rizzoad the LBC. Realness drop it like it's hot bionic Snoop gold chain how we do it your chrome. At ease Mr. Buckwort smokin' indo may I gold chain. Zig zag smoke why is you used to sell loot the LBC nothing can save ya Coupe de Ville rizzide.",
-          meaning: "Long beach waddup eighty degrees Snoop tha dizzle bubbles in the tub how we do it rolling down the street. The dopest the LBC if the ride is more fly, then you must buy how we do it every single one make a few ends drop it like it's hot. Make a few ends laid back guess what? for the hustlers rizzide with my mind on my money your chrome. May i sippin' on gin and juice bubbles in the tub through all the drama how we do it now I'm on parole smokin' weed hizzouse laid back. Realness recognize Snoopy every single one how we do it hizzouse the LBC.",
+          meaning: "Long beach waddup eighty degrees Snoop tha dizzle bubbles in the tub how we do it rolling down the street. The dopest the LBC",
+          picture: picUrl2,
+          created_at: "2015-08-11T06:36:55.063Z",
+          updated_at: "2015-08-11T06:36:55.063Z",
+          category: {
+            id: 1,
+            name: "I Married a Action Gypsy",
+            description: "Waddup the Magic Johnson of rap used to sell loot may I pizzle. Realness plizzay pizzle drop it like it's hot may I if you was me and I was you. Tha shiznit the dopest every single one drop it like it's hot zig zag smoke smokin' indo Long Beach fo rizzle in tha hizzle.",
+            created_at: "2015-08-11T06:36:54.967Z",
+            updated_at: "2015-08-11T06:36:54.967Z",
+            item_ids: [1, 2, 3],
+            user: {
+              id: 1,
+              email: "natalia@mante.name",
+              auth_token: "MHynn_e7ssHxsCDwhz_s",
+              created_at: "2015-08-11T06:36:54.963Z",
+              updated_at: "2015-08-11T06:36:54.963Z",
+              category_ids: [1]
+            }
+          }
+        }, {
+          id: 4,
+          word: "waddup tha shiznit",
+          sentence: "Smokin' weed Snoopy you talk too much like every single day rizzide fo rizzle why is you. In tha hizzle recognize feel the breeze fo shizzle like every single day rizzide waddup. If the ride is more fly, then you must buy fizzle gizzo the S oh yes realness if you was me and I was you. Smokin' indo roll with rizzoad nasty at ease if you was me and I was you bubbles in the tub Snoopy. Roll with for the hustlers nothing can save ya tha shiznit hizzouse I love my momma Doggfada in tha hizzle.",
+          meaning: "Real deal holyfield fo rizzle Mr. Buckwort tha shiznit drizzle in tha hizzle used to sell loot. Fo rizzle now I'm on parole guess",
+          picture: picUrl0,
+          created_at: "2015-08-11T06:36:54.997Z",
+          updated_at: "2015-08-11T06:36:54.997Z",
+          category: {
+            id: 1,
+            name: "I Married a Action Gypsy",
+            description: "Waddup the Magic Johnson of rap used to sell loot may I pizzle. Realness plizzay pizzle drop it like it's hot may I if you was me and I was you. Tha shiznit the dopest every single one drop it like it's hot zig zag smoke smokin' indo Long Beach fo rizzle in tha hizzle.",
+            created_at: "2015-08-11T06:36:54.967Z",
+            updated_at: "2015-08-11T06:36:54.967Z",
+            item_ids: [1, 2, 3],
+            user: {
+              id: 1,
+              email: "natalia@mante.name",
+              auth_token: "MHynn_e7ssHxsCDwhz_s",
+              created_at: "2015-08-11T06:36:54.963Z",
+              updated_at: "2015-08-11T06:36:54.963Z",
+              category_ids: [1]
+            }
+          }
+        }, {
+          id: 5,
+          word: "Snoopy Coupe de Ville",
+          sentence: "Sippin' on gin and juice if the ride is more fly, then you must buy through all the drama it's 1993 may I hizzouse. Televizzle smokin' indo Snoop the Dogg Pound Snoopy gizzo at ease. Like every single day televizzle Doggfada rolling down the street may I smokin' weed sippin' on gin and juice recognize. The diggy realer bionic drizzle feel the breeze if the ride is more fly, then you must buy every single one.",
+          meaning: "The diggy guess what? nothing can save ya everybody got they cups the S oh yes in tha hizzle. Tha dizzle tha shiznit fo",
+          picture: picUrl1,
+          created_at: "2015-08-11T06:36:55.030Z",
+          updated_at: "2015-08-11T06:36:55.030Z",
+          category: {
+            id: 1,
+            name: "I Married a Action Gypsy",
+            description: "Waddup the Magic Johnson of rap used to sell loot may I pizzle. Realness plizzay pizzle drop it like it's hot may I if you was me and I was you. Tha shiznit the dopest every single one drop it like it's hot zig zag smoke smokin' indo Long Beach fo rizzle in tha hizzle.",
+            created_at: "2015-08-11T06:36:54.967Z",
+            updated_at: "2015-08-11T06:36:54.967Z",
+            item_ids: [1, 2, 3],
+            user: {
+              id: 1,
+              email: "natalia@mante.name",
+              auth_token: "MHynn_e7ssHxsCDwhz_s",
+              created_at: "2015-08-11T06:36:54.963Z",
+              updated_at: "2015-08-11T06:36:54.963Z",
+              category_ids: [1]
+            }
+          }
+        }, {
+          id: 6,
+          word: "everybody got they cups rizzoad",
+          sentence: "Televizzle sippin' on gin and juice hizzouse rizzoad the LBC. Realness drop it like it's hot bionic Snoop gold chain how we do it your chrome. At ease Mr. Buckwort smokin' indo may I gold chain. Zig zag smoke why is you used to sell loot the LBC nothing can save ya Coupe de Ville rizzide.",
+          meaning: "Long beach waddup eighty degrees Snoop tha dizzle bubbles in the tub how we do it rolling down the street. The dopest the LBC if the",
           picture: picUrl2,
           created_at: "2015-08-11T06:36:55.063Z",
           updated_at: "2015-08-11T06:36:55.063Z",
