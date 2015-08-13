@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat='category in vm.categories'>
+        <tr ng-class="{'info': vm.categoryForm.id == category.id &amp;&amp; vm.formOn }" ng-repeat='category in vm.categories'>
           <td>
             {{ category.name }}
             <span class='badge pull-right'>{{ category.item_ids.length }}</span>

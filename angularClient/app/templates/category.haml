@@ -11,7 +11,8 @@
           %th Actions
      
       %tbody
-        %tr{"ng-repeat" => "category in vm.categories"}
+        %tr{"ng-repeat" => "category in vm.categories",
+            "ng-class" => "{'info': vm.categoryForm.id == category.id && vm.formOn }"}
           %td
             {{ category.name }}
             %span.badge.pull-right {{ category.item_ids.length }}

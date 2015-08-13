@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat='item in vm.items'>
+        <tr ng-class="{'info': vm.itemForm.id == item.id &amp;&amp; vm.formOn }" ng-repeat='item in vm.items'>
           <td class='word-meaning'>
             <div class='h4'>{{ item.word }}</div>
             <div class='small'>{{ item.meaning }}</div>
@@ -34,7 +34,7 @@
     <div class='btn-group'>
       <a class='btn btn-success' href='#/category'>
         <span class='glyphicon glyphicon-arrow-left'></span>
-        List category
+        List categories
       </a>
       <a class='btn btn-success' ng-click='vm.showForm()'>
         <span class='glyphicon glyphicon-plus'></span>

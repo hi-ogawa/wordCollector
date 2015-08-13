@@ -9,7 +9,8 @@
           %th Actions
      
       %tbody
-        %tr{"ng-repeat" => "item in vm.items"}
+        %tr{"ng-repeat" => "item in vm.items",
+            "ng-class" => "{'info': vm.itemForm.id == item.id && vm.formOn }"}
           %td.word-meaning
             .h4     {{ item.word }}
             .small {{ item.meaning }}
@@ -26,7 +27,7 @@
     .btn-group
       %a.btn.btn-success{href: "#/category"}
         %span.glyphicon.glyphicon-arrow-left
-        List category
+        List categories
       %a.btn.btn-success{"ng-click" => "vm.showForm()"}
         %span.glyphicon.glyphicon-plus
         New item
