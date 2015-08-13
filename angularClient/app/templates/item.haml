@@ -22,10 +22,14 @@
               %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
                 Delete
                 %span.glyphicon.glyphicon-trash
-   
-    %a.btn.btn-success{"ng-click" => "vm.showForm()"}
-      %span.glyphicon.glyphicon-plus
-      New item
+
+    .btn-group
+      %a.btn.btn-success{href: "#/category"}
+        %span.glyphicon.glyphicon-arrow-left
+        List category
+      %a.btn.btn-success{"ng-click" => "vm.showForm()"}
+        %span.glyphicon.glyphicon-plus
+        New item
    
   .col-sm-4
     .image-popups{"ng-repeat" => "item in vm.items"}
