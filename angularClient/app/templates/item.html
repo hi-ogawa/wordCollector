@@ -1,48 +1,49 @@
-<div class='col-sm-8'>
-  <h3>Listing Items</h3>
-  <table class='table table-striped'>
-    <thead>
-      <tr>
-        <th>Word</th>
-        <th>Meaning</th>
-        <th>Sentence</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat='item in vm.items'>
-        <td class='word'>{{ item.word }}</td>
-        <td class='meaning'>{{ item.meaning }}</td>
-        <td class='sentence'>{{ item.sentence }}</td>
-        <td class='actions'>
-          <div class='btn-group'>
-            <a class='btn btn-warning' ng-click='vm.showForm(item)'>
-              Edit
-              <span class='glyphicon glyphicon-pencil'></span>
-            </a>
-            <a class='btn btn-danger' ng-click='vm.deleteItem(item)'>
-              Delete
-              <span class='glyphicon glyphicon-trash'></span>
-            </a>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <a class='btn btn-success' ng-click='vm.showForm()'>
-    <span class='glyphicon glyphicon-plus'></span>
-    New item
-  </a>
-</div>
-<div class='col-sm-4'>
-  <div class='image-popups' ng-repeat='item in vm.items'>
-    <img ng-src='{{ item.picture }}'>
+<div class='row'>
+  <div class='col-sm-8'>
+    <h3>Listing Items</h3>
+    <table class='table table-striped' id='items-table'>
+      <thead>
+        <tr>
+          <th>Word and Meaning</th>
+          <th>Sentence</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat='item in vm.items'>
+          <td class='word-meaning'>
+            <div class='h4'>{{ item.word }}</div>
+            <div class='small'>{{ item.meaning }}</div>
+          </td>
+          <td class='sentence'>{{ item.sentence }}</td>
+          <td class='actions'>
+            <div class='btn-group'>
+              <a class='btn btn-warning' ng-click='vm.showForm(item)'>
+                Edit
+                <span class='glyphicon glyphicon-pencil'></span>
+              </a>
+              <a class='btn btn-danger' ng-click='vm.deleteItem(item)'>
+                Delete
+                <span class='glyphicon glyphicon-trash'></span>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a class='btn btn-success' ng-click='vm.showForm()'>
+      <span class='glyphicon glyphicon-plus'></span>
+      New item
+    </a>
+  </div>
+  <div class='col-sm-4'>
+    <div class='image-popups' ng-repeat='item in vm.items'>
+      <img ng-src='{{ item.picture }}'>
+    </div>
   </div>
 </div>
-<div class='alert' ng-class="'alert-' + vm.flash.getStatus()" ng-if='vm.flash.getStatus()'>
-  {{ vm.flash.getMessage() }}
-</div>
-<div class='item-form' ng-show='vm.formOn'>
+<div ng-include="'templates/flash.html'"></div>
+<div class='floating-form well' ng-show='vm.formOn'>
   <form name='form' ng-submit='vm.submit()' novalidate>
     <input class='hide' ng-model='vm.itemForm.id'>
     <input class='hide' ng-model='vm.itemForm.category.id'>

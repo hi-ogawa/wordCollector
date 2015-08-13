@@ -1,8 +1,7 @@
 .col-sm-6.col-sm-offset-3
   %h3 Login
    
-  .alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
-    {{ vm.flash.getMessage() }}
+  %div{"ng-include" => "'templates/flash.html'"}
    
   %form{name: "form", "ng-submit" => "vm.login()", novalidate: true}
     .form-group

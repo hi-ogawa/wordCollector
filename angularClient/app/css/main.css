@@ -1,5 +1,66 @@
-.table .actions {
-  width: 175px; }
+.flash-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 10%;
+  width: 50%;
+  z-index: 10; }
+
+.floating-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 40%;
+  width: 50%;
+  z-index: 10; }
+
+/* item view */
+#items-table tbody tr .word-meaning {
+  width: 25%; }
+  #items-table tbody tr .word-meaning .h4 {
+    margin: 5px; }
+#items-table tbody tr .actions {
+  width: 18%; }
 
 .image-popups img {
   width: 100%; }
+
+.flash-message {
+  -moz-transition: linear 0.2s all;
+  -o-transition: linear 0.2s all;
+  -webkit-transition: linear 0.2s all;
+  transition: linear 0.2s all;
+  /* disappearing start */
+  /* disappearing end */
+  /* appearing start */
+  /* appearing end */ }
+  .flash-message.ng-hide-add {
+    opacity: 1; }
+  .flash-message.ng-hide-add-active {
+    opacity: 0.5; }
+  .flash-message.ng-hide-remove {
+    top: -10%; }
+  .flash-message.ng-hide-remove-active {
+    top: 10%; }
+
+.floating-form {
+  -moz-transition: linear 0.2s all;
+  -o-transition: linear 0.2s all;
+  -webkit-transition: linear 0.2s all;
+  transition: linear 0.2s all;
+  /* disappearing start */
+  /* disappearing end */
+  /* appearing start */
+  /* appearing end */ }
+  .floating-form.ng-hide-add {
+    opacity: 1; }
+  .floating-form.ng-hide-add-active {
+    opacity: 0.5; }
+  .floating-form.ng-hide-remove {
+    top: -10%; }
+  .floating-form.ng-hide-remove-active {
+    top: 40%; }

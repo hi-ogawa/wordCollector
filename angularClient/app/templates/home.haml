@@ -1,8 +1,7 @@
 .col-sm-6.col-sm-offset-3
   %h3 You're logged in. ({{ vm.displayedName }})
    
-  .alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
-    {{ vm.flash.getMessage() }}
+  .flash-message{"ng-include" => "'templates/flash.html'"}
    
   %a.btn.btn-link{href: "#/category"}            Show categories
   %a.btn.btn-link{href: "#/update"}            Edit account

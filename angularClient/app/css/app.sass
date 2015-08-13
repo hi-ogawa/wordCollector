@@ -1,10 +1,31 @@
-.table
-  .word
-  .meaning
-  .sentence
-  .actions
-    width: 175px
+.flash-message
+  @include centerer
+  position: fixed
+  top:   $flash-top
+  width: 50%
+  z-index: 10
+
+.floating-form
+  @include centerer
+  position: fixed
+  top: $form-top
+  width: 50%
+  z-index: 10
+
+
+/* item view
+#items-table
+  tbody
+    tr
+      .word-meaning
+        width: 25%
+        .h4
+          margin: 5px
+      .sentence
+      .actions
+        width: 18%
 
 .image-popups
   img
     width: 100%
+

@@ -1,5 +1,4 @@
-.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
-  {{ vm.flash.getMessage() }}
+%div{"ng-include" => "'templates/flash.html'"}
 
 %form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}
   .form-group

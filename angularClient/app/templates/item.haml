@@ -1,40 +1,39 @@
-.col-sm-8
-  %h3 Listing Items
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Word
-        %th Meaning
-        %th Sentence
-        %th Actions
+.row
+  .col-sm-8
+    %h3 Listing Items
+    %table#items-table.table.table-striped
+      %thead
+        %tr
+          %th Word and Meaning
+          %th Sentence
+          %th Actions
+     
+      %tbody
+        %tr{"ng-repeat" => "item in vm.items"}
+          %td.word-meaning
+            .h4     {{ item.word }}
+            .small {{ item.meaning }}
+          %td.sentence {{ item.sentence }}
+          %td.actions
+            .btn-group
+              %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
+                Edit
+                %span.glyphicon.glyphicon-pencil
+              %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
+                Delete
+                %span.glyphicon.glyphicon-trash
    
-    %tbody
-      %tr{"ng-repeat" => "item in vm.items"}
-        %td.word     {{ item.word }}
-        %td.meaning  {{ item.meaning }}
-        %td.sentence {{ item.sentence }}
-        %td.actions
-          .btn-group
-            %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
-              Edit
-              %span.glyphicon.glyphicon-pencil
-            %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
-              Delete
-              %span.glyphicon.glyphicon-trash
+    %a.btn.btn-success{"ng-click" => "vm.showForm()"}
+      %span.glyphicon.glyphicon-plus
+      New item
+   
+  .col-sm-4
+    .image-popups{"ng-repeat" => "item in vm.items"}
+      %img{"ng-src" => "{{ item.picture }}"}
 
-  %a.btn.btn-success{"ng-click" => "vm.showForm()"}
-    %span.glyphicon.glyphicon-plus
-    New item
+%div{"ng-include" => "'templates/flash.html'"}
 
-.col-sm-4
-  .image-popups{"ng-repeat" => "item in vm.items"}
-    %img{"ng-src" => "{{ item.picture }}"}
-
-
-.alert{"ng-if" => "vm.flash.getStatus()", "ng-class" => "'alert-' + vm.flash.getStatus()"}
-  {{ vm.flash.getMessage() }}
-
-.item-form{"ng-show" => "vm.formOn"}
+.floating-form.well{"ng-show" => "vm.formOn"}
   %form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}
     %input.hide{"ng-model" => "vm.itemForm.id"}
     %input.hide{"ng-model" => "vm.itemForm.category.id"}

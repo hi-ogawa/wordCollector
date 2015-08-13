@@ -1,8 +1,6 @@
 <div class='col-sm-6 col-sm-offset-3'>
   <h3>Login</h3>
-  <div class='alert' ng-class="'alert-' + vm.flash.getStatus()" ng-if='vm.flash.getStatus()'>
-    {{ vm.flash.getMessage() }}
-  </div>
+  <div ng-include="'templates/flash.html'"></div>
   <form name='form' ng-submit='vm.login()' novalidate>
     <div class='form-group'>
       <label>Email address</label>
