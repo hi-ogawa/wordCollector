@@ -2,6 +2,8 @@ CategoryController = (CategoryService, FlashService, $location) ->
   vm = @
   vm.flash = FlashService
   vm.categories = CategoryService.index()
+  vm.sum_items = (cs) ->
+    _.foldl vm.categories, ((n, c) -> n + c.item_ids.length), 0
 
   vm.showForm = (category) ->
     vm.editing = !!category

@@ -7,6 +7,11 @@
     vm = this;
     vm.flash = FlashService;
     vm.categories = CategoryService.index();
+    vm.sum_items = function(cs) {
+      return _.foldl(vm.categories, (function(n, c) {
+        return n + c.item_ids.length;
+      }), 0);
+    };
     vm.showForm = function(category) {
       vm.editing = !!category;
       vm.formOn = true;

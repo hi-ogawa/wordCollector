@@ -5,7 +5,7 @@
       <tr>
         <th>
           Category Name
-          <span class='badge pull-right'>?</span>
+          <span class='badge pull-right'>{{ vm.sum_items(vm.categories) }}</span>
         </th>
         <th>Actions</th>
       </tr>
@@ -14,7 +14,7 @@
       <tr ng-repeat='category in vm.categories'>
         <td>
           {{ category.name }}
-          <span class='badge pull-right'>?</span>
+          <span class='badge pull-right'>{{ category.item_ids.length }}</span>
         </td>
         <td>
           <div class='btn-group'>
