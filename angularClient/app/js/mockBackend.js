@@ -118,6 +118,12 @@
       console.log(headers);
       return [200, categoryIndex];
     });
+    $httpBackend.whenGET(/\/api\/categories\/.*/).respond(function(method, url, data, headers) {
+      console.log(method + " - " + url);
+      console.log(data);
+      console.log(headers);
+      return [200, categoryShow];
+    });
     $httpBackend.whenPOST("/api/categories").respond(function(method, url, data, headers) {
       console.log(method + " - " + url);
       console.log(data);

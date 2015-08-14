@@ -5,8 +5,9 @@ CategoryService = (AuthService, $resource) ->
           transformResponse: (data) -> data.categories
           isArray: true
 
-        # show:
-        #   method: "GET"
+        show:
+          method: "GET"
+          transformResponse: (data) -> data.category
 
         create:
           method: "POST"
@@ -26,7 +27,7 @@ CategoryService = (AuthService, $resource) ->
   service =
     index: -> r.index()
 
-    # show: -> r.show()
+    show: (category) -> r.show categoryId: category.id
 
     create:  (category) ->
       r.create

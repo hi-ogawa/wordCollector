@@ -4,7 +4,9 @@
     #category-setting
       .row
         .col-sm-6
-          %h3 Listing Categories by {{ vm.user.email }}
+          %h3
+            Listing Categories by
+            %em {{ vm.user.email }}
         .col-sm-6
           #buttons.pull-right
             %a.btn.btn-success{"ng-click" => "vm.showForm()"}

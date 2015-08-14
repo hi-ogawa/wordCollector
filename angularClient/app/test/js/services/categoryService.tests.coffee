@@ -4,7 +4,7 @@ describe "CategoryService", ->
     name: "Electric Witch"
     description: "With my mind on my money why is you real deal Holyfield Long Beach bubbles in the tub rizzide like every single day fizzle rolling down the street. Realness tha shiznit recognize smokin' indo guess what? nasty the diggy the dopest it's 1993. Rizzide the Magic Johnson of rap how we do it every single one plizzay nothing can save ya. Feel the breeze tha shiznit Snoop laid back plizzay used to sell loot the Dogg Pound put ya choppers up pizzle."
 
-  updateArg = destroyArg =
+  showArg = updateArg = destroyArg =
     id: 1
     name: "Electric Witch"
     description: "With my mind on my money why is you real deal Holyfield Long Beach bubbles in the tub rizzide like every single day fizzle rolling down the street. Realness tha shiznit recognize smokin' indo guess what? nasty the diggy the dopest it's 1993. Rizzide the Magic Johnson of rap how we do it every single one plizzay nothing can save ya. Feel the breeze tha shiznit Snoop laid back plizzay used to sell loot the Dogg Pound put ya choppers up pizzle."
@@ -25,7 +25,7 @@ describe "CategoryService", ->
   createPayload = updatePayload =
     category: createArg
 
-  createResponse = updateResponse =   
+  showResponse = createResponse = updateResponse =   
     category:
       id: 1
       name: "Electric Witch"
@@ -114,6 +114,12 @@ describe "CategoryService", ->
     it "", ->
       $httpBackend.expectGET("/api/categories").respond(response1)
       CategoryService.index()
+      $httpBackend.flush()
+
+  describe ".show", ->
+    it "", ->
+      $httpBackend.expectGET("/api/categories/1").respond(showResponse)
+      CategoryService.show(showArg)
       $httpBackend.flush()
 
   describe ".create", ->

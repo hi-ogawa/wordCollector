@@ -1,6 +1,7 @@
-ItemController = (ItemService, AuthService, FlashService, $location, $routeParams, $scope) ->
+ItemController = (ItemService, CategoryService, FlashService, $location, $routeParams) ->
   vm = @
   vm.flash = FlashService
+  vm.category = CategoryService.show(id: $routeParams.categoryId)
   vm.items = ItemService.index()
   vm.itemOnCursor = ""
 
@@ -74,7 +75,7 @@ ItemController = (ItemService, AuthService, FlashService, $location, $routeParam
 
   return
 ItemController.$inject = [
-  "ItemService", "AuthService", "FlashService", "$location", "$routeParams", "$scope"
+  "ItemService", "CategoryService", "FlashService", "$location", "$routeParams"
 ]
 angular.module("app")
        .controller "ItemController", ItemController

@@ -2,10 +2,13 @@
 (function() {
   var ItemController;
 
-  ItemController = function(ItemService, AuthService, FlashService, $location, $routeParams, $scope) {
+  ItemController = function(ItemService, CategoryService, FlashService, $location, $routeParams) {
     var speed, vm;
     vm = this;
     vm.flash = FlashService;
+    vm.category = CategoryService.show({
+      id: $routeParams.categoryId
+    });
     vm.items = ItemService.index();
     vm.itemOnCursor = "";
     vm.initMagnificPopup = function() {
@@ -88,7 +91,7 @@
     };
   };
 
-  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location", "$routeParams", "$scope"];
+  ItemController.$inject = ["ItemService", "CategoryService", "FlashService", "$location", "$routeParams"];
 
   angular.module("app").controller("ItemController", ItemController);
 

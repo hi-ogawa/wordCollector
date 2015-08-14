@@ -14,6 +14,12 @@
         },
         isArray: true
       },
+      show: {
+        method: "GET",
+        transformResponse: function(data) {
+          return data.category;
+        }
+      },
       create: {
         method: "POST",
         headers: {
@@ -42,6 +48,11 @@
     service = {
       index: function() {
         return r.index();
+      },
+      show: function(category) {
+        return r.show({
+          categoryId: category.id
+        });
       },
       create: function(category) {
         return r.create({
