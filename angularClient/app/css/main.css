@@ -4,9 +4,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   position: fixed;
-  top: 10%;
+  top: 50%;
   width: 50%;
-  z-index: 10; }
+  z-index: 10;
+  opacity: 0.8; }
 
 .floating-form {
   position: absolute;
@@ -67,7 +68,7 @@
   .flash-message.ng-hide-remove {
     top: -10%; }
   .flash-message.ng-hide-remove-active {
-    top: 10%; }
+    top: 50%; }
 
 .floating-form {
   -moz-transition: linear 0.2s all;

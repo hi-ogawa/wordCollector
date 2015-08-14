@@ -2,7 +2,7 @@
 (function() {
   var FlashService;
 
-  FlashService = function($rootScope) {
+  FlashService = function($rootScope, $timeout) {
     var apply, currentMessage, currentStatus, keepedMessage, keepedStatus, service;
     currentMessage = "";
     currentStatus = "";
@@ -12,10 +12,16 @@
       currentMessage = keepedMessage;
       currentStatus = keepedStatus;
       keepedMessage = "";
-      return keepedStatus = "";
+      keepedStatus = "";
+      return $timeout(function() {
+        currentMessage = "";
+        return currentStatus = "";
+      }, 2000);
     };
     $rootScope.$on("$routeChangeSuccess", function() {
-      return apply();
+      return $timeout((function() {
+        return apply();
+      }), 10);
     });
     service = {
       getStatus: function() {
@@ -35,7 +41,7 @@
     return service;
   };
 
-  FlashService.$inject = ["$rootScope"];
+  FlashService.$inject = ["$rootScope", "$timeout"];
 
   angular.module("app").factory("FlashService", FlashService);
 

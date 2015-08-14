@@ -1,4 +1,4 @@
-FlashService = ($rootScope) ->
+FlashService = ($rootScope, $timeout) ->
   currentMessage = ""
   currentStatus = "" # this could be used as a bootstrap alert class (e.g. success, danger)
   keepedMessage = ""
@@ -9,8 +9,14 @@ FlashService = ($rootScope) ->
     currentStatus = keepedStatus
     keepedMessage = ""
     keepedStatus  = ""
+    $timeout ->
+      currentMessage = ""
+      currentStatus  = ""   
+    , 2000
 
-  $rootScope.$on "$routeChangeSuccess", -> apply()
+  $rootScope.$on "$routeChangeSuccess", ->
+    # to get animation work somehow
+    $timeout (-> apply()), 10
     
   service =
     getStatus: ->
@@ -23,9 +29,11 @@ FlashService = ($rootScope) ->
       keepedMessage = message
       keepedStatus = status
 
-    apply: -> apply()
+    apply: ->
+      apply()
+      # show only 2 seconds
 
   return service
-FlashService.$inject = ["$rootScope"]
+FlashService.$inject = ["$rootScope", "$timeout"]
 angular.module("app")
        .factory "FlashService", FlashService
