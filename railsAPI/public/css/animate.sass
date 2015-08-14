@@ -1,0 +1,53 @@
+@import "compass/css3/transition"
+
+.flash-message
+  @include transition(0.2s linear all)
+
+  /* disappearing start
+  &.ng-hide-add
+    opacity: 1
+
+  /* disappearing end
+  &.ng-hide-add-active
+    opacity: 0.5
+
+  /* appearing start
+  &.ng-hide-remove
+    top: -10%
+
+  /* appearing end
+  &.ng-hide-remove-active
+    top: $flash-top
+  
+
+.floating-form
+  @include transition(0.2s linear all)
+
+  /* disappearing start
+  &.ng-hide-add
+    opacity: 1
+
+  /* disappearing end
+  &.ng-hide-add-active
+    opacity: 0.5
+
+  /* appearing start
+  &.ng-hide-remove
+    top: -10%
+
+  /* appearing end
+  &.ng-hide-remove-active
+    top: $form-top
+
+
+#items-list > table > tbody > tr
+  @include transition(0.3s linear all)
+
+  &.onCursor
+    background-color: rgb(238, 203, 203)
+
+  &.onCursor-add
+    background-color: auto
+
+  &.onCursor-add-active
+    background-color: rgb(238, 203, 203)

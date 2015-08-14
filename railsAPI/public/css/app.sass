@@ -1,0 +1,53 @@
+.flash-message
+  @include centerer
+  position: fixed
+  top:   $flash-top
+  width: 50%
+  z-index: 10
+  opacity: 0.8
+
+.floating-form
+  @include centerer
+  position: fixed
+  top: $form-top
+  width: 50%
+  z-index: 10
+
+/* category view
+#category-setting
+  #buttons
+    margin-top: 20px
+
+/* item view
+$item-setting-height: 10vh
+
+#items-setting
+  height: $item-setting-height
+  #buttons
+    margin-top: 20px
+
+#items-list
+  position: absolute
+  height: 100vh - $item-setting-height
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
+  table > tbody > tr
+    .word-meaning
+      width: 25%
+      .h4
+        margin: 5px
+    .sentence
+    .actions
+      width: 18%
+
+#image-popups
+  position: absolute
+  top: 0vh
+  height: 100vh
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
+  a > img
+    width: 100%
+    &.onCursor
+      background-color: rgb(238, 100, 100)
+

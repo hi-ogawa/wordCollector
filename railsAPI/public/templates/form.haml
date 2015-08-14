@@ -1,0 +1,22 @@
+%div{"ng-include" => "'templates/flash.html'"}
+
+%form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}
+  .form-group
+    %label Email address
+    %input.form-control{"ng-model" => "vm.user.email", required: true, type: "email"}
+
+  .form-group
+    %label Password (longer than 8 characters)
+    %input.form-control{"ng-model" => "vm.user.password",
+                        required: true, minlength: "8", type: "password"}
+
+  .form-group
+    %label Password Confirmation
+    %input.form-control{"ng-model" => "vm.user.password_confirmation", 
+                        required: true, type: "password"}
+
+  .form-actions
+    %button.btn.btn-primary{type: "submit",
+                           "ng-disabled"=> "form.$invalid || vm.dataLoading || vm.user.password != vm.user.password_confirmation"}
+      Submit
+    %i.fa.fa-spinner.fa-spin{"ng-if" => "vm.dataLoading"}
