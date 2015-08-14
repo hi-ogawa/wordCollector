@@ -14,7 +14,7 @@
       vm.dataLoading = true;
       return AuthService.login(vm.user).then(function() {
         FlashService.set("Login successful", "success");
-        return $location.path("/");
+        return $location.path("/category");
       }, function() {
         FlashService.set("Login failed", "danger");
         vm.dataLoading = false;

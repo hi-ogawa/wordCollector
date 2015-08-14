@@ -15,7 +15,7 @@
       vm.dataLoading = true;
       return UserService.update(vm.user).then(function() {
         FlashService.set("Account updated", "success");
-        return $location.path("/");
+        return $location.path("/category");
       }, function() {
         FlashService.set("Account update failed", "danger");
         vm.dataLoading = false;

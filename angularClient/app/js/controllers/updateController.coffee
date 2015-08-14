@@ -13,7 +13,7 @@ UpdateController = (UserService, $location, FlashService) ->
     UserService.update(vm.user)
     .then ->
       FlashService.set("Account updated", "success")
-      $location.path "/"
+      $location.path "/category"
     ,->
       FlashService.set("Account update failed", "danger")
       vm.dataLoading = false

@@ -2,6 +2,7 @@ UserService = (AuthService, $resource) ->
   r = $resource "/api/users/:userId", {userId: "@id"},
         show:
           method: "GET"
+          transformResponse: (data) -> data.user
           params:
             userId: -> AuthService.getSession().userId
           headers:
@@ -25,7 +26,7 @@ UserService = (AuthService, $resource) ->
             Authorization: -> AuthService.getSession().token
 
   service =
-    show: -> r.show().$promise
+    show: -> r.show()
 
     create:  (user) -> r.create(user).$promise
 

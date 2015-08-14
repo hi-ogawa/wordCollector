@@ -2,7 +2,7 @@
 (function() {
   var CategoryController;
 
-  CategoryController = function(CategoryService, FlashService, $location) {
+  CategoryController = function(CategoryService, UserService, AuthService, FlashService, $location) {
     var vm;
     vm = this;
     vm.flash = FlashService;
@@ -36,9 +36,32 @@
     vm.deleteCategory = function(category) {
       return CategoryService.destroy(category);
     };
+    vm.user = UserService.show();
+    vm["delete"] = function() {
+      vm.dataLoading = true;
+      return UserService.destroy().then(function() {
+        FlashService.set("Account Deleted", "success");
+        return $location.path("/register");
+      }, function() {
+        vm.dataLoading = false;
+        FlashService.set("Account deletion failed", "danger");
+        return FlashService.apply();
+      });
+    };
+    vm.logout = function() {
+      vm.dataLoading = true;
+      return AuthService.logout().then(function() {
+        FlashService.set("Logout successful", "success");
+        return $location.path("/login");
+      }, function() {
+        vm.dataLoading = false;
+        FlashService.set("Logout failed", "danger");
+        return FlashService.apply();
+      });
+    };
   };
 
-  CategoryController.$inject = ["CategoryService", "FlashService", "$location"];
+  CategoryController.$inject = ["CategoryService", "UserService", "AuthService", "FlashService", "$location"];
 
   angular.module("app").controller("CategoryController", CategoryController);
 

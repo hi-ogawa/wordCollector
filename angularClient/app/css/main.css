@@ -18,13 +18,15 @@
   width: 50%;
   z-index: 10; }
 
+/* category view */
+#category-setting #buttons {
+  margin-top: 20px; }
+
 /* item view */
 #items-setting {
   height: 10vh; }
-  #items-setting h3 {
-    display: inline; }
   #items-setting #buttons {
-    display: inline; }
+    margin-top: 20px; }
 
 #items-list {
   position: absolute;

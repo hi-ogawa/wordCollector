@@ -4,9 +4,7 @@
 
   config = function($routeProvider, $locationProvider) {
     return $routeProvider.when("/", {
-      controller: "HomeController",
-      templateUrl: "templates/home.html",
-      controllerAs: "vm"
+      redirectTo: "/category"
     }).when("/login", {
       controller: "LoginController",
       templateUrl: "templates/login.html",

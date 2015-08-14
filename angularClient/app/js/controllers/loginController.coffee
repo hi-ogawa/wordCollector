@@ -11,7 +11,7 @@ LoginController = (AuthService, $location, FlashService) ->
     AuthService.login(vm.user)
     .then ->
       FlashService.set "Login successful", "success"
-      $location.path "/"
+      $location.path "/category"
     ,->
       FlashService.set "Login failed", "danger"
       vm.dataLoading = false

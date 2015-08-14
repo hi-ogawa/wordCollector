@@ -1,9 +1,7 @@
 config = ($routeProvider, $locationProvider) ->
   $routeProvider
     .when "/",
-        controller:  "HomeController"
-        templateUrl: "templates/home.html"
-        controllerAs: "vm"
+        redirectTo: "/category"
 
     .when "/login",
         controller:  "LoginController"

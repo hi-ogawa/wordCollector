@@ -1,6 +1,8 @@
-CategoryController = (CategoryService, FlashService, $location) ->
+CategoryController = (CategoryService, UserService, AuthService, FlashService, $location) ->
   vm = @
   vm.flash = FlashService
+
+  # category listing
   vm.categories = CategoryService.index()
   vm.sum_items = (cs) ->
     _.foldl vm.categories, ((n, c) -> n + c.item_ids.length), 0
@@ -30,10 +32,35 @@ CategoryController = (CategoryService, FlashService, $location) ->
 
   vm.deleteCategory = (category) ->
     CategoryService.destroy category
-    
+
+
+  # user account / session manage
+  vm.user = UserService.show()
+  vm.delete = ->
+    vm.dataLoading = true
+    UserService.destroy()
+    .then ->
+      FlashService.set("Account Deleted", "success")
+      $location.path "/register"
+    ,->
+      vm.dataLoading = false
+      FlashService.set("Account deletion failed", "danger")
+      FlashService.apply()
+
+  vm.logout = ->
+    vm.dataLoading = true
+    AuthService.logout()
+    .then ->
+      FlashService.set("Logout successful", "success")
+      $location.path "/login"
+    ,->
+      vm.dataLoading = false
+      FlashService.set("Logout failed", "danger")
+      FlashService.apply()
+
   return
 CategoryController.$inject = [
-  "CategoryService", "FlashService", "$location"
+  "CategoryService", "UserService", "AuthService", "FlashService", "$location"
 ]
 angular.module("app")
        .controller "CategoryController", CategoryController

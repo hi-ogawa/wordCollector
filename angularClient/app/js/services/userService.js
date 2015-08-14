@@ -9,6 +9,9 @@
     }, {
       show: {
         method: "GET",
+        transformResponse: function(data) {
+          return data.user;
+        },
         params: {
           userId: function() {
             return AuthService.getSession().userId;
@@ -52,7 +55,7 @@
     });
     service = {
       show: function() {
-        return r.show().$promise;
+        return r.show();
       },
       create: function(user) {
         return r.create(user).$promise;

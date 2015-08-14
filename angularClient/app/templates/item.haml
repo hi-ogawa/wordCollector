@@ -2,16 +2,18 @@
   .col-sm-9
     
     #items-setting
-      %h3 Listing Items
-
-      #buttons
-        .btn-group
-          %a.btn.btn-success{href: "#/category"}
-            %span.glyphicon.glyphicon-arrow-left
-            List categories
-          %a.btn.btn-success{"ng-click" => "vm.showForm()"}
-            %span.glyphicon.glyphicon-plus
-            New item
+      .row
+        .col-sm-4
+          %h3 Listing Items
+        .col-sm-8
+          #buttons.pull-right
+            .btn-group
+              %a.btn.btn-success{href: "#/category"}
+                %span.glyphicon.glyphicon-arrow-left
+                List categories
+              %a.btn.btn-success{"ng-click" => "vm.showForm()"}
+                %span.glyphicon.glyphicon-plus
+                New item
 
     #items-list
       %table.table.table-striped
