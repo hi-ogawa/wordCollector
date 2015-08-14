@@ -3,11 +3,48 @@
   var ItemController;
 
   ItemController = function(ItemService, AuthService, FlashService, $location, $routeParams) {
-    var vm;
+    var speed, vm;
     vm = this;
     vm.flash = FlashService;
     vm.items = ItemService.index();
     vm.itemOnCursor = "";
+    speed = 700;
+    vm.scrollPictures = function(item) {
+      vm.itemOnCursor = item.id;
+      setTimeout(function() {
+        var diff, picOffset, picOnCursor, picOnTop, scrollOffset;
+        picOnTop = $("#image-popups").children().first();
+        picOnCursor = $("#image-popups .onCursor");
+        picOffset = picOnCursor.position().top - picOnTop.position().top;
+        scrollOffset = picOffset - $("#image-popups").height() / 2 + picOnCursor.height() / 2;
+        diff = Math.abs(scrollOffset - $("#image-popups").scrollTop());
+        return $("#image-popups").animate({
+          scrollTop: scrollOffset
+        }, {
+          duration: (diff / speed) * 1000,
+          easing: "linear",
+          queue: false
+        });
+      }, 10);
+    };
+    vm.scrollItems = function(item) {
+      vm.itemOnCursor = item.id;
+      setTimeout(function() {
+        var diff, itemOffset, itemOnCursor, itemOnTop, scrollOffset;
+        itemOnTop = $("#items-list").children().first();
+        itemOnCursor = $("#items-list .onCursor");
+        itemOffset = itemOnCursor.position().top - itemOnTop.position().top;
+        scrollOffset = itemOffset - $("#items-list").height() / 2 + itemOnCursor.height() / 2;
+        diff = Math.abs(scrollOffset - $("#items-list").scrollTop());
+        return $("#items-list").animate({
+          scrollTop: scrollOffset
+        }, {
+          duration: (diff / speed) * 1000,
+          easing: "linear",
+          queue: false
+        });
+      }, 10);
+    };
     vm.showForm = function(item) {
       vm.editing = !!item;
       vm.formOn = true;

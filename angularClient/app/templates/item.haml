@@ -1,46 +1,57 @@
 .row
-  .col-sm-8
-    %h3 Listing Items
-    %table#items-table.table.table-striped
-      %thead
-        %tr
-          %th Word and Meaning
-          %th Sentence
-          %th Actions
-     
-      %tbody
-        %tr{"ng-repeat" => "item in vm.items",
-            "ng-class" => "{'info': vm.itemForm.id == item.id && vm.formOn,
-                            'danger': vm.itemOnCursor == item.id && !vm.formOn }",
-            "ng-mouseover" => "vm.itemOnCursor = item.id"}
-          %td.word-meaning
-            .h4     {{ item.word }}
-            .small {{ item.meaning }}
-          %td.sentence {{ item.sentence }}
-          %td.actions
-            .btn-group
-              %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
-                Edit
-                %span.glyphicon.glyphicon-pencil
-              %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
-                Delete
-                %span.glyphicon.glyphicon-trash
+  .col-sm-9
+    
+    #items-setting
+      %h3 Listing Items
 
-    .btn-group
-      %a.btn.btn-success{href: "#/category"}
-        %span.glyphicon.glyphicon-arrow-left
-        List categories
-      %a.btn.btn-success{"ng-click" => "vm.showForm()"}
-        %span.glyphicon.glyphicon-plus
-        New item
+      #buttons
+        .btn-group
+          %a.btn.btn-success{href: "#/category"}
+            %span.glyphicon.glyphicon-arrow-left
+            List categories
+          %a.btn.btn-success{"ng-click" => "vm.showForm()"}
+            %span.glyphicon.glyphicon-plus
+            New item
 
-  .col-sm-4
-    .image-popups{"ng-repeat" => "item in vm.items"}
-      %img.img-thumbnail{"ng-src" => "{{ item.picture }}",
-                         "ng-class" => "{'onCursor': vm.itemOnCursor == item.id && !vm.formOn}",
-                         "ng-mouseover" => "vm.itemOnCursor = item.id"}
+    #items-list
+      %table.table.table-striped
+        %thead
+          %tr
+            %th Word and Meaning
+            %th Sentence
+            %th Actions
+       
+        %tbody
+          %tr{"ng-repeat" => "item in vm.items",
+              "ng-class" => "{'info':     vm.itemForm.id == item.id && vm.formOn,
+                              'onCursor': vm.itemOnCursor == item.id && !vm.formOn}",
+              "ng-mouseover" => "vm.scrollPictures(item)"}
+            %td.word-meaning
+              .h4        {{ item.word }}
+              .small     {{ item.meaning }}
+            %td.sentence {{ item.sentence }}
+            %td.actions
+              .btn-group
+                %a.btn.btn-warning{"ng-click" => "vm.showForm(item)"}
+                  Edit
+                  %span.glyphicon.glyphicon-pencil
+                %a.btn.btn-danger{"ng-click" => "vm.deleteItem(item)"}
+                  Delete
+                  %span.glyphicon.glyphicon-trash
+
+  .col-sm-3
+
+    #image-popups
+      %img.img-thumbnail{"ng-repeat" => "item in vm.items",
+                         "ng-src" => "{{ item.picture }}",
+                         "ng-class" => "{'bg-primary': vm.itemForm.id  == item.id && vm.formOn,
+                                         'onCursor'  : vm.itemOnCursor == item.id && !vm.formOn}",
+                         "ng-mouseover" => "vm.scrollItems(item)"}
+
+
 
 %div{"ng-include" => "'templates/flash.html'"}
+
 
 .floating-form.well{"ng-show" => "vm.formOn"}
   %form{name: "form", "ng-submit" => "vm.submit()", novalidate: true}

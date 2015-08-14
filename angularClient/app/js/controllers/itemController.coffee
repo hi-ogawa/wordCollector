@@ -2,9 +2,41 @@ ItemController = (ItemService, AuthService, FlashService, $location, $routeParam
   vm = @
   vm.flash = FlashService
   vm.items = ItemService.index()
-
   vm.itemOnCursor = ""
 
+  # sync two scrollable divs
+  speed = 700 # pixel per second
+  vm.scrollPictures = (item) ->
+    vm.itemOnCursor = item.id 
+    # need to wait a moment for ng-class to apply .onCursor
+    setTimeout ->
+      # bit tricky to achieve fixed animation speed (which is not necessary)
+      picOnTop     = $("#image-popups").children().first()
+      picOnCursor  = $("#image-popups .onCursor")
+      picOffset    = picOnCursor.position().top - picOnTop.position().top
+      scrollOffset = picOffset - $("#image-popups").height() / 2 + picOnCursor.height() / 2
+      diff         = Math.abs(scrollOffset - $("#image-popups").scrollTop())
+      $("#image-popups").animate
+        scrollTop: scrollOffset 
+        , {duration: (diff/speed) * 1000, easing: "linear", queue: false}
+    , 10
+    return
+  vm.scrollItems = (item) ->
+    vm.itemOnCursor = item.id 
+    setTimeout ->
+      itemOnTop     = $("#items-list").children().first()
+      itemOnCursor  = $("#items-list .onCursor")
+      itemOffset    = itemOnCursor.position().top - itemOnTop.position().top
+      scrollOffset  = itemOffset - $("#items-list").height() / 2 + itemOnCursor.height() / 2
+      diff          = Math.abs(scrollOffset - $("#items-list").scrollTop())
+      $("#items-list").animate
+        scrollTop: scrollOffset 
+        , {duration: (diff/speed) * 1000, easing: "linear", queue: false}
+    , 10
+    return
+
+
+  # prepare form
   vm.showForm = (item) ->
     vm.editing = !!item
     vm.formOn = true

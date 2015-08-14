@@ -19,17 +19,35 @@
   z-index: 10; }
 
 /* item view */
-#items-table tbody tr .word-meaning {
-  width: 25%; }
-  #items-table tbody tr .word-meaning .h4 {
-    margin: 5px; }
-#items-table tbody tr .actions {
-  width: 18%; }
+#items-setting {
+  height: 10vh; }
+  #items-setting h3 {
+    display: inline; }
+  #items-setting #buttons {
+    display: inline; }
 
-.image-popups img {
-  width: 100%; }
-  .image-popups img.onCursor {
-    background-color: #ee6464; }
+#items-list {
+  position: absolute;
+  height: 90vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; }
+  #items-list table > tbody > tr .word-meaning {
+    width: 25%; }
+    #items-list table > tbody > tr .word-meaning .h4 {
+      margin: 5px; }
+  #items-list table > tbody > tr .actions {
+    width: 18%; }
+
+#image-popups {
+  position: absolute;
+  top: 0vh;
+  height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; }
+  #image-popups img {
+    width: 100%; }
+    #image-popups img.onCursor {
+      background-color: #ee6464; }
 
 .flash-message {
   -moz-transition: linear 0.2s all;
@@ -66,3 +84,15 @@
     top: -10%; }
   .floating-form.ng-hide-remove-active {
     top: 40%; }
+
+#items-list > table > tbody > tr {
+  -moz-transition: linear 0.3s all;
+  -o-transition: linear 0.3s all;
+  -webkit-transition: linear 0.3s all;
+  transition: linear 0.3s all; }
+  #items-list > table > tbody > tr.onCursor {
+    background-color: #eecbcb; }
+  #items-list > table > tbody > tr.onCursor-add {
+    background-color: auto; }
+  #items-list > table > tbody > tr.onCursor-add-active {
+    background-color: #eecbcb; }

@@ -14,18 +14,35 @@
 
 
 /* item view
-#items-table
-  tbody
-    tr
-      .word-meaning
-        width: 25%
-        .h4
-          margin: 5px
-      .sentence
-      .actions
-        width: 18%
+$item-setting-height: 10vh
 
-.image-popups
+#items-setting
+  height: $item-setting-height
+  h3
+    display:  inline
+  #buttons
+    display:  inline
+
+#items-list
+  position: absolute
+  height: 100vh - $item-setting-height
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
+  table > tbody > tr
+    .word-meaning
+      width: 25%
+      .h4
+        margin: 5px
+    .sentence
+    .actions
+      width: 18%
+
+#image-popups
+  position: absolute
+  top: 0vh
+  height: 100vh
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
   img
     width: 100%
     &.onCursor

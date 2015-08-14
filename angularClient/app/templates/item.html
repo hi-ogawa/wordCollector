@@ -1,50 +1,56 @@
 <div class='row'>
-  <div class='col-sm-8'>
-    <h3>Listing Items</h3>
-    <table class='table table-striped' id='items-table'>
-      <thead>
-        <tr>
-          <th>Word and Meaning</th>
-          <th>Sentence</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-class="{'info': vm.itemForm.id == item.id &amp;&amp; vm.formOn,&#x000A;'danger': vm.itemOnCursor == item.id &amp;&amp; !vm.formOn }" ng-mouseover='vm.itemOnCursor = item.id' ng-repeat='item in vm.items'>
-          <td class='word-meaning'>
-            <div class='h4'>{{ item.word }}</div>
-            <div class='small'>{{ item.meaning }}</div>
-          </td>
-          <td class='sentence'>{{ item.sentence }}</td>
-          <td class='actions'>
-            <div class='btn-group'>
-              <a class='btn btn-warning' ng-click='vm.showForm(item)'>
-                Edit
-                <span class='glyphicon glyphicon-pencil'></span>
-              </a>
-              <a class='btn btn-danger' ng-click='vm.deleteItem(item)'>
-                Delete
-                <span class='glyphicon glyphicon-trash'></span>
-              </a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class='btn-group'>
-      <a class='btn btn-success' href='#/category'>
-        <span class='glyphicon glyphicon-arrow-left'></span>
-        List categories
-      </a>
-      <a class='btn btn-success' ng-click='vm.showForm()'>
-        <span class='glyphicon glyphicon-plus'></span>
-        New item
-      </a>
+  <div class='col-sm-9'>
+    <div id='items-setting'>
+      <h3>Listing Items</h3>
+      <div id='buttons'>
+        <div class='btn-group'>
+          <a class='btn btn-success' href='#/category'>
+            <span class='glyphicon glyphicon-arrow-left'></span>
+            List categories
+          </a>
+          <a class='btn btn-success' ng-click='vm.showForm()'>
+            <span class='glyphicon glyphicon-plus'></span>
+            New item
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id='items-list'>
+      <table class='table table-striped'>
+        <thead>
+          <tr>
+            <th>Word and Meaning</th>
+            <th>Sentence</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-class="{'info':     vm.itemForm.id == item.id &amp;&amp; vm.formOn,&#x000A;'onCursor': vm.itemOnCursor == item.id &amp;&amp; !vm.formOn}" ng-mouseover='vm.scrollPictures(item)' ng-repeat='item in vm.items'>
+            <td class='word-meaning'>
+              <div class='h4'>{{ item.word }}</div>
+              <div class='small'>{{ item.meaning }}</div>
+            </td>
+            <td class='sentence'>{{ item.sentence }}</td>
+            <td class='actions'>
+              <div class='btn-group'>
+                <a class='btn btn-warning' ng-click='vm.showForm(item)'>
+                  Edit
+                  <span class='glyphicon glyphicon-pencil'></span>
+                </a>
+                <a class='btn btn-danger' ng-click='vm.deleteItem(item)'>
+                  Delete
+                  <span class='glyphicon glyphicon-trash'></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  <div class='col-sm-4'>
-    <div class='image-popups' ng-repeat='item in vm.items'>
-      <img class='img-thumbnail' ng-class="{'onCursor': vm.itemOnCursor == item.id &amp;&amp; !vm.formOn}" ng-mouseover='vm.itemOnCursor = item.id' ng-src='{{ item.picture }}'>
+  <div class='col-sm-3'>
+    <div id='image-popups'>
+      <img class='img-thumbnail' ng-class="{'bg-primary': vm.itemForm.id  == item.id &amp;&amp; vm.formOn,&#x000A;'onCursor'  : vm.itemOnCursor == item.id &amp;&amp; !vm.formOn}" ng-mouseover='vm.scrollItems(item)' ng-repeat='item in vm.items' ng-src='{{ item.picture }}'>
     </div>
   </div>
 </div>

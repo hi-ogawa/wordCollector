@@ -38,3 +38,16 @@
   /* appearing end
   &.ng-hide-remove-active
     top: $form-top
+
+
+#items-list > table > tbody > tr
+  @include transition(0.3s linear all)
+
+  &.onCursor
+    background-color: rgb(238, 203, 203)
+
+  &.onCursor-add
+    background-color: auto
+
+  &.onCursor-add-active
+    background-color: rgb(238, 203, 203)
