@@ -3,7 +3,7 @@
   var ItemController;
 
   ItemController = function(ItemService, CategoryService, FlashService, $location, $routeParams) {
-    var speed, vm;
+    var speed0, speed1, vm;
     vm = this;
     vm.flash = FlashService;
     vm.category = CategoryService.show({
@@ -24,7 +24,7 @@
         }
       });
     };
-    speed = 700;
+    speed0 = 700;
     vm.scrollPictures = function(item) {
       vm.itemOnCursor = item.id;
       setTimeout(function() {
@@ -37,12 +37,13 @@
         return $("#image-popups").animate({
           scrollTop: scrollOffset
         }, {
-          duration: (diff / speed) * 1000,
+          duration: (diff / speed0) * 1000,
           easing: "linear",
           queue: false
         });
       }, 10);
     };
+    speed1 = 350;
     vm.scrollItems = function(item) {
       vm.itemOnCursor = item.id;
       setTimeout(function() {
@@ -55,7 +56,7 @@
         return $("#items-list").animate({
           scrollTop: scrollOffset
         }, {
-          duration: (diff / speed) * 1000,
+          duration: (diff / speed1) * 1000,
           easing: "linear",
           queue: false
         });

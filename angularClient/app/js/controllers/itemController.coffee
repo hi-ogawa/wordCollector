@@ -15,7 +15,7 @@ ItemController = (ItemService, CategoryService, FlashService, $location, $routeP
     return
 
   # sync two scrollable divs
-  speed = 700 # pixel per second
+  speed0 = 700 # pixel per second
   vm.scrollPictures = (item) ->
     vm.itemOnCursor = item.id 
     # need to wait a moment for ng-class to apply .onCursor
@@ -28,9 +28,10 @@ ItemController = (ItemService, CategoryService, FlashService, $location, $routeP
       diff         = Math.abs(scrollOffset - $("#image-popups").scrollTop())
       $("#image-popups").animate
         scrollTop: scrollOffset 
-        , {duration: (diff/speed) * 1000, easing: "linear", queue: false}
+        , {duration: (diff/speed0) * 1000, easing: "linear", queue: false}
     , 10
     return
+  speed1 = 350
   vm.scrollItems = (item) ->
     vm.itemOnCursor = item.id 
     setTimeout ->
@@ -41,7 +42,7 @@ ItemController = (ItemService, CategoryService, FlashService, $location, $routeP
       diff          = Math.abs(scrollOffset - $("#items-list").scrollTop())
       $("#items-list").animate
         scrollTop: scrollOffset 
-        , {duration: (diff/speed) * 1000, easing: "linear", queue: false}
+        , {duration: (diff/speed1) * 1000, easing: "linear", queue: false}
     , 10
     return
 
