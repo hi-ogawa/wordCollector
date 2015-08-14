@@ -42,11 +42,12 @@
   .col-sm-3
 
     #image-popups
-      %img.img-thumbnail{"ng-repeat" => "item in vm.items",
-                         "ng-src" => "{{ item.picture }}",
-                         "ng-class" => "{'bg-primary': vm.itemForm.id  == item.id && vm.formOn,
-                                         'onCursor'  : vm.itemOnCursor == item.id && !vm.formOn}",
-                         "ng-mouseover" => "vm.scrollItems(item)"}
+      %a.magnific-popup-img{"ng-repeat" => "item in vm.items", "ng-href" => "{{ item.picture }}"}
+        %img.img-thumbnail{"ng-src" => "{{ item.picture }}",
+                           "ng-class" => "{'bg-primary': vm.itemForm.id  == item.id && vm.formOn,
+                                           'onCursor'  : vm.itemOnCursor == item.id && !vm.formOn}",
+                           "ng-mouseover" => "vm.scrollItems(item)"}
+        .fake{"ng-init" => "vm.initMagnificPopup()"}
 
 
 

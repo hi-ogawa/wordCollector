@@ -2,18 +2,31 @@
 (function() {
   var ItemController;
 
-  ItemController = function(ItemService, AuthService, FlashService, $location, $routeParams) {
+  ItemController = function(ItemService, AuthService, FlashService, $location, $routeParams, $scope) {
     var speed, vm;
     vm = this;
     vm.flash = FlashService;
     vm.items = ItemService.index();
     vm.itemOnCursor = "";
+    vm.initMagnificPopup = function() {
+      $(".magnific-popup-img").magnificPopup({
+        type: 'image',
+        closeOnContentClick: true,
+        zoom: {
+          enabled: true,
+          duration: 300
+        },
+        image: {
+          verticalFit: true
+        }
+      });
+    };
     speed = 700;
     vm.scrollPictures = function(item) {
       vm.itemOnCursor = item.id;
       setTimeout(function() {
         var diff, picOffset, picOnCursor, picOnTop, scrollOffset;
-        picOnTop = $("#image-popups").children().first();
+        picOnTop = $("#image-popups img").first();
         picOnCursor = $("#image-popups .onCursor");
         picOffset = picOnCursor.position().top - picOnTop.position().top;
         scrollOffset = picOffset - $("#image-popups").height() / 2 + picOnCursor.height() / 2;
@@ -75,7 +88,7 @@
     };
   };
 
-  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location", "$routeParams"];
+  ItemController.$inject = ["ItemService", "AuthService", "FlashService", "$location", "$routeParams", "$scope"];
 
   angular.module("app").controller("ItemController", ItemController);
 

@@ -50,7 +50,10 @@
   </div>
   <div class='col-sm-3'>
     <div id='image-popups'>
-      <img class='img-thumbnail' ng-class="{'bg-primary': vm.itemForm.id  == item.id &amp;&amp; vm.formOn,&#x000A;'onCursor'  : vm.itemOnCursor == item.id &amp;&amp; !vm.formOn}" ng-mouseover='vm.scrollItems(item)' ng-repeat='item in vm.items' ng-src='{{ item.picture }}'>
+      <a class='magnific-popup-img' ng-href='{{ item.picture }}' ng-repeat='item in vm.items'>
+        <img class='img-thumbnail' ng-class="{'bg-primary': vm.itemForm.id  == item.id &amp;&amp; vm.formOn,&#x000A;'onCursor'  : vm.itemOnCursor == item.id &amp;&amp; !vm.formOn}" ng-mouseover='vm.scrollItems(item)' ng-src='{{ item.picture }}'>
+        <div class='fake' ng-init='vm.initMagnificPopup()'></div>
+      </a>
     </div>
   </div>
 </div>

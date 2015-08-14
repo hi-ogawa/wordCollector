@@ -1,8 +1,17 @@
-ItemController = (ItemService, AuthService, FlashService, $location, $routeParams) ->
+ItemController = (ItemService, AuthService, FlashService, $location, $routeParams, $scope) ->
   vm = @
   vm.flash = FlashService
   vm.items = ItemService.index()
   vm.itemOnCursor = ""
+
+  # init magnific-popup library
+  vm.initMagnificPopup = ->
+    $(".magnific-popup-img").magnificPopup
+                               type: 'image'
+                               closeOnContentClick: true
+                               zoom: {enabled: true, duration: 300}
+                               image: {verticalFit: true}
+    return
 
   # sync two scrollable divs
   speed = 700 # pixel per second
@@ -11,7 +20,7 @@ ItemController = (ItemService, AuthService, FlashService, $location, $routeParam
     # need to wait a moment for ng-class to apply .onCursor
     setTimeout ->
       # bit tricky to achieve fixed animation speed (which is not necessary)
-      picOnTop     = $("#image-popups").children().first()
+      picOnTop     = $("#image-popups img").first()
       picOnCursor  = $("#image-popups .onCursor")
       picOffset    = picOnCursor.position().top - picOnTop.position().top
       scrollOffset = picOffset - $("#image-popups").height() / 2 + picOnCursor.height() / 2
@@ -34,7 +43,6 @@ ItemController = (ItemService, AuthService, FlashService, $location, $routeParam
         , {duration: (diff/speed) * 1000, easing: "linear", queue: false}
     , 10
     return
-
 
   # prepare form
   vm.showForm = (item) ->
@@ -66,7 +74,7 @@ ItemController = (ItemService, AuthService, FlashService, $location, $routeParam
 
   return
 ItemController.$inject = [
-  "ItemService", "AuthService", "FlashService", "$location", "$routeParams"
+  "ItemService", "AuthService", "FlashService", "$location", "$routeParams", "$scope"
 ]
 angular.module("app")
        .controller "ItemController", ItemController
