@@ -10,14 +10,14 @@
       index: {
         method: "GET",
         transformResponse: function(data) {
-          return data.categories;
+          return angular.fromJson(data).categories;
         },
         isArray: true
       },
       show: {
         method: "GET",
         transformResponse: function(data) {
-          return data.category;
+          return angular.fromJson(data).category;
         }
       },
       create: {

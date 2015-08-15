@@ -10,7 +10,7 @@
       show: {
         method: "GET",
         transformResponse: function(data) {
-          return data.user;
+          return angular.fromJson(data).user;
         },
         params: {
           userId: function() {

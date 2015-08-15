@@ -2,7 +2,7 @@ UserService = (AuthService, $resource) ->
   r = $resource "/api/users/:userId", {userId: "@id"},
         show:
           method: "GET"
-          transformResponse: (data) -> data.user
+          transformResponse: (data) -> angular.fromJson(data).user
           params:
             userId: -> AuthService.getSession().userId
           headers:

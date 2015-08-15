@@ -2,7 +2,7 @@ ItemService = (AuthService, $resource) ->
   r = $resource "/api/items/:itemId", {itemId: "@itemId"},
         index:
           method: "GET"
-          transformResponse: (data) -> data.items
+          transformResponse: (data) -> angular.fromJson(data).items
           isArray: true
 
         # show:

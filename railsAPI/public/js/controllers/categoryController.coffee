@@ -5,24 +5,6 @@ CategoryController = (CategoryService, UserService, AuthService, FlashService, $
   # category listing
   vm.categories = CategoryService.index()
 
-  CategoryService.index().$promise
-  .then (data) ->
-    console.log "CategoryService.index() - success" 
-    console.log data
-  , (err) ->
-    console.log "CategoryService.index() - error" 
-    console.log err
-
-  # debugging
-  $http.get("http://localhost:3000/api/categories").success (data) ->
-    console.log "$http.get - full url"
-    console.log data
-
-  $http.get("api/categories").success (data) ->
-    console.log "$http.get - only path"
-    console.log data
-
-
   vm.sum_items = (cs) ->
     _.foldl vm.categories, ((n, c) -> n + c.item_ids.length), 0
 
@@ -55,15 +37,6 @@ CategoryController = (CategoryService, UserService, AuthService, FlashService, $
 
   # user account / session manage
   vm.user = UserService.show()
-
-  UserService.show().$promise
-  .then (data) ->
-    console.log "UserService.show() - success" 
-    console.log data.email
-  , (err) ->
-    console.log "UserService.show() - error" 
-    console.log err
-
   vm.delete = ->
     vm.dataLoading = true
     UserService.destroy().$promise

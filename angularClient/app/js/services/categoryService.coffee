@@ -2,12 +2,12 @@ CategoryService = (AuthService, $resource) ->
   r = $resource "/api/categories/:categoryId", {categoryId: "@categoryId"},
         index:
           method: "GET"
-          transformResponse: (data) -> data.categories
+          transformResponse: (data) -> angular.fromJson(data).categories
           isArray: true
 
         show:
           method: "GET"
-          transformResponse: (data) -> data.category
+          transformResponse: (data) -> angular.fromJson(data).category
 
         create:
           method: "POST"

@@ -10,7 +10,7 @@
       index: {
         method: "GET",
         transformResponse: function(data) {
-          return data.items;
+          return angular.fromJson(data).items;
         },
         isArray: true
       },
