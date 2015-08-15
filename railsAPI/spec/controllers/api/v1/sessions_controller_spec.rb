@@ -7,13 +7,13 @@ describe Api::V1::SessionsController do
 
   describe "POST #create" do
     context "with valid params" do
-      before(:each) {post :create, {user: {email: user.email, password: user.password}}}
+      before(:each) {post :create, {session: {email: user.email, password: user.password}}}
       it {should match_response_schema "sessions/create"}
       it {should have_http_status 200}
     end
 
     context "with invalid params" do
-      before(:each) {post :create, {user: {email: user.email, password: ""}}}
+      before(:each) {post :create, {session: {email: user.email, password: ""}}}
       it {should have_http_status 422}
     end
   end

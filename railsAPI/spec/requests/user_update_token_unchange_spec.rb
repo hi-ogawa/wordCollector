@@ -10,7 +10,7 @@ describe "user update doesn't change auth_token" do
     post "api/users", {user: user_attr}
 
     # login (return auth_token)
-    post "api/sessions", {user: {email: user_attr[:email], password: user_attr[:password]}}
+    post "api/sessions", {session: {email: user_attr[:email], password: user_attr[:password]}}
     user = JSON.parse(response.body)["user"]
     auth_token = user["auth_token"]
     id = user["id"]

@@ -1,7 +1,7 @@
 class Api::V1::SessionsController < ApplicationController
 
   def create
-    user_info = params.require(:user).permit(:email, :password)
+    user_info = params.require(:session).permit(:email, :password)
     user = user_info[:email].present? && User.find_by(email: user_info[:email])
 
     return head :not_found unless user
