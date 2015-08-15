@@ -478,5 +478,5 @@ run = ($httpBackend) ->
 
 
 
-run.$inject = ["$httpBackend"]
-angular.module("app").run(run)
+# run.$inject = ["$httpBackend"]
+# angular.module("app").run(run)

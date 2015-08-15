@@ -419,8 +419,4 @@
     });
   };
 
-  run.$inject = ["$httpBackend"];
-
-  angular.module("app").run(run);
-
 }).call(this);
