@@ -3,14 +3,14 @@ UpdateController = (UserService, $location, FlashService) ->
 
   vm.flash = FlashService
 
-  vm.user =
-    email: "hiogawa@hiogawa"
-    password: "12345678"
-    password_confirmation: "12345678"
+  # vm.userForm =
+  #   email: "hiogawa@hiogawa"
+  #   password: "12345678"
+  #   password_confirmation: "12345678"
 
   vm.submit = ->
     vm.dataLoading = true
-    UserService.update(vm.user)
+    UserService.update(vm.userForm).$promise
     .then ->
       FlashService.set("Account updated", "success")
       $location.path "/category"

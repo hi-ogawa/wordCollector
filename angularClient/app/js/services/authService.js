@@ -3,7 +3,7 @@
   var AuthService;
 
   AuthService = function($resource, $cookies) {
-    var r, service, session;
+    var currentSession, r, service;
     r = $resource("/api/sessions/:token", {
       token: "@id"
     }, {
@@ -14,27 +14,30 @@
         method: "DELETE"
       }
     });
-    session = $cookies.getObject("session") || null;
+    currentSession = $cookies.getObject("session") || null;
     service = {
-      login: function(user) {
-        return r.create(user).$promise.then(function(data) {
-          session = {
+      login: function(session) {
+        return r.create({
+          session: _(session).pick(["email", "password"])
+        }).$promise.then(function(data) {
+          currentSession = {
             userId: data.user.id,
             token: data.user.auth_token
           };
-          return $cookies.putObject("session", session);
+          return $cookies.putObject("session", currentSession);
         });
       },
       logout: function() {
         return r.destroy({
-          token: session.token
+          token: currentSession.token
         }).$promise.then(function() {
+          var session;
           session = null;
           return $cookies.putObject("session", session);
         });
       },
       getSession: function() {
-        return session;
+        return currentSession;
       }
     };
     return service;

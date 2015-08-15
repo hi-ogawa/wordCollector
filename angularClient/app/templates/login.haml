@@ -6,11 +6,11 @@
   %form{name: "form", "ng-submit" => "vm.login()", novalidate: true}
     .form-group
       %label Email address
-      %input.form-control{"ng-model" => "vm.user.email", required: true, type: "email"}
+      %input.form-control{"ng-model" => "vm.sessionForm.email", required: true, type: "email"}
    
     .form-group
       %label Password
-      %input.form-control{"ng-model" => "vm.user.password",
+      %input.form-control{"ng-model" => "vm.sessionForm.password",
                           required: true, minlength: "8", type: "password"}
    
     .form-actions

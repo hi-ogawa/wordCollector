@@ -1,10 +1,12 @@
 describe "AuthService", ->
 
   AuthService = $resource = $cookies = $httpBackend = null
-  userAttr =
-    user:
-      email:                 "johndoe@john"
-      password:              "12345678" 
+  loginArg =
+    email:                 "johndoe@john"
+    password:              "12345678" 
+
+  loginPayload =
+    session: loginArg
 
   response =
     user:
@@ -32,8 +34,8 @@ describe "AuthService", ->
       expect(AuthService.getSession()).toEqual null
 
     it "sets value after .login then set null after .logout", ->
-      $httpBackend.expectPOST("/api/sessions", userAttr).respond(response)
-      AuthService.login(userAttr)
+      $httpBackend.expectPOST("/api/sessions", loginPayload).respond(response)
+      AuthService.login(loginArg)
       $httpBackend.flush()
       expect(AuthService.getSession()).toEqual
         userId: 1

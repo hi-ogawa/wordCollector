@@ -28,11 +28,15 @@ UserService = (AuthService, $resource) ->
   service =
     show: -> r.show()
 
-    create:  (user) -> r.create(user).$promise
+    create:  (user) ->
+      r.create
+        user: _(user).pick ["email", "password", "password_confirmation"]
 
-    update:  (user) -> r.update(user).$promise
+    update:  (user) ->
+      r.update
+        user: _(user).pick ["email", "password", "password_confirmation"]
 
-    destroy: -> r.destroy().$promise
+    destroy: -> r.destroy()
 
   return service
 UserService.$inject = ["AuthService", "$resource"]

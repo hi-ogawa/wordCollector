@@ -6,13 +6,9 @@
     var vm;
     vm = this;
     vm.flash = FlashService;
-    vm.user = {
-      email: "hiogawa@hiogawa",
-      password: "12345678"
-    };
     vm.login = function() {
       vm.dataLoading = true;
-      return AuthService.login(vm.user).then(function() {
+      return AuthService.login(vm.sessionForm).then(function() {
         FlashService.set("Login successful", "success");
         return $location.path("/category");
       }, function() {

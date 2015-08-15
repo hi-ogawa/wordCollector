@@ -2,13 +2,13 @@ LoginController = (AuthService, $location, FlashService) ->
   vm = @
   vm.flash = FlashService
 
-  vm.user =
-    email: "hiogawa@hiogawa"
-    password: "12345678"
+  # vm.sessionForm =
+  #   email: "hiogawa@hiogawa"
+  #   password: "12345678"
     
   vm.login = ->
     vm.dataLoading = true
-    AuthService.login(vm.user)
+    AuthService.login(vm.sessionForm)
     .then ->
       FlashService.set "Login successful", "success"
       $location.path "/category"

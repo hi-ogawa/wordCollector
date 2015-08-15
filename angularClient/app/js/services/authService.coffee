@@ -3,22 +3,26 @@ AuthService = ($resource, $cookies) ->
         create:  {method: "POST"}
         destroy: {method: "DELETE"}
 
-  session = $cookies.getObject("session") || null
+  currentSession = $cookies.getObject("session") || null
 
   service =
-    login: (user) ->
-      r.create(user).$promise.then (data) ->
-        session =
+    login: (session) ->
+      r.create
+        session: _(session).pick ["email", "password"]
+      .$promise.then (data) ->
+        currentSession =
           userId: data.user.id
           token:  data.user.auth_token
-        $cookies.putObject("session", session)
+        $cookies.putObject("session", currentSession)
 
     logout: ->
-      r.destroy({token: session.token}).$promise.then ->
+      r.destroy
+        token: currentSession.token
+      .$promise.then ->
         session = null
         $cookies.putObject("session", session)
 
-    getSession: -> session
+    getSession: -> currentSession
 
   return service
 AuthService.$inject = ["$resource", "$cookies"]

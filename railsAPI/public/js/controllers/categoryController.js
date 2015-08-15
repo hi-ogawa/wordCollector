@@ -39,7 +39,7 @@
     vm.user = UserService.show();
     vm["delete"] = function() {
       vm.dataLoading = true;
-      return UserService.destroy().then(function() {
+      return UserService.destroy().$promise.then(function() {
         FlashService.set("Account Deleted", "success");
         return $location.path("/register");
       }, function() {

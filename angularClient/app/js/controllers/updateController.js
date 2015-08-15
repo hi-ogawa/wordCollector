@@ -6,14 +6,9 @@
     var vm;
     vm = this;
     vm.flash = FlashService;
-    vm.user = {
-      email: "hiogawa@hiogawa",
-      password: "12345678",
-      password_confirmation: "12345678"
-    };
     vm.submit = function() {
       vm.dataLoading = true;
-      return UserService.update(vm.user).then(function() {
+      return UserService.update(vm.userForm).$promise.then(function() {
         FlashService.set("Account updated", "success");
         return $location.path("/category");
       }, function() {

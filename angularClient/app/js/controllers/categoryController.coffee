@@ -38,7 +38,7 @@ CategoryController = (CategoryService, UserService, AuthService, FlashService, $
   vm.user = UserService.show()
   vm.delete = ->
     vm.dataLoading = true
-    UserService.destroy()
+    UserService.destroy().$promise
     .then ->
       FlashService.set("Account Deleted", "success")
       $location.path "/register"

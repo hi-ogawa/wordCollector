@@ -58,13 +58,17 @@
         return r.show();
       },
       create: function(user) {
-        return r.create(user).$promise;
+        return r.create({
+          user: _(user).pick(["email", "password", "password_confirmation"])
+        });
       },
       update: function(user) {
-        return r.update(user).$promise;
+        return r.update({
+          user: _(user).pick(["email", "password", "password_confirmation"])
+        });
       },
       destroy: function() {
-        return r.destroy().$promise;
+        return r.destroy();
       }
     };
     return service;

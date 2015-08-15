@@ -1,11 +1,14 @@
 describe "UserService", ->
 
   UserService = AuthService = $resource = $httpBackend = null
-  userAttr =
-    user:
-      email:                 "johndoe@john"
-      password:              "12345678" 
-      password_confirmation: "12345678"
+
+  createArg = updateArg =
+    email:                 "johndoe@john"
+    password:              "12345678" 
+    password_confirmation: "12345678"
+
+  createPayload = updatePayload =
+    user: createArg
 
   response =
     user:
@@ -43,16 +46,16 @@ describe "UserService", ->
 
   describe ".create", ->
     it "", ->
-      $httpBackend.expectPOST("/api/users", userAttr).respond(response)
-      UserService.create(userAttr)
+      $httpBackend.expectPOST("/api/users", createPayload).respond(response)
+      UserService.create(createArg)
       $httpBackend.flush()
 
   describe ".update", ->
     it "", ->
-      $httpBackend.expectPUT("/api/users/1", userAttr, (headers) ->
+      $httpBackend.expectPUT("/api/users/1", updatePayload, (headers) ->
         headers["Authorization"] is "sP3hoKN5-y-tRtagTf2B"
       ).respond(response)
-      UserService.update(userAttr)
+      UserService.update(createArg)
       $httpBackend.flush()
 
   describe ".delete", ->
