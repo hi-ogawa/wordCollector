@@ -1,9 +1,28 @@
-CategoryController = (CategoryService, UserService, AuthService, FlashService, $location) ->
+CategoryController = (CategoryService, UserService, AuthService, FlashService, $location, $http) ->
   vm = @
   vm.flash = FlashService
 
   # category listing
   vm.categories = CategoryService.index()
+
+  CategoryService.index().$promise
+  .then (data) ->
+    console.log "CategoryService.index() - success" 
+    console.log data
+  , (err) ->
+    console.log "CategoryService.index() - error" 
+    console.log err
+
+  # debugging
+  $http.get("http://localhost:3000/api/categories").success (data) ->
+    console.log "$http.get - full url"
+    console.log data
+
+  $http.get("api/categories").success (data) ->
+    console.log "$http.get - only path"
+    console.log data
+
+
   vm.sum_items = (cs) ->
     _.foldl vm.categories, ((n, c) -> n + c.item_ids.length), 0
 
@@ -60,7 +79,7 @@ CategoryController = (CategoryService, UserService, AuthService, FlashService, $
 
   return
 CategoryController.$inject = [
-  "CategoryService", "UserService", "AuthService", "FlashService", "$location"
+  "CategoryService", "UserService", "AuthService", "FlashService", "$location", "$http"
 ]
 angular.module("app")
        .controller "CategoryController", CategoryController

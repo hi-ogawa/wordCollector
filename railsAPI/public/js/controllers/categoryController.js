@@ -2,11 +2,26 @@
 (function() {
   var CategoryController;
 
-  CategoryController = function(CategoryService, UserService, AuthService, FlashService, $location) {
+  CategoryController = function(CategoryService, UserService, AuthService, FlashService, $location, $http) {
     var vm;
     vm = this;
     vm.flash = FlashService;
     vm.categories = CategoryService.index();
+    CategoryService.index().$promise.then(function(data) {
+      console.log("CategoryService.index() - success");
+      return console.log(data);
+    }, function(err) {
+      console.log("CategoryService.index() - error");
+      return console.log(err);
+    });
+    $http.get("http://localhost:3000/api/categories").success(function(data) {
+      console.log("$http.get - full url");
+      return console.log(data);
+    });
+    $http.get("api/categories").success(function(data) {
+      console.log("$http.get - only path");
+      return console.log(data);
+    });
     vm.sum_items = function(cs) {
       return _.foldl(vm.categories, (function(n, c) {
         return n + c.item_ids.length;
@@ -37,6 +52,13 @@
       return CategoryService.destroy(category);
     };
     vm.user = UserService.show();
+    UserService.show().$promise.then(function(data) {
+      console.log("UserService.show() - success");
+      return console.log(data.email);
+    }, function(err) {
+      console.log("UserService.show() - error");
+      return console.log(err);
+    });
     vm["delete"] = function() {
       vm.dataLoading = true;
       return UserService.destroy().$promise.then(function() {
@@ -61,7 +83,7 @@
     };
   };
 
-  CategoryController.$inject = ["CategoryService", "UserService", "AuthService", "FlashService", "$location"];
+  CategoryController.$inject = ["CategoryService", "UserService", "AuthService", "FlashService", "$location", "$http"];
 
   angular.module("app").controller("CategoryController", CategoryController);
 
