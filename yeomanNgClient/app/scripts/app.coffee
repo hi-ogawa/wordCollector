@@ -30,3 +30,8 @@ angular
         templateUrl: 'views/about.html'
         controller: 'AboutCtrl'
         controllerAs: 'about'
+      .state 'register',
+        url: "/register"
+        templateUrl: 'views/register.html'
+        controller: 'RegisterCtrl'
+        controllerAs: 'register'
