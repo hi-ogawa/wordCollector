@@ -33,6 +33,10 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
+      jade: {
+        files: ['<%= yeoman.app %>/{,*/}*.jade'],
+        tasks: "jade"
+      },
       bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
@@ -63,6 +67,23 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
+    },
+
+    jade: {
+	compile: {
+            options: {
+		data: {
+		    debug: false
+		}
+            },
+            files: [{
+		expand: true,
+		cwd: "",
+		src: ['<%= yeoman.app %>/**/*.jade'],
+		dest: "",
+		ext: '.html'
+	    }]
+	}
     },
 
     // The actual grunt server settings
