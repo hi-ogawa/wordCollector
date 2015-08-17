@@ -1,22 +1,2 @@
-p {{ vm.awesomeThings }}
-
-form(name="form", ng-submit="vm.submit()", novalidate=true)
-  .form-group
-    label Email address
-    input.form-control(ng-model="vm.userForm.email", type="email", required=true)
-
-  .form-group
-    label Password (longer than 8 characters)
-    input.form-control(ng-model="vm.userForm.password", type="password"
-                       required=true, minlength: "8")
-   
-  .form-group
-    label Password Confirmation
-    input.form-control(ng-model="vm.userForm.password_confirmation", type="password"
-                       required=true, minlength: "8")
-
-  .form-actions
-    button.btn.btn-primary(type="submit"
-                           ng-disabled="form.$invalid || vm.dataLoading || vm.userForm.password != vm.userForm.password_confirmation"
-                          ) Submit
-    i.fa.fa-spinner.fa-spin(ng-if="vm.dataLoading")
+div(user-form=true, form="vm.userForm"
+    on-submit="vm.register()", on-cancel="vm.cancel()", loading="vm.loading")

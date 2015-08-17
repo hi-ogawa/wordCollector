@@ -10,8 +10,8 @@
 ###
 angular
   .module 'yeomanNgClientApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
+    'ngAnimate'
+    'ngCookies'
+    'ngResource'
     'ui.router'
   ]
