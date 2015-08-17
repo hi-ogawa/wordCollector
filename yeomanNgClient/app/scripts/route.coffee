@@ -10,44 +10,30 @@ angular.module 'yeomanNgClientApp'
       .state "root",
         templateUrl: "views/root.html"
 
-      .state "root.flash",
-        views:
-          "flashView@root":
-            templateUrl: "views/flash.html"
-
       # unauthorized states
-      .state "unauth",
-        parent: "root.flash"
-        views: "mainView@root": templateUrl: "views/unauth.html"
-
-      .state "unauth.register",
+      .state "root.register",
         url: "/register"
         views:
-          "unauthMainView":
+          "MainView":
             templateUrl: "views/register.html"
 
-      .state "unauth.login",
+      .state "root.login",
         url: "/login"
         views:
-          "unauthMainView":
+          "MainView":
             templateUrl: "views/login.html"
 
       # authorized states
-      .state "auth",
-        parent:  "root.flash"
-        views: "mainView@root": templateUrl: "views/auth.html"
-
-      .state "auth.user",
-        views:
-          "userInfoView@auth":
-            templateUrl: "views/auth.html"
+      .state "root.auth",
+        views: "mainView":
+          templateUrl: "views/auth.html"
 
       # # listing categories
       .state "categories",
-        parent: "auth.user"
+        parent: "root.auth"
         url: "/categories"
         views:
-          "authMainView@auth":
+          "authMainView":
             templateUrl: "views/categories.html"
 
       .state "categories.new",
@@ -64,7 +50,7 @@ angular.module 'yeomanNgClientApp'
 
       # # listing items
       .state "items",
-        parent: "auth.user"
+        parent: "root.auth"
         url: "/categories/:categoryId/items"
         views:
           "authMainView":
