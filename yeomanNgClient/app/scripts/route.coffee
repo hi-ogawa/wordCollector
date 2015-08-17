@@ -37,46 +37,47 @@ angular.module 'yeomanNgClientApp'
         parent:  "root.flash"
         views: "mainView@root": templateUrl: "views/auth.html"
 
+      .state "auth.user",
+        views:
+          "userInfoView@auth":
+            templateUrl: "views/auth.html"
+
       # # listing categories
-      .state "auth.categories",
+      .state "categories",
+        parent: "auth.user"
         url: "/categories"
         views:
-          "userInfoView":
-            templateUrl: "views/userInfo.html"
-          "authMainView":
+          "authMainView@auth":
             templateUrl: "views/categories.html"
 
-      .state "auth.categories.new",
+      .state "categories.new",
         url: "/:categoryId/new"
         views:
           "categoryFormView":
             templateUrl: "views/form/categoryForm.html"
 
-      .state "auth.categories.edit",
+      .state "categories.edit",
         url: "/:categoryId/edit"
         views:
           "categoryFormView":
             templateUrl: "views/form/categoryForm.html"
 
       # # listing items
-      .state "auth.items",
+      .state "items",
+        parent: "auth.user"
         url: "/categories/:categoryId/items"
         views:
-          "userInfoView":
-            templateUrl: "views/userInfo.html"
           "authMainView":
             templateUrl: "views/items.html"
 
-      .state "auth.items.new",
+      .state "items.new",
         url: "/:itemId/new"
         views:
           "itemFormView":
             templateUrl: "views/form/itemForm.html"
 
-      .state "auth.items.edit",
+      .state "items.edit",
         url: "/:itemId/edit"
         views:
           "itemFormView":
             templateUrl: "views/form/itemForm.html"
-
-  

@@ -48,31 +48,31 @@ describe 'routing', ->
     expect($location.url()).toEqual "/login"
 
   it '', ->
-    $state.go "auth.categories"
+    $state.go "categories"
     $rootScope.$digest()
     expect($location.url()).toEqual "/categories"
 
   it '', ->
-    $state.go "auth.categories.new", {categoryId: 1}
+    $state.go "categories.new", {categoryId: 1}
     $rootScope.$digest()
     expect($location.url()).toEqual "/categories/1/new"
 
   it '', ->
-    $state.go "auth.categories.edit", {categoryId: 2}
+    $state.go "categories.edit", {categoryId: 2}
     $rootScope.$digest()
     expect($location.url()).toEqual "/categories/2/edit"
 
   it '', ->
-    $state.go "auth.items", {categoryId: 3}
+    $state.go "items", {categoryId: 3}
     $rootScope.$digest()
     expect($location.url()).toEqual "/categories/3/items"
 
   it '', ->
-    $state.go "auth.items.new", {categoryId: 4, itemId: 6}
+    $state.go "items.new", {categoryId: 4, itemId: 6}
     $rootScope.$digest()
     expect($location.url()).toEqual "/categories/4/items/6/new"
 
   it '', ->
-    $state.go "auth.items.edit", {categoryId: 5, itemId: 7}
+    $state.go "items.edit", {categoryId: 5, itemId: 7}
     $rootScope.$digest()
     expect($location.url()).toEqual "/categories/5/items/7/edit"
