@@ -16,5 +16,5 @@ describe 'Controller: RegisterCtrl', ->
       # place here mocked dependencies
     }
 
-  it 'should attach a list of awesomeThings to the scope', ->
+  it '', ->
     expect(RegisterCtrl.test).toEqual "RegisterCtrl is working"
