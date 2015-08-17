@@ -2,13 +2,13 @@
 
 ###*
  # @ngdoc function
- # @name yeomanNgClientApp.controller:RegisterCtrl
+ # @name yeomanNgClientApp.controller:AuthCtrl
  # @description
- # # RegisterCtrl
+ # # AuthCtrl
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'RegisterCtrl', ->
+  .controller 'AuthCtrl', ->
     @awesomeThings = [
       'HTML5 Boilerplate'
       'AngularJS'

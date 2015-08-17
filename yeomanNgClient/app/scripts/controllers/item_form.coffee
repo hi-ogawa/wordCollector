@@ -2,15 +2,14 @@
 
 ###*
  # @ngdoc function
- # @name yeomanNgClientApp.controller:FlashctrlCtrl
+ # @name yeomanNgClientApp.controller:ItemFormCtrl
  # @description
- # # FlashctrlCtrl
+ # # ItemFormCtrl
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'FlashCtrl', ->
-    vm = @
-    vm.awesomeThings = [
+  .controller 'ItemFormCtrl', ->
+    @awesomeThings = [
       'HTML5 Boilerplate'
       'AngularJS'
       'Karma'

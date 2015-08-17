@@ -1,14 +1,12 @@
-// - var states = ["root.register", "root.login", "auth.categories", "auth.categories.new({categoryId: 1})", "auth.categories.edit({categoryId: 2})", "auth.items({categoryId: 3})", "auth.items.new({categoryId: 4, itemId: 5})", "auth.items.edit({categoryId: 6, itemId: 7})"]
+- var states = ["root.register", "root.login", "categories", "categories.new({categoryId: 1})", "categories.edit({categoryId: 1})", "items({categoryId: 1})", "items.new({categoryId: 1, itemId: 1})", "items.edit({categoryId: 1, itemId: 1})"]
 
 .container-fluid
-  // p states
-  // ul
-  //   each state in states
-  //     li
-  //       a(ui-sref="#{state}")= state
+  .btn-group.btn-group-sm
+    each state in states
+      a.btn.btn-default(ui-sref="#{state}")= state
 
   p views
   ul
-    li flash message should appear here.
+    li {{ vm.awesomeThings }}
     li
       div(ui-view="mainView")

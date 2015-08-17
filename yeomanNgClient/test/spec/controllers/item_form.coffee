@@ -1,20 +1,20 @@
 'use strict'
 
-describe 'Controller: RegisterCtrl', ->
+describe 'Controller: ItemFormCtrl', ->
 
   # load the controller's module
   beforeEach module 'yeomanNgClientApp'
 
-  RegisterCtrl = {}
+  ItemFormCtrl = {}
 
   scope = {}
 
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    RegisterCtrl = $controller 'RegisterCtrl', {
+    ItemFormCtrl = $controller 'ItemFormCtrl', {
       # place here mocked dependencies
     }
 
   it 'should attach a list of awesomeThings to the scope', ->
-    expect(RegisterCtrl.awesomeThings.length).toBe 3
+    expect(ItemFormCtrl.awesomeThings.length).toBe 3

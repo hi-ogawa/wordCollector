@@ -2,13 +2,13 @@
 
 ###*
  # @ngdoc function
- # @name yeomanNgClientApp.controller:MainCtrl
+ # @name yeomanNgClientApp.controller:RootCtrl
  # @description
- # # MainCtrl
+ # # RootCtrl
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'MainCtrl', ->
+  .controller 'RootCtrl', ->
     @awesomeThings = [
       'HTML5 Boilerplate'
       'AngularJS'

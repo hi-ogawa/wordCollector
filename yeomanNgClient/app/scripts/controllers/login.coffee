@@ -9,8 +9,7 @@
 ###
 angular.module 'yeomanNgClientApp'
   .controller 'LoginCtrl', ->
-    vm = @
-    vm.awesomeThings = [
+    @awesomeThings = [
       'HTML5 Boilerplate'
       'AngularJS'
       'Karma'

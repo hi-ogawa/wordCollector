@@ -2,14 +2,12 @@
 
 describe 'routing', ->
 
-  # load the controller's module
   beforeEach module 'yeomanNgClientApp'
 
   $state = $rootScope = $httpBackend = $templateCache = $location = null
 
   stateChanged = null
 
-  # Initialize the controller and a mock scope
   beforeEach inject (_$state_, _$rootScope_, _$httpBackend_, _$templateCache_, _$location_) ->
     $state = _$state_
     $rootScope = _$rootScope_
