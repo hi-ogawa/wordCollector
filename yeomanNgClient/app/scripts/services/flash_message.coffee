@@ -8,8 +8,15 @@
  # Service in the yeomanNgClientApp.
 ###
 angular.module 'yeomanNgClientApp'
-  .service 'flashMessage', ->
+  .service 'flashMessage', ($rootScope) ->
 
+    count = 0
+    $rootScope.$on "$stateChangeSuccess", ->
+      count++
+      if count is 2
+        service.close()
+        count = 0
+      
     service =
       show:    false
       class:   ""
@@ -17,7 +24,8 @@ angular.module 'yeomanNgClientApp'
       set: (message, klass) ->
         @message = message
         @class   = klass
-        @show = true
+        @show    = true
+        count = 0
       close: ->
         @show = false
 

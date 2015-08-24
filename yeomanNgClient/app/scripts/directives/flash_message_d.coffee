@@ -12,4 +12,3 @@ angular.module 'yeomanNgClientApp'
     templateUrl: 'scripts/directives/flash_message_d.html'
     link: (scope, element, attrs) ->
       scope.flashMessage = flashMessage
-
