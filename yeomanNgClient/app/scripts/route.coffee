@@ -81,9 +81,8 @@ angular.module 'yeomanNgClientApp'
   # the page visit restriction depending on authorization status
   .run ($rootScope, $state, authService) ->
     publicStates = ["root.register", "root.login"]
-    checkIf = (arr) -> includes: (el) -> arr.indexOf(el) isnt -1
 
     $rootScope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
-      if !authService.getSession() and !checkIf(publicStates).includes(toState.name)
+      if !authService.getSession() and !_(publicStates).contains(toState.name)
         event.preventDefault()
         $state.go "root.login"
