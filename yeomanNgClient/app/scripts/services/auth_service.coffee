@@ -34,6 +34,7 @@ angular.module 'yeomanNgClientApp'
           $cookies.putObject("session", currentSession)
    
       getSession: -> currentSession
+      loggedIn: -> !!@getSession()
    
     return service
     

@@ -78,11 +78,18 @@ angular.module 'yeomanNgClientApp'
       #       templateUrl: "views/form/item_form.html"
       #       controller:  "ItemFormCtrl as vm"
 
-  # the page visit restriction depending on authorization status
+
+  # redirect user depending on the authorization status
   .run ($rootScope, $state, authService) ->
     publicStates = ["root.register", "root.login"]
+    __ = (st) -> isPublic: -> _(publicStates).contains(st.name)
 
     $rootScope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
-      if !authService.getSession() and !_(publicStates).contains(toState.name)
+
+      if __(toState).isPublic() and authService.loggedIn()
+        event.preventDefault()
+        $state.go "categories"
+
+      else if !__(toState).isPublic() and !authService.loggedIn()
         event.preventDefault()
         $state.go "root.login"
