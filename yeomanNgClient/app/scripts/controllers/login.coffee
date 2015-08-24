@@ -12,7 +12,7 @@ angular.module 'yeomanNgClientApp'
     vm = @
 
     vm.sessionForm =
-      email:                 "test@test.com"
+      email:                 "hiogawa@hiogawa.com"
       password:              "12345678"
 
     vm.login = ->
