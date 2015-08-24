@@ -1,0 +1,4 @@
+.alert(ng-show="flashMessage.show", ng-class="flashMessage.class")
+  {{ flashMessage.message }}
+  .btn.btn-default.pull-right(ng-click="flashMessage.close()")
+    i.fa.fa-remove

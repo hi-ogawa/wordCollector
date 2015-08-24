@@ -8,10 +8,6 @@
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'RootCtrl', ->
-    @awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
+  .controller 'RootCtrl', (flashMessage) ->
+    vm = @
     return

@@ -8,7 +8,7 @@
 ###
 angular.module 'yeomanNgClientApp'
   .directive 'userForm', ->
-    restrict: 'AE'
+    restrict: 'EA'
     templateUrl: 'scripts/directives/user_form.html'
     scope:
       userForm: "=form"

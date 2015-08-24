@@ -8,8 +8,8 @@
  # Service in the yeomanNgClientApp.
 ###
 angular.module 'yeomanNgClientApp'
-  .service 'userResource', ($resource, AuthService) ->
-    # AngularJS will instantiate a singleton by calling "new" on this function
+  .service 'userResource', ($resource, authService) ->
+
     r = $resource "/api/users/:userId", {userId: "@id"},
           show:
             method: "GET"

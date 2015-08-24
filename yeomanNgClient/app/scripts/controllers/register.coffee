@@ -8,7 +8,7 @@
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'RegisterCtrl', ->
+  .controller 'RegisterCtrl', (userResource, flashMessage, $state)->
     vm = @
 
     # test data
@@ -18,15 +18,16 @@ angular.module 'yeomanNgClientApp'
       password_confirmation: "12345678"
 
     vm.register = ->
-      console.log "on-submit working"
+      vm.loading = true
+      userResource.create(vm.userForm).$promise
+      .then ->
+        console.log flashMessage
+        flashMessage.set "Registration successful", "alert-success"
+        $state.go "root.login"
+      ,->
+        flashMessage.set "Registration failed", "alert-danger"
+        vm.loading = false
 
     vm.cancel = ->
-      console.log "on-cancel working"
-      vm.loading = !vm.loading
 
-    @awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
     return
