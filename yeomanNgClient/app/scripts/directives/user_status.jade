@@ -7,5 +7,5 @@ p user:
   a.btn.btn-default(ng-click="delete()") Delete account
   i.fa.fa-spinner.fa-spin(ng-if="loading")
 
-div(ng-show="editing", user-form=true, form="userForm"
+div(ng-cloak=true, ng-show="editing", user-form=true, form="userForm"
     on-submit="editGo()", on-cancel="editing=false", loading="editLoading")
