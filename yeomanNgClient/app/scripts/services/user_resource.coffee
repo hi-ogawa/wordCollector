@@ -15,9 +15,9 @@ angular.module 'yeomanNgClientApp'
             method: "GET"
             transformResponse: (data) -> angular.fromJson(data).user
             params:
-              userId: -> AuthService.getSession().userId
+              userId: -> authService.getSession().userId
             headers:
-              Authorization: -> AuthService.getSession().token
+              Authorization: -> authService.getSession().token
    
           create:
             method: "POST"
@@ -25,16 +25,16 @@ angular.module 'yeomanNgClientApp'
           update:
             method: "PUT"
             params:
-              userId: -> AuthService.getSession().userId
+              userId: -> authService.getSession().userId
             headers:
-              Authorization: -> AuthService.getSession().token
+              Authorization: -> authService.getSession().token
    
           destroy:
             method: "DELETE"
             params:
-              userId: -> AuthService.getSession().userId
+              userId: -> authService.getSession().userId
             headers:
-              Authorization: -> AuthService.getSession().token
+              Authorization: -> authService.getSession().token
    
     service =
       show: -> r.show()
