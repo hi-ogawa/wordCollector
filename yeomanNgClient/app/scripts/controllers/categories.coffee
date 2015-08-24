@@ -2,11 +2,11 @@
 
 ###*
  # @ngdoc function
- # @name yeomanNgClientApp.controller:AuthCtrl
+ # @name yeomanNgClientApp.controller:CategoriesCtrl
  # @description
- # # AuthCtrl
+ # # CategoriesCtrl
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'AuthCtrl', ->
+  .controller 'CategoriesCtrl', ->
     return

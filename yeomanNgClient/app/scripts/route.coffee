@@ -77,3 +77,13 @@ angular.module 'yeomanNgClientApp'
           "itemFormView":
             templateUrl: "views/form/item_form.html"
             controller:  "ItemFormCtrl as vm"
+
+  # the page visit restriction depending on authorization status
+  .run ($rootScope, $state, authService) ->
+    publicStates = ["root.register", "root.login"]
+    checkIf = (arr) -> includes: (el) -> arr.indexOf(el) is -1
+
+    $rootScope.$on "$stateChangeStart", (event, toState, toParams, fromState, fromParams) ->
+      if !authService.getSession() and !checkIf(publicStates).includes(toState.name)
+        event.preventDefault()
+        $state.go "root.login"
