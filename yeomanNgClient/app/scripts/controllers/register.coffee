@@ -21,7 +21,6 @@ angular.module 'yeomanNgClientApp'
       vm.loading = true
       userResource.create(vm.userForm).$promise
       .then ->
-        console.log flashMessage
         flashMessage.set "Registration successful", "alert-success"
         $state.go "root.login"
       ,->

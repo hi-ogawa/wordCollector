@@ -1,1 +1,2 @@
-p {{ vm.awesomeThings }}
+div(session-form=true, form="vm.sessionForm"
+    on-submit="vm.login()", on-cancel="vm.cancel()", loading="vm.loading")
