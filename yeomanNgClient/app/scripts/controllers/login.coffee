@@ -19,10 +19,10 @@ angular.module 'yeomanNgClientApp'
       vm.loading = true
       authService.login(vm.sessionForm)
       .then ->
-        flashMessage.set "Login successful", "alert-success"
+        flashMessage.set "Login successful", "alert-success", false
         $state.go "categories"
       ,->
-        flashMessage.set "Login failed", "alert-danger"
+        flashMessage.set "Login failed", "alert-danger", true
         vm.loading = false
 
     vm.cancel = ->

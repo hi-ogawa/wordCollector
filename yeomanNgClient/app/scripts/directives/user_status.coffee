@@ -22,10 +22,11 @@ angular.module 'yeomanNgClientApp'
         scope.editLoading = true
         userResource.update(scope.userForm).$promise
         .then ->
-          flashMessage.set "Account updated", "alert-success"
+          flashMessage.set "Account updated", "alert-success", true
           scope.editLoading = scope.editing = false
+          scope.user = userResource.show()
         ,->
-          FlashService.set("Account update failed", "alert-danger")
+          FlashService.set "Account update failed", "alert-danger", true
           scope.editLoading = scope.editing = false
 
       scope.delete = ->
@@ -33,19 +34,19 @@ angular.module 'yeomanNgClientApp'
           scope.loading = true
           userResource.destroy().$promise
           .then ->
-            flashMessage.set "Account deleted", "alert-success"
+            flashMessage.set "Account deleted", "alert-success", false
             $state.go "root.register"
           ,->
-            flashMessage.set "Account deletion failed", "alert-danger"
+            flashMessage.set "Account deletion failed", "alert-danger", true
             scope.loading = false
   
       scope.logout = ->
         scope.loading = true
         authService.logout()
         .then ->
-          flashMessage.set "Logout successful", "alert-success"
+          flashMessage.set "Logout successful", "alert-success", false
           $state.go "root.login"
         ,->
-          flashMessage.set "Logout Failed", "alert-danger"
+          flashMessage.set "Logout Failed", "alert-danger", true
           scope.loading = false
         

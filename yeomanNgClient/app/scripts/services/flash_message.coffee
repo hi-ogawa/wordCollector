@@ -21,12 +21,14 @@ angular.module 'yeomanNgClientApp'
       show:    false
       class:   ""
       message: ""
-      set: (message, klass) ->
+      set: (message, klass, flash) ->
         @message = message
         @class   = klass
         @show    = true
         count = 0
+        if flash then @flash()
       close: ->
         @show = false
+      flash: -> count++
 
     return service

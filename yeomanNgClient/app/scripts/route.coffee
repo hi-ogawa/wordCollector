@@ -41,20 +41,6 @@ angular.module 'yeomanNgClientApp'
             templateUrl: "views/categories.html"
             controller:  "CategoriesCtrl as vm"
 
-      # .state "categories.new",
-      #   url: "/:categoryId/new"
-      #   views:
-      #     "categoryFormView":
-      #       templateUrl: "views/form/category_form.html"
-      #       controller:  "CategoryFormCtrl as vm"
-
-      # .state "categories.edit",
-      #   url: "/:categoryId/edit"
-      #   views:
-      #     "categoryFormView":
-      #       templateUrl: "views/form/category_form.html"
-      #       controller:  "CategoryFormCtrl as vm"
-
       # # listing items
       .state "items",
         parent: "root.auth"
@@ -63,21 +49,6 @@ angular.module 'yeomanNgClientApp'
           "authMainView":
             templateUrl: "views/items.html"
             controller:  "ItemsCtrl as vm"
-
-      # .state "items.new",
-      #   url: "/:itemId/new"
-      #   views:
-      #     "itemFormView":
-      #       templateUrl: "views/form/item_form.html"
-      #       controller:  "ItemFormCtrl as vm"
-
-      # .state "items.edit",
-      #   url: "/:itemId/edit"
-      #   views:
-      #     "itemFormView":
-      #       templateUrl: "views/form/item_form.html"
-      #       controller:  "ItemFormCtrl as vm"
-
 
   # redirect user depending on the authorization status
   .run ($rootScope, $state, authService) ->

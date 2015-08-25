@@ -21,10 +21,10 @@ angular.module 'yeomanNgClientApp'
       vm.loading = true
       userResource.create(vm.userForm).$promise
       .then ->
-        flashMessage.set "Registration successful", "alert-success"
+        flashMessage.set "Registration successful", "alert-success", false
         $state.go "root.login"
       ,->
-        flashMessage.set "Registration failed", "alert-danger"
+        flashMessage.set "Registration failed", "alert-danger", true
         vm.loading = false
 
     vm.cancel = ->

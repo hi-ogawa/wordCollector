@@ -1,0 +1,13 @@
+form(name="form", ng-submit="submit()", novalidate=true)
+  .form-group
+    label Name
+    input.form-control(ng-model="categoryForm.name", required=true)
+
+  .form-group
+    label Description
+    input.form-control(ng-model="categoryForm.description")
+   
+  .form-actions
+    button.btn.btn-primary(type="submit", ng-disabled="form.$invalid || loading") Submit
+    a.btn.btn-link(ng-click="cancel()") Cancel
+    i.fa.fa-spinner.fa-spin(ng-if="loading")
