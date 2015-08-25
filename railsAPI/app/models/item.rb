@@ -7,4 +7,13 @@ class Item < ActiveRecord::Base
 
   has_attached_file :picture, :default_url => "/images/missing.png"
   validates_attachment_content_type :picture, :content_type => /\Aimage\/.*\Z/
+
+  # search by item_ids, category_id, 
+  def self.search(params = {})
+    items = params[:item_ids].present? ? Item.find(params[:item_ids]) : Item.all
+    items = items.filter_by_category_id(params[:category_id]) if params[:category_id].present?
+    items 
+  end
+
+  scope :filter_by_category_id, ->(category_id) { where(category_id: category_id) }
 end

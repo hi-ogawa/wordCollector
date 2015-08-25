@@ -3,7 +3,7 @@ class Api::V1::ItemsController < ApplicationController
   before_action :check_category_id, only: [:create, :update]
 
   def index
-    render json: Item.all, status: :ok
+    render json: Item.search(params), status: :ok
   end
   
   def show
