@@ -7,10 +7,27 @@ describe Api::V1::CategoriesController do
   let!(:items)    { 3.times.map {FactoryGirl.create :item, category: category} }
 
   describe "GET #index" do
-    let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
-    before(:each) {get :index}
-    it {should match_response_schema "categories/index"}
-    it {should have_http_status 200}
+    context "without parameter" do
+      let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user} }
+      before(:each) {get :index}
+      it {should match_response_schema "categories/index"}
+      it {should have_http_status 200}
+    end
+
+    context "with user_id parameter" do
+      let!(:second_user)       { FactoryGirl.create :user}
+      let!(:second_categories) { 3.times.map {FactoryGirl.create :category, user: second_user}}
+      before { get :index, {user_id: second_user.id} }
+      it { should match_response_schema "categories/index_with_user_id" }
+      it { should have_http_status 200 }
+    end
+
+    context "with category_ids parameter" do
+      let!(:categories) { 3.times.map {FactoryGirl.create :category, user: user}}
+      before { get :index, {category_ids: [category.id]} }
+      it { should match_response_schema "categories/index_with_category_ids" }
+      it { should have_http_status 200 }
+    end
   end
 
   describe "GET #show" do

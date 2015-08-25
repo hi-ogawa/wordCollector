@@ -2,7 +2,7 @@ class Api::V1::CategoriesController < ApplicationController
   before_action :authenticate_with_token!, only: [:create, :update, :destroy]
 
   def index
-    render json: Category.all
+    render json: Category.search(params)
   end
 
   def show
