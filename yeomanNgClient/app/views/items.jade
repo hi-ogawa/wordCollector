@@ -1,4 +1,35 @@
-ul
-  li {{ vm.awesomeThings }}
-  li
-    div(ui-view="itemFormView")
+p items in {{ vm.category.name }}
+a.btn.btn-default.btn-sm(ui-sref="categories")    Back to Categories
+a.btn.btn-default.btn-sm(ng-click="vm.newItem()") New Item
+
+.row
+  .col-sm-9
+    #items-list
+      table.table.table-striped
+        thead
+          tr
+            th Word and Meaning
+            th Sentence
+            th Actions
+        tbody
+          tr(ng-repeat="item in vm.items")
+            td.word-meaning
+              .h4       {{ item.word }}
+              .small    {{ item.meaning }}
+            td.sentence {{ item.sentence }}
+            td.actions
+              .btn-group
+                a.btn.btn-warning(ng-click="vm.editItem(item)")
+                  span Edit
+                  span.glyphicon.glyphicon-pencil
+                a.btn.btn-danger(ng-click="vm.deleteItem(item)")
+                  span Delete
+                  span.glyphicon.glyphicon-trash
+  .col-sm-3
+    #images-list
+      a.magnific-popup-img(ng-repeat="item in vm.items"
+                           ng-href="{{ vm.appendDomainBefore(item.picture) }}")
+        img.img-thumbnail(ng-src="{{ vm.appendDomainBefore(item.picture) }}")
+        .fake(ng-init="vm.initMagnificPopup()")
+
+div(item-form=true)

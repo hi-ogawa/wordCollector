@@ -15,13 +15,13 @@ table.table.table-striped
       td
         .btn-group
           a.btn.btn-info(ui-sref="items({categoryId: {{category.id}}})")
-            Show items
+            span Show items
             span.glyphicon.glyphicon-list-alt
           a.btn.btn-warning(ng-click="vm.editCategory(category)")
-            Edit
+            span Edit
             span.glyphicon.glyphicon-pencil
           a.btn.btn-danger(ng-click="vm.deleteCategory(category)")
-            Delete
+            span Delete
             span.glyphicon.glyphicon-trash
 
 div(ng-cloak=true, ng-show="vm.showForm", category-form=true, form="vm.categoryForm"
