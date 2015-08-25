@@ -19,12 +19,19 @@ describe Api::V1::SessionsController do
   end
 
   describe "DELETE #destroy" do
-    before(:each)    {delete :destroy, {id: user.auth_token}}
-    let(:user_after) {User.find_by(email: user.email)}
-    it "changes auth_token to immitate logout" do
-      expect(user.auth_token).not_to eql user_after.auth_token
+    context "with existing auth_token as a param" do
+      before(:each)    {delete :destroy, {id: user.auth_token}}
+      let(:user_after) {User.find_by(email: user.email)}
+      it "changes auth_token to immitate logout" do
+        expect(user.auth_token).not_to eql user_after.auth_token
+      end
+   
+      it {should have_http_status 204}
     end
 
-    it {should have_http_status 204}
+    context "with non-existing auth_token" do
+      before(:each) {delete :destroy, {id: "justnonsensetoken"}}
+      it {should have_http_status 404}
+    end
   end
 end

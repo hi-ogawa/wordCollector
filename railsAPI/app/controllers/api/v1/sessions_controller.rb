@@ -14,6 +14,7 @@ class Api::V1::SessionsController < ApplicationController
 
   def destroy
     user = User.find_by(auth_token: params[:id])
+    return head :not_found if user.blank?
     user.generate_authentication_token!
     user.save
     head :no_content
