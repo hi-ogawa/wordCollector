@@ -8,7 +8,6 @@
 
 FactoryGirl.define do
   factory :user_seed, class: User do
-    email    "hiogawa@hiogawa.com"
     password "12345678"
     password_confirmation "12345678"
   end
@@ -18,7 +17,6 @@ FactoryGirl.define do
   factory :category_seed, class: Category do
     name        { FFaker::Movie.title }
     description { FFaker::DizzleIpsum.sentence }
-    association :user, factory: :user
   end
 end
 
@@ -27,14 +25,16 @@ FactoryGirl.define do
     word        { FFaker::DizzleIpsum.words[0,2].join(" ") }
     sentence    { FFaker::DizzleIpsum.sentence }
     meaning     { FFaker::DizzleIpsum.sentence }
-    association :category, factory: :category
     picture     { fixture_file_upload(Rails.root.join('spec', 'pictures', 'test.png'), 'image/png') }
   end
 end
 
 
-user       = FactoryGirl.create :user_seed
-categories = 10.times.map{FactoryGirl.create :category_seed, user: user}
-itemss     = categories.map{|c| 20.times.map {FactoryGirl.create :item_seed, category: c}}.flatten
+user1       = FactoryGirl.create :user_seed, {email: "hiogawa@hiogawa.com"}
+user2       = FactoryGirl.create :user_seed, {email: "test@test.com"}
+categories1 = 10.times.map{FactoryGirl.create :category_seed, user: user1}
+categories2 = 10.times.map{FactoryGirl.create :category_seed, user: user2}
+itemss1     = categories1.map{|c| 10.times.map {FactoryGirl.create :item_seed, category: c}}.flatten
+itemss2     = categories2.map{|c| 10.times.map {FactoryGirl.create :item_seed, category: c}}.flatten
 
 

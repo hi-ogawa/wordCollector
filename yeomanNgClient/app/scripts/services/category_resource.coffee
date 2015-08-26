@@ -36,7 +36,7 @@ angular.module 'yeomanNgClientApp'
               Authorization: -> authService.getSession().token
    
     service =
-      index: -> r.index()
+      index: (params) -> r.index(params)
    
       show: (category) -> r.show categoryId: category.id
    

@@ -16,8 +16,9 @@ angular.module 'yeomanNgClientApp'
             transformResponse: (data) -> angular.fromJson(data).items
             isArray: true
    
-          # show:
-          #   method: "GET"
+          show:
+            method: "GET"
+            transformResponse: (data) -> angular.fromJson(data).item
    
           create:
             method: "POST"
@@ -50,9 +51,9 @@ angular.module 'yeomanNgClientApp'
       fd
    
     service =
-      index: -> r.index()
+      index: (params)-> r.index(params)
    
-      # show: -> r.show()
+      show: -> r.show()
    
       create:  (item) ->
         fd = json2FormData

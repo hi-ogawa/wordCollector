@@ -8,10 +8,10 @@
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'CategoriesCtrl', (categoryResource, flashMessage, $window) ->
+  .controller 'CategoriesCtrl', (categoryResource, flashMessage, authService, $window) ->
     vm = @
 
-    vm.categories = categoryResource.index()
+    vm.categories = categoryResource.index({user_id: authService.getSession().userId})
 
     vm.sumOfNumbersOfItemsIn = (cs) ->
       _.foldl cs, ((n, c) -> n + c.item_ids.length), 0

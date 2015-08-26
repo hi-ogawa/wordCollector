@@ -11,7 +11,7 @@ angular.module 'yeomanNgClientApp'
   .controller 'ItemsCtrl', (itemResource, categoryResource, flashMessage, $stateParams, $sce) ->
     vm = @
     vm.category = categoryResource.show(id: $stateParams.categoryId)
-    vm.items = itemResource.index()
+    vm.items = itemResource.index({category_id: $stateParams.categoryId})
 
     # change the domain of url and sanitize
     vm.appendDomainBefore = (url) ->
