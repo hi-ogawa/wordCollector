@@ -9,6 +9,15 @@
 
   app.storage = new MyStorage();
 
+  app.User = Backbone.Model.extend({
+    parse: function(response) {
+      return response.user;
+    },
+    urlRoot: "http://localhost:3000/api/users"
+  });
+
+  app.user = new app.User;
+
 
   /* before authentication */
 
@@ -33,7 +42,7 @@
           };
         })(this))["catch"]((function(_this) {
           return function(err) {
-            return app.mainView.renderFlashMessage("wrong email or password");
+            return app.mainView.renderFlashMessage("Error happend. Try again.");
           };
         })(this));
       },
@@ -47,9 +56,10 @@
   /* after authentication */
 
   app.authedView = Backbone.View.extend({
-    initialize: function(data) {
-      console.log(data);
-      return this.$el.html(_.template($("#authedView-t").html())(data));
+    initialize: function() {
+      return this.$el.html(_.template($("#authedView-t").html())({
+        user: this.model.toJSON()
+      }));
     },
     events: {
       "click #on": function(e) {
@@ -85,28 +95,32 @@
     initialize: function() {
       $("#flash").hide();
       app.storage.init();
-      return app.storage.on("update", (function(_this) {
+      app.storage.on("update", (function(_this) {
         return function(data) {
-          console.log("-- app.storage update events --");
-          console.log(data);
           if ((data != null) && (data.session != null) && (data.session.id != null) && (data.session.auth_token != null)) {
-            return Promise.resolve($.ajax({
-              url: "http://localhost:3000/api/users/" + data.session.id,
+            return app.user.set({
+              id: data.session.id
+            }).fetch({
               headers: {
                 Authorization: data.session.auth_token
               }
-            })).then(function(response) {
-              _this.renderFlashMessage("You are already logged in.");
-              return _this.renderAuthedView(response.user);
-            })["catch"](function(err) {
-              console.log(err);
-              _this.renderFlashMessage("Previous session is expired. You need to login again.");
-              return _this.renderLoginView();
             });
           } else {
             _this.renderFlashMessage("You need to login.");
             return _this.renderLoginView();
           }
+        };
+      })(this));
+      app.user.on("sync", (function(_this) {
+        return function() {
+          _this.renderFlashMessage("You are already logged in.");
+          return _this.renderAuthedView(app.user);
+        };
+      })(this));
+      return app.user.on("error", (function(_this) {
+        return function() {
+          _this.renderFlashMessage("Error happened. Try to login again.");
+          return _this.renderLoginView();
         };
       })(this));
     },
@@ -115,7 +129,7 @@
     },
     renderAuthedView: function(user) {
       return this.$el.html(new app.authedView({
-        user: user
+        model: user
       }).$el);
     },
     renderFlashMessage: function(message) {

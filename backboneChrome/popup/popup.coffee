@@ -3,6 +3,12 @@ app = {}
 ### storage for authentication ###
 app.storage = new MyStorage()
 
+app.User = Backbone.Model.extend
+  parse: (response) -> response.user
+  urlRoot: "http://localhost:3000/api/users"
+app.user = new app.User
+
+
 ### before authentication ###
 app.loginView = Backbone.View.extend
   initialize: ->
@@ -25,15 +31,16 @@ app.loginView = Backbone.View.extend
           app.storage.update {session: data}
           
        .catch (err)  =>
-          app.mainView.renderFlashMessage "wrong email or password"
+          app.mainView.renderFlashMessage "Error happend. Try again."
 
     "click #register":   (e) -> extLib.createTab "http://localhost:9000/login"
+    
+
       
 ### after authentication ###
 app.authedView = Backbone.View.extend
-  initialize: (data) ->
-    console.log data
-    @$el.html _.template($("#authedView-t").html()) data
+  initialize: ->
+    @$el.html _.template($("#authedView-t").html()) {user: @model.toJSON()}
 
   events:
     "click #on":     (e) ->
@@ -47,6 +54,7 @@ app.authedView = Backbone.View.extend
     "click #logout": (e) -> app.storage.clear()
       
 
+
 ### main view ###
 app.MainView = Backbone.View.extend
   initialize: ->
@@ -54,35 +62,29 @@ app.MainView = Backbone.View.extend
     app.storage.init()
 
     app.storage.on "update", (data) =>
-      console.log "-- app.storage update events --"
-      console.log data
-      # check if there is a previous session
+  
       if data? and data.session? and data.session.id? and data.session.auth_token?
-  
-        # check if the stored auth_token is valid
-        Promise.resolve(
-          $.ajax
-            url: "http://localhost:3000/api/users/#{data.session.id}"
-            headers: Authorization: data.session.auth_token
-  
-        ).then (response) =>
-           @renderFlashMessage "You are already logged in."
-           @renderAuthedView(response.user)
-  
-         .catch (err) =>
-           console.log err
-           @renderFlashMessage "Previous session is expired. You need to login again."
-           @renderLoginView()
-  
+        app.user.set   id: data.session.id
+                .fetch headers: Authorization: data.session.auth_token
+    
       else
         @renderFlashMessage "You need to login."
-        @renderLoginView()      
+        @renderLoginView()
+  
+    app.user.on "sync", =>
+      @renderFlashMessage "You are already logged in."
+      @renderAuthedView app.user
+      
+    app.user.on "error", =>
+      @renderFlashMessage "Error happened. Try to login again."
+      @renderLoginView()
+
 
   renderLoginView: ->
     @$el.html new app.loginView().$el
 
   renderAuthedView: (user) ->
-    @$el.html new app.authedView({user: user}).$el
+    @$el.html new app.authedView({model: user}).$el
 
   renderFlashMessage: (message) ->
     $("#flash").text(message).show()
