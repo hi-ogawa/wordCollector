@@ -13,6 +13,7 @@ angular.module 'yeomanNgClientApp'
 
     # test data
     vm.userForm =
+      username:              "hiogawa"
       email:                 "hiogawa@hiogawa.com"
       password:              "12345678"
       password_confirmation: "12345678"

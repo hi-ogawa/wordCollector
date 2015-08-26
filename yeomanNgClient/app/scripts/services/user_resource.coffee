@@ -10,12 +10,10 @@
 angular.module 'yeomanNgClientApp'
   .service 'userResource', ($resource, authService) ->
 
-    r = $resource "/api/users/:userId", {userId: "@id"},
+    r = $resource "/api/users/:userId", {userId: "@userId"},
           show:
             method: "GET"
             transformResponse: (data) -> angular.fromJson(data).user
-            params:
-              userId: -> authService.getSession().userId
             headers:
               Authorization: -> authService.getSession().token
    
@@ -37,15 +35,15 @@ angular.module 'yeomanNgClientApp'
               Authorization: -> authService.getSession().token
    
     service =
-      show: -> r.show()
+      show: (user) -> r.show userId: user.id
    
       create:  (user) ->
         r.create
-          user: _(user).pick ["email", "password", "password_confirmation"]
+          user: _(user).pick ["username", "email", "password", "password_confirmation"]
    
       update:  (user) ->
         r.update
-          user: _(user).pick ["email", "password", "password_confirmation"]
+          user: _(user).pick ["username", "email", "password", "password_confirmation"]
    
       destroy: -> r.destroy()
    

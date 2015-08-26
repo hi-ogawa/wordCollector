@@ -1,5 +1,10 @@
 form(name="form", ng-submit="submit()", novalidate=true)
   .form-group
+    label User name
+    input.form-control(ng-model="userForm.username", minlength="5", maxlength="20"
+                       required=true)
+
+  .form-group
     label Email address
     input.form-control(ng-model="userForm.email", type="email", required=true)
 

@@ -12,7 +12,7 @@ angular.module 'yeomanNgClientApp'
     templateUrl: 'scripts/directives/user_status.html'
     link: (scope, element, attrs) ->
   
-      scope.user = userResource.show()
+      scope.user = userResource.show id: authService.getSession().userId
       
       scope.edit = ->
         scope.editing = true
