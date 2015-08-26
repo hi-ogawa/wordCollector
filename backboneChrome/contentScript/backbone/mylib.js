@@ -37,6 +37,13 @@
     });
   };
 
+  lib.createTab = function(url) {
+    return chrome.runtime.sendMessage({
+      type: "createTab",
+      url: url
+    });
+  };
+
   lib.ultraAjax = function(settings) {
     return new Promise(function(resolve, reject) {
       chrome.runtime.sendMessage({

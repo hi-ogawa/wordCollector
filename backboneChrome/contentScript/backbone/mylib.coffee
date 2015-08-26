@@ -22,8 +22,10 @@ lib.tabCapture = (fdHash) ->
             reject "error: lib.tabCapture: error returned from eventPage"
     setTimeout(( -> reject "error: lib.tabCapture - timeout"), 5000)
 
-
-
+lib.createTab = (url) ->
+  chrome.runtime.sendMessage
+    type: "createTab"
+    url: url
 
 lib.ultraAjax = (settings) ->
 

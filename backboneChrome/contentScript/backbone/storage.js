@@ -6,6 +6,25 @@
     initialize: function() {
       return this.items = {};
     },
+    init: function() {
+      return chrome.storage.sync.get((function(_this) {
+        return function(items) {
+          _(_this.items).extend(items);
+          return _this.trigger("update", _this.items);
+        };
+      })(this));
+    },
+    getData: function() {
+      return this.items;
+    },
+    clear: function() {
+      return chrome.storage.sync.clear((function(_this) {
+        return function() {
+          _this.items = {};
+          return _this.trigger("update", _this.items);
+        };
+      })(this));
+    },
     fetch: function() {
       return this.get();
     },
@@ -28,7 +47,7 @@
         return function(resolve, reject) {
           chrome.storage.sync.get(function(items) {
             _(_this.items).extend(items);
-            return resolve(items);
+            return resolve(_this.items);
           });
           return setTimeout((function() {
             return reject("lib.storageGet timeout");

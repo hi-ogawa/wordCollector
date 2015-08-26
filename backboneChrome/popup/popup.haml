@@ -4,11 +4,29 @@
     - csss = %W[/lib/my_bootstrap_container.css popup.css]
     - csss.each do |css|
       %link{rel: "stylesheet", type: 'text/css', href: css}
-    - jss = %W[/lib/jquery.js  /lib/bootstrap.js  popup.js insert.js]
+    - jss = %W[/lib/jquery.js  /lib/bootstrap.js /lib/underscore.js /lib/backbone.js /contentScript/backbone/mylib.js /contentScript/backbone/storage.js popup.js insert.js]
     - jss.each do |js|
       %script{:src => js}
   %body
 
-  .my-bootstrap-container
-    .container
-      Hello!
+    .my-bootstrap-container
+      #main
+      #flash.alert.alert-info.small
+
+
+%script#loginView-t{type: "text/template"}
+  %form#loginForm
+    %input.form-control{placeholder: "Email",    name: "session[email]"}
+    %input.form-control{type: "password", placeholder: "Password", name: "session[password]"}
+    %input.form-control{type: "submit",   value: "Login"}
+  %a#register.btn.btn-link.btn-block Register
+
+
+%script#authedView-t{type: "text/template"}
+  #authed
+    %p Hello, <%= user.username %>
+    .btn-group.btn-group-justified
+      %a.btn.btn-default#on  On
+      %a.btn.btn-default#off Off
+      %a.btn.btn-default#logout Logout
+      

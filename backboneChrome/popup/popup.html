@@ -5,13 +5,35 @@
     <link href='popup.css' rel='stylesheet' type='text/css'>
     <script src='/lib/jquery.js'></script>
     <script src='/lib/bootstrap.js'></script>
+    <script src='/lib/underscore.js'></script>
+    <script src='/lib/backbone.js'></script>
+    <script src='/contentScript/backbone/mylib.js'></script>
+    <script src='/contentScript/backbone/storage.js'></script>
     <script src='popup.js'></script>
     <script src='insert.js'></script>
   </head>
-  <body></body>
-  <div class='my-bootstrap-container'>
-    <div class='container'>
-      Hello!
+  <body>
+    <div class='my-bootstrap-container'>
+      <div id='main'></div>
+      <div class='alert alert-info small' id='flash'></div>
+    </div>
+  </body>
+</html>
+<script id='loginView-t' type='text/template'>
+  <form id='loginForm'>
+    <input class='form-control' name='session[email]' placeholder='Email'>
+    <input class='form-control' name='session[password]' placeholder='Password' type='password'>
+    <input class='form-control' type='submit' value='Login'>
+  </form>
+  <a class='btn btn-link btn-block' id='register'>Register</a>
+</script>
+<script id='authedView-t' type='text/template'>
+  <div id='authed'>
+    <p>Hello, <%= user.username %></p>
+    <div class='btn-group btn-group-justified'>
+      <a class='btn btn-default' id='on'>On</a>
+      <a class='btn btn-default' id='off'>Off</a>
+      <a class='btn btn-default' id='logout'>Logout</a>
     </div>
   </div>
-</html>
+</script>
