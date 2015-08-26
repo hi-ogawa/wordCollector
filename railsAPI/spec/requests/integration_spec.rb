@@ -18,7 +18,7 @@ describe "integration API chain" do
 
 
     # create category
-    auth_token = JSON.parse(response.body)["user"]["auth_token"]
+    auth_token = JSON.parse(response.body)["auth_token"]
     post "api/categories", {category: category_attr}, {"Authorization" => auth_token}
     should have_http_status 201
 

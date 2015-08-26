@@ -1,3 +1,4 @@
 type: "object"
 properties:
-  user: {$ref: "../definitions.json#/user" }
+  id:         {type: "integer"}
+  auth_token: {type: "string"}

@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
 
     return head :not_found unless user
     if user.valid_password?(user_info[:password])
-      render json: user, status: :ok
+      render json: {id: user.id, auth_token: user.auth_token}, status: :ok
     else
       render json: {errors: "Invalid email or password"}, status: :unprocessable_entity
     end

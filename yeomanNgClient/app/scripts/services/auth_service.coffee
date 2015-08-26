@@ -22,8 +22,8 @@ angular.module 'yeomanNgClientApp'
           session: _(session).pick ["email", "password"]
         .$promise.then (data) ->
           currentSession =
-            userId: data.user.id
-            token:  data.user.auth_token
+            userId: data.id
+            token:  data.auth_token
           $cookies.putObject("session", currentSession)
    
       logout: ->
