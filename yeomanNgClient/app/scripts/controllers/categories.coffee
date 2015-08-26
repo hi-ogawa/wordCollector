@@ -11,7 +11,9 @@ angular.module 'yeomanNgClientApp'
   .controller 'CategoriesCtrl', (categoryResource, flashMessage, authService, $window) ->
     vm = @
 
-    vm.categories = categoryResource.index({user_id: authService.getSession().userId})
+    loadCategories = ->
+      vm.categories = categoryResource.index({user_id: authService.getSession().userId})
+    loadCategories()
 
     vm.sumOfNumbersOfItemsIn = (cs) ->
       _.foldl cs, ((n, c) -> n + c.item_ids.length), 0
@@ -38,7 +40,7 @@ angular.module 'yeomanNgClientApp'
       .then ->
         flashMessage.set "Successfully Submitted", "alert-success", true
         vm.showForm = vm.dataLoading = false
-        vm.categories = categoryResource.index()
+        loadCategories()
       ,->
         flashMessage.set "Submit failed", "alert-danger", true
         vm.showForm = vm.dataLoading = false
@@ -48,7 +50,7 @@ angular.module 'yeomanNgClientApp'
         categoryResource.destroy(category).$promise
         .then ->
           flashMessage.set "category deleted", "alert-success", true
-          vm.categories = categoryResource.index()
+          loadCategories()
         ,->
           flashMessage.set "category deletion failed", "alert-danger", true
     return

@@ -32,6 +32,9 @@ angular.module 'yeomanNgClientApp'
         .$promise.then ->
           currentSession = null
           $cookies.putObject("session", currentSession)
+        , ->
+          currentSession = null
+          $cookies.putObject("session", currentSession)
    
       getSession: -> currentSession
       loggedIn: -> !!@getSession()

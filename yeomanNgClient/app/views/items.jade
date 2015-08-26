@@ -2,6 +2,9 @@ p items in {{ vm.category.name }}
 a.btn.btn-default.btn-sm(ui-sref="categories")    Back to Categories
 a.btn.btn-default.btn-sm(ng-click="vm.newItem()") New Item
 
+div(ng-cloak=true, ng-show="vm.showForm", item-form=true, form="vm.itemForm"
+    on-submit="vm.submit()", on-cancel="vm.showForm=false", loading="vm.loading")
+
 .row
   .col-sm-9
     #items-list
@@ -31,5 +34,3 @@ a.btn.btn-default.btn-sm(ng-click="vm.newItem()") New Item
                            ng-href="{{ vm.appendDomainBefore(item.picture) }}")
         img.img-thumbnail(ng-src="{{ vm.appendDomainBefore(item.picture) }}")
         .fake(ng-init="vm.initMagnificPopup()")
-
-div(item-form=true)

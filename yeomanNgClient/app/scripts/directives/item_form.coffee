@@ -10,4 +10,8 @@ angular.module 'yeomanNgClientApp'
   .directive 'itemForm', ->
     restrict: 'EA'
     templateUrl: 'scripts/directives/item_form.html'
-    link: (scope, element, attrs) ->
+    scope:
+      itemForm: "=form"
+      submit:   "&onSubmit"
+      cancel:   "&onCancel"
+      loading:  "="
