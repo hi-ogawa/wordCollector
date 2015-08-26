@@ -29,6 +29,7 @@ angular.module 'yeomanNgClientApp'
       vm.showForm = true
       vm.formType = "edit"
       vm.itemForm = angular.copy item
+      delete vm.itemForm.picture
 
     vm.submit = ->
       vm.dataLoading = true
