@@ -5,7 +5,7 @@
       "id": {
         "type": "integer"
       },
-      "email": {
+      "username": {
         "type": "string"
       },
       "created_at": {
@@ -13,9 +13,6 @@
       },
       "updated_at": {
         "type": "date-time"
-      },
-      "auth_token": {
-        "type": "string"
       },
       "category_ids": {
         "type": "array",

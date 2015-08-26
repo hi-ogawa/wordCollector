@@ -22,10 +22,9 @@ properties:
           type: "object"
           properties:
             id:          {type: "integer"}
-            email:       {type: "string"}
+            username:    {type: "string"}
             created_at:  {type: "date-time"}
             updated_at:  {type: "date-time"}
-            auth_token:  {type: "string"}
             category_ids:
               type: "array"
               minItems: 3
