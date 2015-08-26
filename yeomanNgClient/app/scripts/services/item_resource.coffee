@@ -55,9 +55,9 @@ angular.module 'yeomanNgClientApp'
    
       show: -> r.show()
    
-      create:  (item) ->
+      create:  (item, categoryId) ->
         fd = json2FormData
-          category_id: item.category.id
+          category_id: categoryId
           item: _(item).pick ["word", "sentence", "meaning", "picture"]
         r.create fd
    

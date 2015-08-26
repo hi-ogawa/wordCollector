@@ -8,7 +8,7 @@
  # Controller of the yeomanNgClientApp
 ###
 angular.module 'yeomanNgClientApp'
-  .controller 'ItemsCtrl', (itemResource, categoryResource, flashMessage, $stateParams, $sce) ->
+  .controller 'ItemsCtrl', (itemResource, categoryResource, flashMessage, $stateParams, $sce, $window) ->
     vm = @
     vm.category = categoryResource.show(id: $stateParams.categoryId)
     loadItems = ->
@@ -31,13 +31,13 @@ angular.module 'yeomanNgClientApp'
       vm.itemForm = angular.copy item
 
     vm.submit = ->
-      vm.loading = true
+      vm.dataLoading = true
       p =
         switch vm.formType
           when "new"
-            itemResource.create vm.categoryForm
+            itemResource.create vm.itemForm, $stateParams.categoryId
           when "edit"
-            itemResource.update vm.categoryForm
+            itemResource.update vm.itemForm
       p.$promise
       .then ->
         flashMessage.set "Successfully Submitted", "alert-success", true
