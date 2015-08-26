@@ -6,88 +6,79 @@
 
   app.storage = new MyStorage();
 
+  app.session = null;
+
   app.Category = Backbone.Model.extend({
-    parse: function(response, options) {
-      if (options.collection) {
-        return response;
+    parse: function(resp, opt) {
+      if (opt.collection) {
+        return resp;
       } else {
-        return response.data;
+        return resp.category;
       }
-    },
-    initialize: function() {
-      return this.on("sync", (function(_this) {
-        return function() {
-          return app.storage.update(_this.toJSON());
-        };
-      })(this));
     }
   });
 
+  app.destination = null;
+
   app.Categories = Backbone.Collection.extend({
     model: app.Category,
-    url: "http://localhost:4567/categories",
-    parse: function(response) {
-      return response.data;
-    },
-    initialize: function() {
-      return this.on("sync", (function(_this) {
-        return function() {
-          return app.storage.get().then(function(items) {
-            if (_.some(_(_this.toJSON()).map(function(c) {
-              return _(c).isEqual(_(items).pick(["name", "id"]));
-            }))) {
-              return app.storage.update({
-                status: "ok"
-              });
-            } else {
-              return app.storage.update({
-                status: "wrong"
-              });
-            }
-          });
-        };
-      })(this));
+    url: "http://localhost:3000/api/categories",
+    parse: function(resp) {
+      return resp.categories;
     }
   });
 
   app.categories = new app.Categories();
 
+  app.CategoryView = Backbone.View.extend({
+    tagName: "li",
+    initialize: function() {
+      return this.$el.html($("<a>").text(this.model.get("name")));
+    },
+    events: {
+      "click a": function() {
+        app.destination = this.model;
+        return app.categoriesView.render();
+      }
+    }
+  });
+
   app.CategoriesView = Backbone.View.extend({
     initialize: function() {
-      this.collection = app.categories;
-      this.collection.on("sync", (function(_this) {
+      this.template = _.template($("#ext-categories-t").html());
+      app.categories.on("sync", (function(_this) {
         return function() {
           return _this.render();
         };
       })(this));
-      app.storage.on("update", (function(_this) {
-        return function() {
-          return _this.render();
-        };
-      })(this));
-      this.collection.fetch();
-      return app.storage.fetch();
+      return app.categories.fetch({
+        data: {
+          user_id: app.session.id
+        }
+      });
     },
     render: function() {
-      this.template = _.template($("#ext-categories-t").html());
       this.$el.html(this.template({
-        categories: this.collection.toJSON()
+        title: app.destination ? app.destination.get("name") : "--- Choose Category ---"
       }));
-      $('.dropdown-toggle').dropdown();
-      $("#new-category").popover({
-        content: $("#new-category-popover-content").remove()
+      this.initDropdown();
+      return this.initPopover();
+    },
+    initDropdown: function() {
+      app.categories.each(function(category) {
+        return this.$(".dropdown-menu").append(new app.CategoryView({
+          model: category
+        }).$el);
       });
-      if (app.storage.items.status === "ok") {
-        this.$(".dropdown-title").text(app.storage.items.name);
-        return this.$("#upload").removeClass("disabled");
-      }
+      return this.$('.dropdown-toggle').dropdown();
+    },
+    initPopover: function() {
+      return this.$("#new-category").popover({
+        content: this.$("#new-category-popover-content").remove()
+      });
     },
     events: function() {
       return {
-        "click .dropdown-menu a": function(e) {
-          this.collection.fetch();
-          return app.storage.update($(e.currentTarget).data('category'));
-        },
         "click #upload": function() {
           return app.appView.upload();
         },
@@ -98,9 +89,14 @@
       var name;
       name = this.$("#new-category-name").val();
       if (e.which === 13 && name !== "") {
-        return app.categories.create({
+        app.destination = app.categories.create({
           name: name
+        }, {
+          headers: {
+            Authorization: app.session.auth_token
+          }
         });
+        return this.render();
       }
     }
   });
@@ -163,7 +159,13 @@
       this.$inputWord = this.$("#ext-word");
       this.$inputSentence = this.$("#ext-sentence");
       this.$inputMeaning = this.$("#ext-meaning");
-      this.renderCategories();
+      app.storage.init();
+      app.storage.on("update", (function(_this) {
+        return function(data) {
+          app.session = data.session;
+          return _this.renderCategories();
+        };
+      })(this));
       return $('body').dblclick((function(_this) {
         return function(e) {
           var s, w;

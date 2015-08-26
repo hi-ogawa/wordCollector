@@ -20,13 +20,11 @@
   .input-group.input-group-sm
     %a.btn.btn-default.form-control.dropdown-toggle{'data-toggle' => 'dropdown'}
       .fake-div
-        .dropdown-title.pull-left -- Choose Category --
+        .dropdown-title.pull-left <%= title %>
       .caret.pull-right{style: "margin-top: 8px;"}
     %ul.dropdown-menu{role: 'menu'}
-      <% _.each(categories, function(category){ %>
-      %li
-        %a{"data-category" => "<%= JSON.stringify(category) %>"} <%= category.name %>
-      <% }) %>
+      -# CategoryView will be appended
+
     %a#new-category.btn.btn-default.input-group-addon{data: {toggle: "popover", html: "true",
                                                              placement: "bottom",
                                                              container: "#ext-categories"}}

@@ -1,62 +1,61 @@
 app = {}
 
-# this model keeps current destination category name, id and validation
-# {name: <category-name>, id: <category-id>, status: <ok/wrong>}
-# status is always updated at the "sync" event of app.categories collection
+# popup keeps auth_token into chrome.storage
 app.storage = new MyStorage()
+app.session = null
+
 
 # models and collection
 app.Category = Backbone.Model.extend
-  parse: (response, options) -> if options.collection then response else response.data
-  initialize: -> @on "sync", => app.storage.update @toJSON()
-
+  parse: (resp, opt) -> if opt.collection then resp else resp.category
+app.destination = null
       
 app.Categories = Backbone.Collection.extend
   model: app.Category
-  url: "http://localhost:4567/categories"
-  parse: (response) -> response.data
-  initialize: -> @on "sync", =>
-    app.storage.get()
-    .then (items) =>
-      if _.some _(@toJSON()).map((c)-> _(c).isEqual _(items).pick(["name", "id"]))
-        app.storage.update {status: "ok"}
-      else
-        app.storage.update {status: "wrong"}
+  url: "http://localhost:3000/api/categories"
+  parse: (resp) -> resp.categories
 app.categories = new app.Categories()
 
 
-# categories view
+# view for each element of dropdown menu
+app.CategoryView = Backbone.View.extend
+  tagName: "li"
+  initialize: -> @$el.html $("<a>").text @model.get "name"
+  events: "click a": -> app.destination = @model; app.categoriesView.render()
+
+
+# dropdown categories view
 app.CategoriesView = Backbone.View.extend
 
   initialize: ->
-    @collection = app.categories
-    @collection.on "sync", => @render()
-    app.storage.on "update", => @render()
-
-    # how often should we check the data with the server (only this time might cause some gaps)
-    @collection.fetch()
-    app.storage.fetch()
+    @template = _.template $("#ext-categories-t").html()
+    app.categories.on "sync",    => @render()
+    app.categories.fetch data: user_id: app.session.id
 
   render: ->
-    @template = _.template $("#ext-categories-t").html()
-    @$el.html @template({categories: @collection.toJSON()})
-    $('.dropdown-toggle').dropdown()
-    $("#new-category").popover({content: $("#new-category-popover-content").remove()})
-    if app.storage.items.status is "ok"
-      @$(".dropdown-title").text app.storage.items.name
-      @$("#upload").removeClass("disabled")
+    @$el.html @template
+      title: if app.destination then app.destination.get "name" else "--- Choose Category ---"
 
+    @initDropdown()    
+    @initPopover()    
+
+  initDropdown: ->
+    app.categories.each (category) ->
+      @$(".dropdown-menu").append new app.CategoryView({model: category}).$el
+    @$('.dropdown-toggle').dropdown()
+
+  initPopover: -> @$("#new-category").popover({content: @$("#new-category-popover-content").remove()})
+  
   events: ->
-    "click .dropdown-menu a": (e) ->
-      @collection.fetch()
-      app.storage.update $(e.currentTarget).data('category')
     "click #upload": -> app.appView.upload()
     "keypress #new-category-name": "newCategory"
 
   newCategory: (e) ->
     name = @$("#new-category-name").val()
-    if e.which is 13 and name isnt "" then app.categories.create({name: name})
-      
+    if e.which is 13 and name isnt ""
+      app.destination = app.categories.create {name: name},
+                          headers: Authorization: app.session.auth_token
+      @render()
 
 # dictionary view
 app.DictionaryView = Backbone.View.extend
@@ -108,7 +107,11 @@ app.AppView = Backbone.View.extend
     @$inputSentence = @$("#ext-sentence")
     @$inputMeaning  = @$("#ext-meaning")
 
-    @renderCategories()
+
+    app.storage.init()
+    app.storage.on "update", (data) =>
+      app.session = data.session
+      @renderCategories()  
 
     # take in words and sentences from dblclick
     $('body').dblclick (e) =>

@@ -15,16 +15,11 @@
   <div class='input-group input-group-sm'>
     <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
       <div class='fake-div'>
-        <div class='dropdown-title pull-left'>-- Choose Category --</div>
+        <div class='dropdown-title pull-left'><%= title %></div>
       </div>
       <div class='caret pull-right' style='margin-top: 8px;'></div>
     </a>
     <ul class='dropdown-menu' role='menu'>
-      <% _.each(categories, function(category){ %>
-      <li>
-        <a data-category='<%= JSON.stringify(category) %>'><%= category.name %></a>
-      </li>
-      <% }) %>
     </ul>
     <a class='btn btn-default input-group-addon' data-container='#ext-categories' data-html='true' data-placement='bottom' data-toggle='popover' id='new-category'>
       <span class='fa fa-plus'></span>
