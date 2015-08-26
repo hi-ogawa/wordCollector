@@ -15,14 +15,14 @@ describe Api::V1::UsersController do
 
   describe "POST #create" do
 
-    context "params valid" do
+    context "with valid params" do
       let(:attr)    { FactoryGirl.attributes_for :user }
       before(:each) { post :create, user: attr }
       it {should match_response_schema "users/create"}
       it {should have_http_status 201}
     end
 
-    context "params invalid" do
+    context "with invalid params" do
       let(:invalid_attr) {FactoryGirl.attributes_for :user_wrong_email}
       before(:each)      {post :create, user: invalid_attr}
       it {should match_response_schema "users/create_invalid"}

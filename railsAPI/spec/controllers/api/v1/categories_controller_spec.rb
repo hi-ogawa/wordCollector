@@ -15,7 +15,7 @@ describe Api::V1::CategoriesController do
     end
 
     context "with user_id parameter" do
-      let!(:second_user)       { FactoryGirl.create :user}
+      let!(:second_user)       { FactoryGirl.create :user, username: "testtest"}
       let!(:second_categories) { 3.times.map {FactoryGirl.create :category, user: second_user}}
       before { get :index, {user_id: second_user.id} }
       it { should match_response_schema "categories/index_with_user_id" }
