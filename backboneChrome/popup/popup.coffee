@@ -1,7 +1,9 @@
 app = {}
 
+### storage for authentication ###
 app.storage = new MyStorage()
 
+### before authentication ###
 app.loginView = Backbone.View.extend
   initialize: ->
     @$el.html _.template($("#loginView-t").html()) {}
@@ -27,7 +29,7 @@ app.loginView = Backbone.View.extend
 
     "click #register":   (e) -> extLib.createTab "http://localhost:9000/login"
       
-
+### after authentication ###
 app.authedView = Backbone.View.extend
   initialize: (data) ->
     console.log data
@@ -35,15 +37,22 @@ app.authedView = Backbone.View.extend
 
   events:
     "click #on":     (e) ->
+       chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
+         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOn"    
+
     "click #off":    (e) ->
+       chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
+         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOff"    
+
     "click #logout": (e) -> app.storage.clear()
       
 
-
+### main view ###
 app.MainView = Backbone.View.extend
   initialize: ->
     $("#flash").hide()
     app.storage.init()
+
     app.storage.on "update", (data) =>
       console.log "-- app.storage update events --"
       console.log data

@@ -4,7 +4,13 @@
 
   app = {};
 
+
+  /* storage for authentication */
+
   app.storage = new MyStorage();
+
+
+  /* before authentication */
 
   app.loginView = Backbone.View.extend({
     initialize: function() {
@@ -37,19 +43,43 @@
     }
   });
 
+
+  /* after authentication */
+
   app.authedView = Backbone.View.extend({
     initialize: function(data) {
       console.log(data);
       return this.$el.html(_.template($("#authedView-t").html())(data));
     },
     events: {
-      "click #on": function(e) {},
-      "click #off": function(e) {},
+      "click #on": function(e) {
+        return chrome.tabs.query({
+          active: true,
+          currentWindow: true
+        }, function(tabs) {
+          return chrome.tabs.sendMessage(tabs[0].id, {
+            type: "popup#appOn"
+          });
+        });
+      },
+      "click #off": function(e) {
+        return chrome.tabs.query({
+          active: true,
+          currentWindow: true
+        }, function(tabs) {
+          return chrome.tabs.sendMessage(tabs[0].id, {
+            type: "popup#appOff"
+          });
+        });
+      },
       "click #logout": function(e) {
         return app.storage.clear();
       }
     }
   });
+
+
+  /* main view */
 
   app.MainView = Backbone.View.extend({
     initialize: function() {

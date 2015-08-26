@@ -3,54 +3,53 @@ app = {}
 # this model keeps current destination category name, id and validation
 # {name: <category-name>, id: <category-id>, status: <ok/wrong>}
 # status is always updated at the "sync" event of app.categories collection
-app.myStorage = new MyStorage()
+app.storage = new MyStorage()
 
 # models and collection
 app.Category = Backbone.Model.extend
   parse: (response, options) -> if options.collection then response else response.data
-  initialize: -> @on "sync", => app.myStorage.update @toJSON()
+  initialize: -> @on "sync", => app.storage.update @toJSON()
+
       
 app.Categories = Backbone.Collection.extend
   model: app.Category
   url: "http://localhost:4567/categories"
   parse: (response) -> response.data
   initialize: -> @on "sync", =>
-    app.myStorage.get()
+    app.storage.get()
     .then (items) =>
       if _.some _(@toJSON()).map((c)-> _(c).isEqual _(items).pick(["name", "id"]))
-        app.myStorage.update {status: "ok"}
+        app.storage.update {status: "ok"}
       else
-        app.myStorage.update {status: "wrong"}
+        app.storage.update {status: "wrong"}
 app.categories = new app.Categories()
 
 
 # categories view
 app.CategoriesView = Backbone.View.extend
-  tagName: "div"
-  id: "ext-categories"
 
   initialize: ->
     @collection = app.categories
     @collection.on "sync", => @render()
-    app.myStorage.on "update", => @render()
+    app.storage.on "update", => @render()
 
     # how often should we check the data with the server (only this time might cause some gaps)
     @collection.fetch()
-    app.myStorage.fetch()
+    app.storage.fetch()
 
   render: ->
     @template = _.template $("#ext-categories-t").html()
     @$el.html @template({categories: @collection.toJSON()})
     $('.dropdown-toggle').dropdown()
     $("#new-category").popover({content: $("#new-category-popover-content").remove()})
-    if app.myStorage.items.status is "ok"
-      @$(".dropdown-title").text app.myStorage.items.name
+    if app.storage.items.status is "ok"
+      @$(".dropdown-title").text app.storage.items.name
       @$("#upload").removeClass("disabled")
 
   events: ->
     "click .dropdown-menu a": (e) ->
       @collection.fetch()
-      app.myStorage.update $(e.currentTarget).data('category')
+      app.storage.update $(e.currentTarget).data('category')
     "click #upload": -> app.appView.upload()
     "keypress #new-category-name": "newCategory"
 
@@ -103,6 +102,7 @@ app.DictionaryView = Backbone.View.extend
 app.AppView = Backbone.View.extend
 
   initialize: ->
+    @$el.html _.template($("#ext-content-t").html()) {}
     @$dictionaries  = @$("#ext-dictionaries")
     @$inputWord     = @$("#ext-word")   # these are the single sources of truth (but, it turned out it's hard to keep this as good source since it's not easy to bind an event to input DOM. Other option seems to be using handlebars?)
     @$inputSentence = @$("#ext-sentence")
@@ -120,8 +120,7 @@ app.AppView = Backbone.View.extend
       @searchWord()
 
   renderCategories: ->
-    app.categoriesView = new app.CategoriesView()
-    @$("#ext-settings").append app.categoriesView.$el
+    app.categoriesView = new app.CategoriesView el: $("#ext-categories")
 
   events:
     "keypress #ext-word": (e) -> if e.which is 13 then @searchWord()
@@ -137,7 +136,7 @@ app.AppView = Backbone.View.extend
           word        : @$inputWord.val()      
           sentence    : @$inputSentence.val()  
           meaning     : @$inputMeaning.val()   
-          category_id : app.myStorage.items.id
+          category_id : app.storage.items.id
 
         extLib.ultraAjax(
           url: "http://localhost:4567/upload"
@@ -171,23 +170,5 @@ app.AppView = Backbone.View.extend
         .then (data) => @dAPIView.renderData data
 
 
-# user authentication
-# extLib.ultraAjax({url: "http://localhost:3000/api/sessions", method: "POST"})
-# .catch((err) -> console.log "error: AppView.upload - #{err}")
-# .then (response) ->
-#   if response.status is "success"
-
-#     # if it works, instantiate the main view
-#     $.get chrome.extension.getURL("contentScript/contentScript.html"), (html) ->
-#       $extWrapper = $(html)
-#       $('body').append $extWrapper
-#       app.appView = new app.AppView({el: $extWrapper})
-#   else
-
-#     # if not, notify and redirect the user
-#     if confirm "you need to login first from this webpage\n\
-#                 http://often-test-app.xyz\n\
-#                 If you click 'OK', you will be redirected to there."
-#       chrome.runtime.sendMessage
-#         type: "createTab"
-#         url: "http://often-test-app.xyz"
+root = exports ? this
+root.app = app

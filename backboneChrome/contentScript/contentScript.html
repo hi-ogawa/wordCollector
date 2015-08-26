@@ -1,13 +1,16 @@
 <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'>
-<div class='my-bootstrap-container' id='ext-content'>
+<div class='my-bootstrap-container'>
+  <div id='ext-content'></div>
+</div>
+<script id='ext-content-t' type='text/template'>
   <div id='ext-settings'>
     <input class='input-sm form-control' id='ext-word' placeholder='Word'>
     <input class='input-sm form-control' id='ext-sentence' placeholder='Sentence'>
     <input class='input-sm form-control' id='ext-meaning' placeholder='Meaning'>
+    <div id='ext-categories'></div>
   </div>
-  <div id='ext-dictionaries'>
-  </div>
-</div>
+  <div id='ext-dictionaries'></div>
+</script>
 <script id='ext-categories-t' type='text/template'>
   <div class='input-group input-group-sm'>
     <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
