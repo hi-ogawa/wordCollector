@@ -30,11 +30,13 @@ angular.module 'yeomanNgClientApp'
         r.destroy
           token: currentSession.token
         .$promise.then ->
-          currentSession = null
-          $cookies.putObject("session", currentSession)
+          service.delete()
         , ->
-          currentSession = null
-          $cookies.putObject("session", currentSession)
+          service.delete()
+
+      delete: ->
+        currentSession = null
+        $cookies.putObject("session", currentSession)
    
       getSession: -> currentSession
       loggedIn: -> !!@getSession()

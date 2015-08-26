@@ -35,6 +35,7 @@ angular.module 'yeomanNgClientApp'
           userResource.destroy().$promise
           .then ->
             flashMessage.set "Account deleted", "alert-success", false
+            authService.delete()
             $state.go "root.register"
           ,->
             flashMessage.set "Account deletion failed", "alert-danger", true
