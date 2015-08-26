@@ -5,10 +5,24 @@ describe User do
 
   subject {user}
 
+  it {should respond_to(:username)}
   it {should respond_to(:email)}
   it {should respond_to(:password)}
   it {should respond_to(:password_confirmation)}
   it {should be_valid}
+
+  ### username validations ###
+  it {is_expected.to allow_value("h10gawa").for(:username)}
+  it {is_expected.to allow_value("H10GAWA").for(:username)}
+
+  it {is_expected.to_not allow_value("hi_ogawa").for(:username)}
+  it {is_expected.to_not allow_value("hi.ogawa").for(:username)}
+  it {is_expected.to_not allow_value("hi ogawa").for(:username)}
+
+  it {is_expected.to_not allow_value("hiog").for(:username)}
+  it {is_expected.to_not allow_value("hiogaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa").for(:username)}
+  ############################
+
 
   it {should validate_presence_of(:email)}
   it {should validate_uniqueness_of(:email)}
