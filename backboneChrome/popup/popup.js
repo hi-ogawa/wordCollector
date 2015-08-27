@@ -75,7 +75,8 @@
       app.storage.on("update", (function(_this) {
         return function(data) {
           app.destination = data.destination;
-          return _this.render();
+          _this.render();
+          return _this.resetContentScriptsApp();
         };
       })(this));
       app.categories.fetch({
@@ -124,13 +125,23 @@
           destination: newCat.toJSON()
         });
       }
+    },
+    resetContentScriptsApp: function() {
+      return chrome.tabs.query({
+        active: true,
+        currentWindow: true
+      }, function(tabs) {
+        return chrome.tabs.sendMessage(tabs[0].id, {
+          type: "popup#appReset"
+        });
+      });
     }
   });
 
 
   /* after authentication */
 
-  app.authedView = Backbone.View.extend({
+  app.AuthedView = Backbone.View.extend({
     initialize: function() {
       this.$el.html(_.template($("#authedView-t").html())({
         user: this.model.toJSON()
@@ -169,7 +180,7 @@
 
   /* before authentication */
 
-  app.loginView = Backbone.View.extend({
+  app.LoginView = Backbone.View.extend({
     initialize: function() {
       this.$el.html(_.template($("#loginView-t").html())({}));
       this.$("#loginForm input:eq(0)").val("hiogawa@hiogawa.com");
@@ -237,10 +248,10 @@
       })(this));
     },
     renderLoginView: function() {
-      return this.$el.html(new app.loginView().$el);
+      return this.$el.html(new app.LoginView().$el);
     },
     renderAuthedView: function(user) {
-      return this.$el.html(new app.authedView({
+      return this.$el.html(new app.AuthedView({
         model: user
       }).$el);
     },

@@ -2,18 +2,26 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
 
   switch request.type
 
-    when "ajax"
+    when "uploadItem"
 
-      # adhocly, convert dataurl into blob (since blob object cannot be passed as a message),
-      # which I don't like to do most :(
-      if request.settings.data?
-        fd = new FormData
-        _.mapObject request.settings.data, (val, key) ->
-          if key is "picture"
-            fd.append key, extLib.dataURLtoBlob(val)
-          else
-            fd.append key, val
-        request.settings.data = fd
+        data =
+          category_id: request.category_id
+          item:
+            word:      request.word
+            sentence:  request.sentence
+            meaning:   request.meaning
+            picture:   extLib.dataURLtoBlob request.picture
+  
+        $.ajax
+          url:  "http://localhost:3000/api/items"
+          type: "POST"
+          data: extLib.json2FormData data
+          processData: false
+          contentType: false
+          headers: request.headers
+        .done (resp) -> callback resp
+
+    when "ajax"
 
       Promise.resolve($.ajax(request.settings))
         .then((data) ->

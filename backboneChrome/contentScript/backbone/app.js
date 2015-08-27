@@ -8,97 +8,7 @@
 
   app.session = null;
 
-  app.Category = Backbone.Model.extend({
-    parse: function(resp, opt) {
-      if (opt.collection) {
-        return resp;
-      } else {
-        return resp.category;
-      }
-    }
-  });
-
   app.destination = null;
-
-  app.Categories = Backbone.Collection.extend({
-    model: app.Category,
-    url: "http://localhost:3000/api/categories",
-    parse: function(resp) {
-      return resp.categories;
-    }
-  });
-
-  app.categories = new app.Categories();
-
-  app.CategoryView = Backbone.View.extend({
-    tagName: "li",
-    initialize: function() {
-      return this.$el.html($("<a>").text(this.model.get("name")));
-    },
-    events: {
-      "click a": function() {
-        app.destination = this.model;
-        return app.categoriesView.render();
-      }
-    }
-  });
-
-  app.CategoriesView = Backbone.View.extend({
-    initialize: function() {
-      this.template = _.template($("#ext-categories-t").html());
-      app.categories.on("sync", (function(_this) {
-        return function() {
-          return _this.render();
-        };
-      })(this));
-      return app.categories.fetch({
-        data: {
-          user_id: app.session.id
-        }
-      });
-    },
-    render: function() {
-      this.$el.html(this.template({
-        title: app.destination ? app.destination.get("name") : "--- Choose Category ---"
-      }));
-      this.initDropdown();
-      this.initPopover();
-      return this.$("#upload").toggleClass("disabled", !app.destination);
-    },
-    initDropdown: function() {
-      app.categories.each(function(category) {
-        return this.$(".dropdown-menu").append(new app.CategoryView({
-          model: category
-        }).$el);
-      });
-      return this.$('.dropdown-toggle').dropdown();
-    },
-    initPopover: function() {
-      return this.$("#new-category").popover({
-        content: _.template($("#new-category-popover-content-t").html())({})
-      });
-    },
-    events: {
-      "click #upload": function() {
-        return app.appView.upload();
-      },
-      "keypress #new-category-name": "newCategory"
-    },
-    newCategory: function(e) {
-      var name;
-      name = this.$("#new-category-name").val();
-      if (e.which === 13 && name !== "") {
-        app.destination = app.categories.create({
-          name: name
-        }, {
-          headers: {
-            Authorization: app.session.auth_token
-          }
-        });
-        return this.render();
-      }
-    }
-  });
 
   app.DictionaryView = Backbone.View.extend({
     tagName: "div",
@@ -158,7 +68,7 @@
       app.storage.on("update", (function(_this) {
         return function(data) {
           app.session = data.session;
-          return _this.renderCategories();
+          return app.destination = data.destination;
         };
       })(this));
       return $('body').dblclick((function(_this) {
@@ -177,12 +87,10 @@
         if (e.which === 13) {
           return this.renderDictionaries();
         }
+      },
+      "click #upload": function() {
+        return this.upload();
       }
-    },
-    renderCategories: function() {
-      return app.categoriesView = new app.CategoriesView({
-        el: $("#ext-categories")
-      });
     },
     renderDictionaries: function() {
       var word;
@@ -233,26 +141,17 @@
         return console.log("error - AppView.upload: " + err);
       }).then((function(_this) {
         return function(dataurl) {
-          var data;
-          data = {
+          return chrome.runtime.sendMessage({
+            type: "uploadItem",
             category_id: app.destination.id,
-            item: {
-              word: _this.$("#ext-word").val(),
-              sentence: _this.$("#ext-sentence").val(),
-              meaning: _this.$("#ext-meaning").val(),
-              picture: extLib.dataURLtoBlob(dataurl)
-            }
-          };
-          return $.ajax({
-            url: "http://localhost:3000/api/items",
-            type: "POST",
-            data: extLib.json2FormData(data),
-            processData: false,
-            contentType: false,
+            word: _this.$("#ext-word").val(),
+            sentence: _this.$("#ext-sentence").val(),
+            meaning: _this.$("#ext-meaning").val(),
+            picture: dataurl,
             headers: {
               Authorization: app.session.auth_token
             }
-          }).done(function(resp) {
+          }, function(resp) {
             return console.log(resp);
           });
         };

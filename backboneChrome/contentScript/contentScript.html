@@ -7,31 +7,9 @@
     <input class='input-sm form-control' id='ext-word' placeholder='Word'>
     <input class='input-sm form-control' id='ext-sentence' placeholder='Sentence'>
     <input class='input-sm form-control' id='ext-meaning' placeholder='Meaning'>
-    <div id='ext-categories'></div>
+    <input class='input-sm form-control' id='upload' type='submit' value='Upload'>
   </div>
   <div id='ext-dictionaries'></div>
-</script>
-<script id='ext-categories-t' type='text/template'>
-  <div class='input-group input-group-sm'>
-    <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
-      <div class='fake-div'>
-        <div class='pull-left'><%= title %></div>
-      </div>
-      <div class='caret pull-right' style='margin-top: 8px;'></div>
-    </a>
-    <ul class='dropdown-menu' role='menu'>
-    </ul>
-    <a class='btn btn-default input-group-addon' data-container='#ext-categories' data-html='true' data-placement='bottom' data-toggle='popover' id='new-category'>
-      <span class='fa fa-plus'></span>
-    </a>
-    <a class='btn btn-default input-group-addon disabled' id='upload'>
-      <span class='fa fa-upload'></span>
-    </a>
-  </div>
-</script>
-<script id='new-category-popover-content-t' type='text/template'>
-  <label>Make New Category (Hit Enter to Finish)</label>
-  <input class='form-control input-sm' id='new-category-name' placeholder='Category Name'>
 </script>
 <script id='ext-dictionary-t' type='text/template'>
   <div class='ext-dictionary panel'>

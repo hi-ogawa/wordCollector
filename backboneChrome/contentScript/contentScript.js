@@ -18,6 +18,14 @@
           app.appView.$el.empty();
           return app.appView = null;
         }
+        break;
+      case "popup#appReset":
+        if (app.appView) {
+          app.appView.$el.empty();
+          return app.appView = new app.AppView({
+            el: $("#ext-content")
+          });
+        }
     }
   });
 

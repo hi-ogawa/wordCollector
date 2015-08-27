@@ -9,6 +9,7 @@ app.User = Backbone.Model.extend
 app.user = new app.User
 
 
+
 ### keep the destination cateogry of the uploding itme ###
 app.Category = Backbone.Model.extend
   parse: (resp, opt) -> if opt.collection then resp else resp.category
@@ -21,6 +22,7 @@ app.Categories = Backbone.Collection.extend
 app.categories = new app.Categories()
 
 
+
 ### view for each element of dropdown menu ###
 app.CategoryView = Backbone.View.extend
   tagName: "li"
@@ -29,13 +31,14 @@ app.CategoryView = Backbone.View.extend
   events: "click a": -> app.storage.update destination: @model.toJSON()
 
 
+
 ### dropdown categories view ###
 app.CategoriesView = Backbone.View.extend
 
   initialize: ->
     @template = _.template $("#categoriesDropdown-t").html()
     app.categories.on "sync", => @render()
-    app.storage.on "update", (data) => app.destination = data.destination; @render()
+    app.storage.on "update", (data) => app.destination = data.destination; @render(); @resetContentScriptsApp()
     app.categories.fetch data: user_id: app.storage.getData().session.id
     app.destination = if app.storage.getData().destination then app.storage.getData().destination
     @render()
@@ -63,11 +66,17 @@ app.CategoriesView = Backbone.View.extend
     if e.which is 13 and name isnt ""
       newCat = app.categories.create {name: name},
                  headers: Authorization: app.storage.getData().session.auth_token
-      app.storage.update destination: newCat.toJSON() # to reduce the data to store
-        
+      # to reduce the data to store not putting model itself
+      app.storage.update destination: newCat.toJSON()
+
+  resetContentScriptsApp: ->
+    chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
+      chrome.tabs.sendMessage tabs[0].id, type: "popup#appReset"
+
+
 
 ### after authentication ###
-app.authedView = Backbone.View.extend
+app.AuthedView = Backbone.View.extend
   initialize: ->
     @$el.html _.template($("#authedView-t").html()) {user: @model.toJSON()}
     app.categoriesView = new app.CategoriesView el: @$("#categoriesDropdown")
@@ -84,8 +93,9 @@ app.authedView = Backbone.View.extend
     "click #logout": (e) -> app.storage.clear()
 
 
+
 ### before authentication ###
-app.loginView = Backbone.View.extend
+app.LoginView = Backbone.View.extend
   initialize: ->
     @$el.html _.template($("#loginView-t").html()) {}
 
@@ -110,6 +120,7 @@ app.loginView = Backbone.View.extend
 
     "click #register":   (e) -> extLib.createTab "http://localhost:9000/login"
       
+
 
 ### main view ###
 app.MainView = Backbone.View.extend
@@ -136,15 +147,15 @@ app.MainView = Backbone.View.extend
 
 
   renderLoginView: ->
-    @$el.html new app.loginView().$el
+    @$el.html new app.LoginView().$el
 
   renderAuthedView: (user) ->
-    @$el.html new app.authedView({model: user}).$el
+    @$el.html new app.AuthedView({model: user}).$el
 
   renderFlashMessage: (message) ->
     $("#flash").text(message).show()
 
+
 app.mainView = null
-    
 $ ->
   app.mainView = new app.MainView el: $("#main")

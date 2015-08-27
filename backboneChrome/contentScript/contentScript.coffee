@@ -12,3 +12,8 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
       if app.appView
         app.appView.$el.empty()
         app.appView = null
+
+    when "popup#appReset"
+      if app.appView
+        app.appView.$el.empty()
+        app.appView = new app.AppView el: $("#ext-content")
