@@ -8,7 +8,7 @@ describe Item do
 
     describe "picture.url" do
       context "with `picture = fixture_file_upload`" do
-        it { expect(item.picture.url).to match "/system/items/pictures/000/000/001/original/test.png" }
+        it { expect(item.picture.url).to match "/system/items/pictures/" }
       end
 
       context "with `picture = nil`" do

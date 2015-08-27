@@ -15,18 +15,18 @@ ActiveRecord::Schema.define(version: 20150826043603) do
 
   create_table "categories", force: true do |t|
     t.string   "name",        default: ""
-    t.text     "description", default: ""
+    t.text     "description"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "categories", ["user_id"], name: "index_categories_on_user_id"
+  add_index "categories", ["user_id"], name: "index_categories_on_user_id", using: :btree
 
   create_table "items", force: true do |t|
     t.string   "word",                 default: ""
-    t.text     "sentence",             default: ""
-    t.text     "meaning",              default: ""
+    t.text     "sentence"
+    t.text     "meaning"
     t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150826043603) do
     t.datetime "picture_updated_at"
   end
 
-  add_index "items", ["category_id"], name: "index_items_on_category_id"
+  add_index "items", ["category_id"], name: "index_items_on_category_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 20150826043603) do
     t.string   "username",               default: "", null: false
   end
 
-  add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["auth_token"], name: "index_users_on_auth_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
