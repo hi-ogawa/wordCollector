@@ -15,10 +15,6 @@ angular.module 'yeomanNgClientApp'
       vm.items = itemResource.index({category_id: $stateParams.categoryId})
     loadItems()
 
-    # change the domain of url and sanitize
-    vm.appendDomainBefore = (url) ->
-      $sce.trustAsUrl("http://localhost:3000#{url}")
-
 
     vm.newItem = ->
       vm.showForm = true

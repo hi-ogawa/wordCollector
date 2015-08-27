@@ -31,6 +31,6 @@ div(ng-cloak=true, ng-show="vm.showForm", item-form=true, form="vm.itemForm"
   .col-sm-3
     #images-list
       a.magnific-popup-img(ng-repeat="item in vm.items"
-                           ng-href="{{ vm.appendDomainBefore(item.picture) }}")
-        img.img-thumbnail(ng-src="{{ vm.appendDomainBefore(item.picture) }}")
+                           ng-href="{{ item.picture }}")
+        img.img-thumbnail(ng-src="{{ item.picture }}")
         .fake(ng-init="vm.initMagnificPopup()")
