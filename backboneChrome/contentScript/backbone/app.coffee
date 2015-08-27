@@ -29,16 +29,18 @@ app.CategoriesView = Backbone.View.extend
 
   initialize: ->
     @template = _.template $("#ext-categories-t").html()
-    app.categories.on "sync",    => @render()
+    app.categories.on "sync", => @render()
     app.categories.fetch data: user_id: app.session.id
 
   render: ->
     @$el.html @template
       title: if app.destination then app.destination.get "name" else "--- Choose Category ---"
-
     @initDropdown()    
-    @initPopover()    
+    @initPopover()
 
+    @$("#upload").toggleClass("disabled", !app.destination)
+
+    
   initDropdown: ->
     app.categories.each (category) ->
       @$(".dropdown-menu").append new app.CategoryView({model: category}).$el

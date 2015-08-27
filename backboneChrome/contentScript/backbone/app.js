@@ -62,7 +62,8 @@
         title: app.destination ? app.destination.get("name") : "--- Choose Category ---"
       }));
       this.initDropdown();
-      return this.initPopover();
+      this.initPopover();
+      return this.$("#upload").toggleClass("disabled", !app.destination);
     },
     initDropdown: function() {
       app.categories.each(function(category) {
@@ -96,6 +97,7 @@
             Authorization: app.session.auth_token
           }
         });
+        console.log(app.destination);
         return this.render();
       }
     }
