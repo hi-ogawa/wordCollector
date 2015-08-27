@@ -23,3 +23,5 @@
 
 # controller response example files in rspec
 *.ex.json
+
+/config/aws.yml
