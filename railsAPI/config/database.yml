@@ -50,5 +50,3 @@ test:
 production:
   <<: *default
   database: wordCollector_production
-  username: wordCollector
-  password: <%= ENV['WORDCOLLECTOR_DATABASE_PASSWORD'] %>

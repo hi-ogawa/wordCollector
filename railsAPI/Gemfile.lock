@@ -100,6 +100,9 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
+    passenger (5.0.15)
+      rack
+      rake (>= 0.8.1)
     polyglot (0.3.5)
     rack (1.5.5)
     rack-test (0.6.3)
@@ -191,6 +194,7 @@ DEPENDENCIES
   json-schema
   mysql2
   paperclip (~> 4.3)
+  passenger
   rails (= 4.1.4)
   rspec-rails (~> 2.14)
   sass-rails (~> 4.0.3)

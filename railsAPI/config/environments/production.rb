@@ -79,4 +79,14 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Paperclip data on Amazon S3
+  config.paperclip_defaults = {
+    :storage        => :s3,
+    :s3_credentials => {
+      :s3_host_name   => "s3-ap-northeast-1.amazonaws.com",
+      :bucket         => "hiogawa.wordcollector.production0",
+      :s3_credentials => "#{Rails.root}/config/aws.yml"
+    }
+  }
 end
