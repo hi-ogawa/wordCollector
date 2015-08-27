@@ -15,7 +15,7 @@
   <div class='input-group input-group-sm'>
     <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
       <div class='fake-div'>
-        <div class='dropdown-title pull-left'><%= title %></div>
+        <div class='pull-left'><%= title %></div>
       </div>
       <div class='caret pull-right' style='margin-top: 8px;'></div>
     </a>
@@ -28,10 +28,10 @@
       <span class='fa fa-upload'></span>
     </a>
   </div>
-  <div id='new-category-popover-content'>
-    <label>Make New Category (Hit Enter to Finish)</label>
-    <input class='form-control input-sm' id='new-category-name' placeholder='Category Name'>
-  </div>
+</script>
+<script id='new-category-popover-content-t' type='text/template'>
+  <label>Make New Category (Hit Enter to Finish)</label>
+  <input class='form-control input-sm' id='new-category-name' placeholder='Category Name'>
 </script>
 <script id='ext-dictionary-t' type='text/template'>
   <div class='ext-dictionary panel'>

@@ -1,5 +1,15 @@
 lib = {}
 
+lib.json2FormData = (json) ->
+  fd = new FormData()
+  _(json).mapObject (val, key) ->
+    if !_.isObject(val)
+      fd.append key, val
+    else
+      _(val).mapObject (valChild, keyChild) ->
+        fd.append "#{key}[#{keyChild}]", valChild
+  fd
+
 lib.dataURLtoBlob = (dataurl) ->
   arr = dataurl.split ','
   mime = arr[0].match(/:(.*?);/)[1]
@@ -9,6 +19,7 @@ lib.dataURLtoBlob = (dataurl) ->
   while n--
     u8arr[n] = bstr.charCodeAt(n);
   new Blob [u8arr], {type:mime}
+
 
 lib.tabCapture = (fdHash) ->
   new Promise (resolve, reject) ->
@@ -22,10 +33,14 @@ lib.tabCapture = (fdHash) ->
             reject "error: lib.tabCapture: error returned from eventPage"
     setTimeout(( -> reject "error: lib.tabCapture - timeout"), 5000)
 
+
+
 lib.createTab = (url) ->
   chrome.runtime.sendMessage
     type: "createTab"
     url: url
+
+
 
 lib.ultraAjax = (settings) ->
 

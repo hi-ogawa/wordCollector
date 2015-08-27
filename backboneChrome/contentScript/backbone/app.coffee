@@ -46,9 +46,11 @@ app.CategoriesView = Backbone.View.extend
       @$(".dropdown-menu").append new app.CategoryView({model: category}).$el
     @$('.dropdown-toggle').dropdown()
 
-  initPopover: -> @$("#new-category").popover({content: @$("#new-category-popover-content").remove()})
+  initPopover: ->
+    @$("#new-category").popover
+        content: _.template($("#new-category-popover-content-t").html()) {}
   
-  events: ->
+  events:
     "click #upload": -> app.appView.upload()
     "keypress #new-category-name": "newCategory"
 
@@ -58,6 +60,7 @@ app.CategoriesView = Backbone.View.extend
       app.destination = app.categories.create {name: name},
                           headers: Authorization: app.session.auth_token
       @render()
+
 
 # dictionary view
 app.DictionaryView = Backbone.View.extend
@@ -88,14 +91,14 @@ app.DictionaryView = Backbone.View.extend
       @$popovers.not($(e.currentTarget)).popover 'hide'
 
     "click .suggestion": (e) ->
-      app.appView.$inputWord.val $(e.currentTarget).text()
-      app.appView.searchWord()
+      app.appView.$("#ext-word").val $(e.currentTarget).text()
+      app.appView.renderDictionaries()
 
   initPopover: ->
     @$popovers.each ->
       $popoverContent = $(this).next().remove()
       $popoverContent.find(".meaning").click ->
-        app.appView.$inputMeaning.val $(this).text()
+        app.appView.$("#ext-meaning").val $(this).text()
       $(this).popover {content: $popoverContent}
 
 
@@ -104,11 +107,6 @@ app.AppView = Backbone.View.extend
 
   initialize: ->
     @$el.html _.template($("#ext-content-t").html()) {}
-    @$dictionaries  = @$("#ext-dictionaries")
-    @$inputWord     = @$("#ext-word")   # these are the single sources of truth (but, it turned out it's hard to keep this as good source since it's not easy to bind an event to input DOM. Other option seems to be using handlebars?)
-    @$inputSentence = @$("#ext-sentence")
-    @$inputMeaning  = @$("#ext-meaning")
-
 
     app.storage.init()
     app.storage.on "update", (data) =>
@@ -119,16 +117,38 @@ app.AppView = Backbone.View.extend
     $('body').dblclick (e) =>
       w = window.getSelection().toString().trim()
       s = window.getSelection().getRangeAt(0).startContainer.parentNode.textContent.trim()
-      @$inputWord.val (@$inputWord.val() + " " + w).trim()
-      @$inputSentence.val s
-      @$inputWord.focus()
-      @searchWord()
+      @$("#ext-word").val (@$("#ext-word").val() + " " + w).trim()
+                     .focus()
+      @$("#ext-sentence").val s
+      @renderDictionaries()
+
+  events:
+    "keypress #ext-word": (e) -> if e.which is 13 then @renderDictionaries()
 
   renderCategories: ->
     app.categoriesView = new app.CategoriesView el: $("#ext-categories")
 
-  events:
-    "keypress #ext-word": (e) -> if e.which is 13 then @searchWord()
+  renderDictionaries: ->
+    word = @$("#ext-word").val().trim()
+    if word isnt ""
+      @renderEijiro  word
+      @renderMarriam word
+
+  renderEijiro: (word) ->
+    if @eijiroView? then @eijiroView.remove()
+    @eijiroView = new app.DictionaryView({dictionary: "Eijiro", type: "", loading: true})
+    @$("#ext-dictionaries").append @eijiroView.$el
+    extLib.Eijiro(word)
+      .catch((err) -> console.log "error in eijiro: #{err}")
+      .then (data) => @eijiroView.renderData data
+    
+  renderMarriam: (word) ->
+    if @marriamView? then @marriamView.remove()
+    @marriamView = new app.DictionaryView({dictionary: "Merriam-Webster", type: "", loading: true})
+    @$("#ext-dictionaries").append @marriamView.$el
+    extLib.DictionaryAPI(word)
+      .catch((err) -> console.log "error in dicAPI: #{err}")
+      .then (data) => @marriamView.renderData data
 
   upload: ->
     extLib.tabCapture()
@@ -136,43 +156,38 @@ app.AppView = Backbone.View.extend
       .then (dataurl) =>
 
         data =
-          # data url is converted into blob just before sending ajax in eventPage.js adhocly
-          picture     : dataurl  
-          word        : @$inputWord.val()      
-          sentence    : @$inputSentence.val()  
-          meaning     : @$inputMeaning.val()   
-          category_id : app.storage.items.id
-
-        extLib.ultraAjax(
-          url: "http://localhost:4567/upload"
+          category_id: app.destination.id
+          item:
+            word:     @$("#ext-word").val()
+            sentence: @$("#ext-sentence").val()
+            meaning:  @$("#ext-meaning").val()
+            picture:  extLib.dataURLtoBlob(dataurl)
+  
+        $.ajax
+          url:  "http://localhost:3000/api/items"
           type: "POST"
-          data: data
+          data: extLib.json2FormData data
           processData: false
           contentType: false
-        ).catch((err) -> console.log "error: AppView.upload - #{err}")
-         .then((data) -> console.log data)
+          headers: Authorization: app.session.auth_token
+        .done (resp) -> console.log resp
+  
+        # data =
+        #   # data url is converted into blob just before sending ajax in eventPage.js adhocly
+        #   picture     : dataurl  
+        #   word        : @$("#ext-word").val()      
+        #   sentence    : @$("#ext-sentence").val()  
+        #   meaning     : @$("#ext-meaning").val()   
+        #   category_id : app.destination.id
 
-
-  searchWord: ->
-    word = @$inputWord.val().trim()
-    if word isnt ""
-      @$dictionaries.empty()
-
-      
-      if @eijiroView? then @eijiroView.remove()
-      @eijiroView = new app.DictionaryView({dictionary: "Eijiro", type: "", loading: true})
-      @$dictionaries.append @eijiroView.$el
-      extLib.Eijiro(word)
-        .catch((err) -> console.log "error in eijiro: #{err}")
-        .then (data) => @eijiroView.renderData data
-          
-        
-      if @dAPIView? then @dAPIView.remove()
-      @dAPIView = new app.DictionaryView({dictionary: "Merriam-Webster", type: "", loading: true})
-      @$dictionaries.append @dAPIView.$el
-      extLib.DictionaryAPI(word)
-        .catch((err) -> console.log "error in dicAPI: #{err}")
-        .then (data) => @dAPIView.renderData data
+        # extLib.ultraAjax(
+        #   url: "http://localhost:3000/api/items"
+        #   type: "POST"
+        #   data: data
+        #   processData: false
+        #   contentType: false
+        # ).catch((err) -> console.log "error: AppView.upload - #{err}")
+        #  .then((data) -> console.log data)
 
 
 root = exports ? this

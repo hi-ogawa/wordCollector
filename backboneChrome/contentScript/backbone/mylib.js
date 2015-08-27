@@ -4,6 +4,21 @@
 
   lib = {};
 
+  lib.json2FormData = function(json) {
+    var fd;
+    fd = new FormData();
+    _(json).mapObject(function(val, key) {
+      if (!_.isObject(val)) {
+        return fd.append(key, val);
+      } else {
+        return _(val).mapObject(function(valChild, keyChild) {
+          return fd.append(key + "[" + keyChild + "]", valChild);
+        });
+      }
+    });
+    return fd;
+  };
+
   lib.dataURLtoBlob = function(dataurl) {
     var arr, bstr, mime, n, u8arr;
     arr = dataurl.split(',');

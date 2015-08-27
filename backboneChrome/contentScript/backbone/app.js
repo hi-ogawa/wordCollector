@@ -75,16 +75,14 @@
     },
     initPopover: function() {
       return this.$("#new-category").popover({
-        content: this.$("#new-category-popover-content").remove()
+        content: _.template($("#new-category-popover-content-t").html())({})
       });
     },
-    events: function() {
-      return {
-        "click #upload": function() {
-          return app.appView.upload();
-        },
-        "keypress #new-category-name": "newCategory"
-      };
+    events: {
+      "click #upload": function() {
+        return app.appView.upload();
+      },
+      "keypress #new-category-name": "newCategory"
     },
     newCategory: function(e) {
       var name;
@@ -97,7 +95,6 @@
             Authorization: app.session.auth_token
           }
         });
-        console.log(app.destination);
         return this.render();
       }
     }
@@ -136,8 +133,8 @@
         return this.$popovers.not($(e.currentTarget)).popover('hide');
       },
       "click .suggestion": function(e) {
-        app.appView.$inputWord.val($(e.currentTarget).text());
-        return app.appView.searchWord();
+        app.appView.$("#ext-word").val($(e.currentTarget).text());
+        return app.appView.renderDictionaries();
       }
     },
     initPopover: function() {
@@ -145,7 +142,7 @@
         var $popoverContent;
         $popoverContent = $(this).next().remove();
         $popoverContent.find(".meaning").click(function() {
-          return app.appView.$inputMeaning.val($(this).text());
+          return app.appView.$("#ext-meaning").val($(this).text());
         });
         return $(this).popover({
           content: $popoverContent
@@ -157,10 +154,6 @@
   app.AppView = Backbone.View.extend({
     initialize: function() {
       this.$el.html(_.template($("#ext-content-t").html())({}));
-      this.$dictionaries = this.$("#ext-dictionaries");
-      this.$inputWord = this.$("#ext-word");
-      this.$inputSentence = this.$("#ext-sentence");
-      this.$inputMeaning = this.$("#ext-meaning");
       app.storage.init();
       app.storage.on("update", (function(_this) {
         return function(data) {
@@ -173,24 +166,67 @@
           var s, w;
           w = window.getSelection().toString().trim();
           s = window.getSelection().getRangeAt(0).startContainer.parentNode.textContent.trim();
-          _this.$inputWord.val((_this.$inputWord.val() + " " + w).trim());
-          _this.$inputSentence.val(s);
-          _this.$inputWord.focus();
-          return _this.searchWord();
+          _this.$("#ext-word").val((_this.$("#ext-word").val() + " " + w).trim()).focus();
+          _this.$("#ext-sentence").val(s);
+          return _this.renderDictionaries();
         };
       })(this));
+    },
+    events: {
+      "keypress #ext-word": function(e) {
+        if (e.which === 13) {
+          return this.renderDictionaries();
+        }
+      }
     },
     renderCategories: function() {
       return app.categoriesView = new app.CategoriesView({
         el: $("#ext-categories")
       });
     },
-    events: {
-      "keypress #ext-word": function(e) {
-        if (e.which === 13) {
-          return this.searchWord();
-        }
+    renderDictionaries: function() {
+      var word;
+      word = this.$("#ext-word").val().trim();
+      if (word !== "") {
+        this.renderEijiro(word);
+        return this.renderMarriam(word);
       }
+    },
+    renderEijiro: function(word) {
+      if (this.eijiroView != null) {
+        this.eijiroView.remove();
+      }
+      this.eijiroView = new app.DictionaryView({
+        dictionary: "Eijiro",
+        type: "",
+        loading: true
+      });
+      this.$("#ext-dictionaries").append(this.eijiroView.$el);
+      return extLib.Eijiro(word)["catch"](function(err) {
+        return console.log("error in eijiro: " + err);
+      }).then((function(_this) {
+        return function(data) {
+          return _this.eijiroView.renderData(data);
+        };
+      })(this));
+    },
+    renderMarriam: function(word) {
+      if (this.marriamView != null) {
+        this.marriamView.remove();
+      }
+      this.marriamView = new app.DictionaryView({
+        dictionary: "Merriam-Webster",
+        type: "",
+        loading: true
+      });
+      this.$("#ext-dictionaries").append(this.marriamView.$el);
+      return extLib.DictionaryAPI(word)["catch"](function(err) {
+        return console.log("error in dicAPI: " + err);
+      }).then((function(_this) {
+        return function(data) {
+          return _this.marriamView.renderData(data);
+        };
+      })(this));
     },
     upload: function() {
       return extLib.tabCapture()["catch"](function(err) {
@@ -199,64 +235,28 @@
         return function(dataurl) {
           var data;
           data = {
-            picture: dataurl,
-            word: _this.$inputWord.val(),
-            sentence: _this.$inputSentence.val(),
-            meaning: _this.$inputMeaning.val(),
-            category_id: app.storage.items.id
+            category_id: app.destination.id,
+            item: {
+              word: _this.$("#ext-word").val(),
+              sentence: _this.$("#ext-sentence").val(),
+              meaning: _this.$("#ext-meaning").val(),
+              picture: extLib.dataURLtoBlob(dataurl)
+            }
           };
-          return extLib.ultraAjax({
-            url: "http://localhost:4567/upload",
+          return $.ajax({
+            url: "http://localhost:3000/api/items",
             type: "POST",
-            data: data,
+            data: extLib.json2FormData(data),
             processData: false,
-            contentType: false
-          })["catch"](function(err) {
-            return console.log("error: AppView.upload - " + err);
-          }).then(function(data) {
-            return console.log(data);
+            contentType: false,
+            headers: {
+              Authorization: app.session.auth_token
+            }
+          }).done(function(resp) {
+            return console.log(resp);
           });
         };
       })(this));
-    },
-    searchWord: function() {
-      var word;
-      word = this.$inputWord.val().trim();
-      if (word !== "") {
-        this.$dictionaries.empty();
-        if (this.eijiroView != null) {
-          this.eijiroView.remove();
-        }
-        this.eijiroView = new app.DictionaryView({
-          dictionary: "Eijiro",
-          type: "",
-          loading: true
-        });
-        this.$dictionaries.append(this.eijiroView.$el);
-        extLib.Eijiro(word)["catch"](function(err) {
-          return console.log("error in eijiro: " + err);
-        }).then((function(_this) {
-          return function(data) {
-            return _this.eijiroView.renderData(data);
-          };
-        })(this));
-        if (this.dAPIView != null) {
-          this.dAPIView.remove();
-        }
-        this.dAPIView = new app.DictionaryView({
-          dictionary: "Merriam-Webster",
-          type: "",
-          loading: true
-        });
-        this.$dictionaries.append(this.dAPIView.$el);
-        return extLib.DictionaryAPI(word)["catch"](function(err) {
-          return console.log("error in dicAPI: " + err);
-        }).then((function(_this) {
-          return function(data) {
-            return _this.dAPIView.renderData(data);
-          };
-        })(this));
-      }
     }
   });
 
