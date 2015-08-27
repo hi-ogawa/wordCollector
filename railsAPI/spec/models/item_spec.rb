@@ -15,5 +15,14 @@ describe Item do
         it { expect(item_picture_nil.picture.url).to match "/images/missing.png" }
       end
     end
+
+    describe "default values of sentence and meaning" do
+      let(:item_sentence_meaning_nil) { FactoryGirl.build :item, sentence: nil, meaning: nil }
+      it do
+        item_sentence_meaning_nil.save
+        expect(item_sentence_meaning_nil.sentence).to eq ""
+        expect(item_sentence_meaning_nil.meaning).to eq ""
+      end
+    end
   end
 end

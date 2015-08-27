@@ -9,9 +9,8 @@ describe Category do
     expect(category_desc_empty.save).to be true
   end
 
-  it "doesn't allow description to be nil" do
+  it "puts empty string into description by default" do
     category_desc_nil.save
-    expect(category_desc_nil.errors[:description]).to include "can't be nil"
+    expect(category_desc_nil.description).to eq ""
   end
-
 end

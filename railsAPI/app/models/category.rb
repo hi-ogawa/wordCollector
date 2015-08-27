@@ -9,7 +9,7 @@ class Category < ActiveRecord::Base
 
 
   # default value
-  before_save :default_values
+  before_validation :default_values
   def default_values
     self.description ||= ""
   end

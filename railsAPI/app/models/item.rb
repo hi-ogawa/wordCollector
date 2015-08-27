@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
   belongs_to :category
 
   # default value
-  before_save :default_values
+  before_validation :default_values
   def default_values
     self.sentence ||= ""
     self.meaning ||= ""
