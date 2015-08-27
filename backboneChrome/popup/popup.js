@@ -5,7 +5,7 @@
   app = {};
 
 
-  /* storage for authentication */
+  /* storage for authentication and destination category */
 
   app.storage = new MyStorage();
 
@@ -17,6 +17,154 @@
   });
 
   app.user = new app.User;
+
+
+  /* keep the destination cateogry of the uploding itme */
+
+  app.Category = Backbone.Model.extend({
+    parse: function(resp, opt) {
+      if (opt.collection) {
+        return resp;
+      } else {
+        return resp.category;
+      }
+    }
+  });
+
+  app.destination = null;
+
+  app.Categories = Backbone.Collection.extend({
+    model: app.Category,
+    url: "http://localhost:3000/api/categories",
+    parse: function(resp) {
+      return resp.categories;
+    }
+  });
+
+  app.categories = new app.Categories();
+
+
+  /* view for each element of dropdown menu */
+
+  app.CategoryView = Backbone.View.extend({
+    tagName: "li",
+    className: "small",
+    initialize: function() {
+      return this.$el.html($("<a>").text(this.model.get("name")));
+    },
+    events: {
+      "click a": function() {
+        return app.storage.update({
+          destination: this.model.toJSON()
+        });
+      }
+    }
+  });
+
+
+  /* dropdown categories view */
+
+  app.CategoriesView = Backbone.View.extend({
+    initialize: function() {
+      this.template = _.template($("#categoriesDropdown-t").html());
+      app.categories.on("sync", (function(_this) {
+        return function() {
+          return _this.render();
+        };
+      })(this));
+      app.storage.on("update", (function(_this) {
+        return function(data) {
+          app.destination = data.destination;
+          return _this.render();
+        };
+      })(this));
+      app.categories.fetch({
+        data: {
+          user_id: app.storage.getData().session.id
+        }
+      });
+      app.destination = app.storage.getData().destination ? app.storage.getData().destination : void 0;
+      return this.render();
+    },
+    render: function() {
+      this.$el.html(this.template({
+        title: app.destination ? app.destination.name : "--- Choose Category ---"
+      }));
+      this.initDropdown();
+      return this.initPopover();
+    },
+    initDropdown: function() {
+      app.categories.each(function(category) {
+        return this.$(".dropdown-menu").append(new app.CategoryView({
+          model: category
+        }).$el);
+      });
+      return this.$('.dropdown-toggle').dropdown();
+    },
+    initPopover: function() {
+      return this.$("#new-category").popover({
+        content: _.template($("#new-category-popover-content-t").html())({})
+      });
+    },
+    events: {
+      "keypress #new-category-name": "newCategory"
+    },
+    newCategory: function(e) {
+      var name, newCat;
+      name = this.$("#new-category-name").val();
+      if (e.which === 13 && name !== "") {
+        newCat = app.categories.create({
+          name: name
+        }, {
+          headers: {
+            Authorization: app.storage.getData().session.auth_token
+          }
+        });
+        return app.storage.update({
+          destination: newCat.toJSON()
+        });
+      }
+    }
+  });
+
+
+  /* after authentication */
+
+  app.authedView = Backbone.View.extend({
+    initialize: function() {
+      this.$el.html(_.template($("#authedView-t").html())({
+        user: this.model.toJSON()
+      }));
+      return app.categoriesView = new app.CategoriesView({
+        el: this.$("#categoriesDropdown")
+      });
+    },
+    events: {
+      "click #on": function(e) {
+        return chrome.tabs.query({
+          active: true,
+          currentWindow: true
+        }, function(tabs) {
+          return chrome.tabs.sendMessage(tabs[0].id, {
+            type: "popup#appOn"
+          });
+        });
+      },
+      "click #off": function(e) {
+        return chrome.tabs.query({
+          active: true,
+          currentWindow: true
+        }, function(tabs) {
+          return chrome.tabs.sendMessage(tabs[0].id, {
+            type: "popup#appOff"
+          });
+        });
+      },
+      "click #logout": function(e) {
+        return app.storage.clear();
+      }
+    }
+  });
 
 
   /* before authentication */
@@ -53,42 +201,6 @@
   });
 
 
-  /* after authentication */
-
-  app.authedView = Backbone.View.extend({
-    initialize: function() {
-      return this.$el.html(_.template($("#authedView-t").html())({
-        user: this.model.toJSON()
-      }));
-    },
-    events: {
-      "click #on": function(e) {
-        return chrome.tabs.query({
-          active: true,
-          currentWindow: true
-        }, function(tabs) {
-          return chrome.tabs.sendMessage(tabs[0].id, {
-            type: "popup#appOn"
-          });
-        });
-      },
-      "click #off": function(e) {
-        return chrome.tabs.query({
-          active: true,
-          currentWindow: true
-        }, function(tabs) {
-          return chrome.tabs.sendMessage(tabs[0].id, {
-            type: "popup#appOff"
-          });
-        });
-      },
-      "click #logout": function(e) {
-        return app.storage.clear();
-      }
-    }
-  });
-
-
   /* main view */
 
   app.MainView = Backbone.View.extend({
@@ -113,7 +225,7 @@
       })(this));
       app.user.on("sync", (function(_this) {
         return function() {
-          _this.renderFlashMessage("You are already logged in.");
+          $("#flash").hide();
           return _this.renderAuthedView(app.user);
         };
       })(this));

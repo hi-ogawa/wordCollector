@@ -40,7 +40,6 @@ app.CategoriesView = Backbone.View.extend
 
     @$("#upload").toggleClass("disabled", !app.destination)
 
-    
   initDropdown: ->
     app.categories.each (category) ->
       @$(".dropdown-menu").append new app.CategoryView({model: category}).$el

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'>
     <link href='/lib/my_bootstrap_container.css' rel='stylesheet' type='text/css'>
     <link href='popup.css' rel='stylesheet' type='text/css'>
     <script src='/lib/jquery.js'></script>
@@ -34,5 +35,23 @@
       <a class='btn btn-default' id='off'>Off</a>
       <a class='btn btn-default' id='logout'>Logout</a>
     </div>
+    <div id='categoriesDropdown'></div>
   </div>
+</script>
+<script id='categoriesDropdown-t' type='text/template'>
+  <div class='input-group input-group-sm'>
+    <a class='btn btn-default form-control dropdown-toggle' data-toggle='dropdown'>
+      <div id='destination-name'><%= title %></div>
+      <div class='caret pull-right'></div>
+    </a>
+    <ul class='dropdown-menu' role='menu'>
+    </ul>
+    <a class='btn btn-default input-group-addon' data-container='#categoriesDropdown' data-html='true' data-placement='left' data-toggle='popover' id='new-category'>
+      <span class='fa fa-plus'></span>
+    </a>
+  </div>
+</script>
+<script id='new-category-popover-content-t' type='text/template'>
+  <label>Make New Category (Hit Enter to Finish)</label>
+  <input class='form-control input-sm' id='new-category-name' placeholder='Category Name'>
 </script>

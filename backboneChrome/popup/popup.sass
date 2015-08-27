@@ -1,2 +1,25 @@
+$popup-width: 240px
+
 .my-bootstrap-container
-  width: 240px
+  width: $popup-width
+
+  #loginForm
+
+  #authed
+    .dropdown-toggle
+      #destination-name
+        width: $popup-width - 70px
+        overflow-x: hidden
+      .caret
+        margin-top: -10px
+   
+    .dropdown-menu
+      width:  $popup-width - 40px
+      height: $popup-width - 40px
+      overflow: scroll
+   
+    .popover
+      label
+        font-size: 10px
+      width: $popup-width - 40px
+

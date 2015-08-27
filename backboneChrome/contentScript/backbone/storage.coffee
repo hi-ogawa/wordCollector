@@ -29,14 +29,12 @@ MyStorage = Backbone.Model.extend
       @trigger "update", @items
 
   getData: -> @items
+
   clear: ->
     chrome.storage.sync.clear =>
       @items = {}
       @trigger "update", @items
     
-
-  fetch: -> @get()
-
   update: (items) ->
     new Promise (resolve, reject) =>
       chrome.storage.sync.set items, =>
@@ -44,11 +42,6 @@ MyStorage = Backbone.Model.extend
         @trigger "update", @items
         resolve @items
       setTimeout(( -> reject "lib.storageSet timeout"), 1000)
-
-  get: ->
-    new Promise (resolve, reject) =>
-      chrome.storage.sync.get (items) => _(@items).extend items; resolve @items
-      setTimeout(( -> reject "lib.storageGet timeout"), 1000)
 
 root = exports ? this
 root.MyStorage = MyStorage

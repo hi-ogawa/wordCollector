@@ -25,9 +25,6 @@
         };
       })(this));
     },
-    fetch: function() {
-      return this.get();
-    },
     update: function(items) {
       return new Promise((function(_this) {
         return function(resolve, reject) {
@@ -38,19 +35,6 @@
           });
           return setTimeout((function() {
             return reject("lib.storageSet timeout");
-          }), 1000);
-        };
-      })(this));
-    },
-    get: function() {
-      return new Promise((function(_this) {
-        return function(resolve, reject) {
-          chrome.storage.sync.get(function(items) {
-            _(_this.items).extend(items);
-            return resolve(_this.items);
-          });
-          return setTimeout((function() {
-            return reject("lib.storageGet timeout");
           }), 1000);
         };
       })(this));

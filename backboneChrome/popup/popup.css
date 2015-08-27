@@ -1,2 +1,15 @@
 .my-bootstrap-container {
   width: 240px; }
+  .my-bootstrap-container #authed .dropdown-toggle #destination-name {
+    width: 170px;
+    overflow-x: hidden; }
+  .my-bootstrap-container #authed .dropdown-toggle .caret {
+    margin-top: -10px; }
+  .my-bootstrap-container #authed .dropdown-menu {
+    width: 200px;
+    height: 200px;
+    overflow: scroll; }
+  .my-bootstrap-container #authed .popover {
+    width: 200px; }
+    .my-bootstrap-container #authed .popover label {
+      font-size: 10px; }

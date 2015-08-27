@@ -1,12 +1,87 @@
 app = {}
 
-### storage for authentication ###
+### storage for authentication and destination category ###
 app.storage = new MyStorage()
 
 app.User = Backbone.Model.extend
   parse: (response) -> response.user
   urlRoot: "http://localhost:3000/api/users"
 app.user = new app.User
+
+
+### keep the destination cateogry of the uploding itme ###
+app.Category = Backbone.Model.extend
+  parse: (resp, opt) -> if opt.collection then resp else resp.category
+app.destination = null
+      
+app.Categories = Backbone.Collection.extend
+  model: app.Category
+  url: "http://localhost:3000/api/categories"
+  parse: (resp) -> resp.categories
+app.categories = new app.Categories()
+
+
+### view for each element of dropdown menu ###
+app.CategoryView = Backbone.View.extend
+  tagName: "li"
+  className: "small"
+  initialize: -> @$el.html $("<a>").text @model.get "name"
+  events: "click a": -> app.storage.update destination: @model.toJSON()
+
+
+### dropdown categories view ###
+app.CategoriesView = Backbone.View.extend
+
+  initialize: ->
+    @template = _.template $("#categoriesDropdown-t").html()
+    app.categories.on "sync", => @render()
+    app.storage.on "update", (data) => app.destination = data.destination; @render()
+    app.categories.fetch data: user_id: app.storage.getData().session.id
+    app.destination = if app.storage.getData().destination then app.storage.getData().destination
+    @render()
+
+  render: ->
+    @$el.html @template
+      title: if app.destination then app.destination.name else "--- Choose Category ---"
+    @initDropdown()    
+    @initPopover()
+
+  initDropdown: ->
+    app.categories.each (category) ->
+      @$(".dropdown-menu").append new app.CategoryView({model: category}).$el
+    @$('.dropdown-toggle').dropdown()
+
+  initPopover: ->
+    @$("#new-category").popover
+        content: _.template($("#new-category-popover-content-t").html()) {}
+  
+  events:
+    "keypress #new-category-name": "newCategory"
+
+  newCategory: (e) ->
+    name = @$("#new-category-name").val()
+    if e.which is 13 and name isnt ""
+      newCat = app.categories.create {name: name},
+                 headers: Authorization: app.storage.getData().session.auth_token
+      app.storage.update destination: newCat.toJSON() # to reduce the data to store
+        
+
+### after authentication ###
+app.authedView = Backbone.View.extend
+  initialize: ->
+    @$el.html _.template($("#authedView-t").html()) {user: @model.toJSON()}
+    app.categoriesView = new app.CategoriesView el: @$("#categoriesDropdown")
+
+  events:
+    "click #on":     (e) ->
+       chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
+         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOn"    
+
+    "click #off":    (e) ->
+       chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
+         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOff"    
+
+    "click #logout": (e) -> app.storage.clear()
 
 
 ### before authentication ###
@@ -34,26 +109,7 @@ app.loginView = Backbone.View.extend
           app.mainView.renderFlashMessage "Error happend. Try again."
 
     "click #register":   (e) -> extLib.createTab "http://localhost:9000/login"
-    
-
       
-### after authentication ###
-app.authedView = Backbone.View.extend
-  initialize: ->
-    @$el.html _.template($("#authedView-t").html()) {user: @model.toJSON()}
-
-  events:
-    "click #on":     (e) ->
-       chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
-         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOn"    
-
-    "click #off":    (e) ->
-       chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
-         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOff"    
-
-    "click #logout": (e) -> app.storage.clear()
-      
-
 
 ### main view ###
 app.MainView = Backbone.View.extend
@@ -62,7 +118,6 @@ app.MainView = Backbone.View.extend
     app.storage.init()
 
     app.storage.on "update", (data) =>
-  
       if data? and data.session? and data.session.id? and data.session.auth_token?
         app.user.set   id: data.session.id
                 .fetch headers: Authorization: data.session.auth_token
@@ -72,7 +127,7 @@ app.MainView = Backbone.View.extend
         @renderLoginView()
   
     app.user.on "sync", =>
-      @renderFlashMessage "You are already logged in."
+      $("#flash").hide()
       @renderAuthedView app.user
       
     app.user.on "error", =>
