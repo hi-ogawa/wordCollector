@@ -6,14 +6,17 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
 
     when "popup#appOn"
       unless app.appView
-        app.appView = new app.AppView el: $("#ext-content")
+        app.appView = new app.AppView el: $("<div>")
+        $("#ext-content").append app.appView.$el
   
     when "popup#appOff"
       if app.appView
-        app.appView.$el.empty()
+        app.appView.remove()
         app.appView = null
 
     when "popup#appReset"
       if app.appView
-        app.appView.$el.empty()
-        app.appView = new app.AppView el: $("#ext-content")
+        app.appView.remove()
+        app.appView = new app.AppView el: $("<div>")
+        $("#ext-content").append app.appView.$el
+

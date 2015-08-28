@@ -37,11 +37,19 @@ app.CategoriesView = Backbone.View.extend
 
   initialize: ->
     @template = _.template $("#categoriesDropdown-t").html()
-    app.categories.on "sync", => @render()
-    app.storage.on "update", (data) => app.destination = data.destination; @render(); @resetContentScriptsApp()
+    @putListeners()
     app.categories.fetch data: user_id: app.storage.getData().session.id
     app.destination = if app.storage.getData().destination then app.storage.getData().destination
     @render()
+
+  putListeners: ->
+    app.categories.on "sync", => @render()
+
+    app.storage.on "update", (data) =>
+      app.destination = data.destination
+      @render()
+      @resetContentScriptsApp()
+
 
   render: ->
     @$el.html @template
@@ -118,7 +126,7 @@ app.LoginView = Backbone.View.extend
        .catch (err)  =>
           app.mainView.renderFlashMessage "Error happend. Try again."
 
-    "click #register":   (e) -> extLib.createTab "#{myConfig.domain}/login"
+    "click #register":   (e) -> extLib.createTab "#{myConfig.domain}/#/register"
       
 
 
@@ -126,8 +134,10 @@ app.LoginView = Backbone.View.extend
 app.MainView = Backbone.View.extend
   initialize: ->
     $("#flash").hide()
+    @putListeners()
     app.storage.init()
 
+  putListeners: ->
     app.storage.on "update", (data) =>
       if data? and data.session? and data.session.id? and data.session.auth_token?
         app.user.set   id: data.session.id
@@ -144,7 +154,6 @@ app.MainView = Backbone.View.extend
     app.user.on "error", =>
       @renderFlashMessage "Error happened. Try to login again."
       @renderLoginView()
-
 
   renderLoginView: ->
     @$el.html new app.LoginView().$el

@@ -8,23 +8,25 @@
     switch (request.type) {
       case "popup#appOn":
         if (!app.appView) {
-          return app.appView = new app.AppView({
-            el: $("#ext-content")
+          app.appView = new app.AppView({
+            el: $("<div>")
           });
+          return $("#ext-content").append(app.appView.$el);
         }
         break;
       case "popup#appOff":
         if (app.appView) {
-          app.appView.$el.empty();
+          app.appView.remove();
           return app.appView = null;
         }
         break;
       case "popup#appReset":
         if (app.appView) {
-          app.appView.$el.empty();
-          return app.appView = new app.AppView({
-            el: $("#ext-content")
+          app.appView.remove();
+          app.appView = new app.AppView({
+            el: $("<div>")
           });
+          return $("#ext-content").append(app.appView.$el);
         }
     }
   });

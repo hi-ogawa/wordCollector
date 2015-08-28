@@ -13,7 +13,7 @@
     parse: function(response) {
       return response.user;
     },
-    urlRoot: "http://localhost:3000/api/users"
+    urlRoot: myConfig.domain + "/api/users"
   });
 
   app.user = new app.User;
@@ -35,7 +35,7 @@
 
   app.Categories = Backbone.Collection.extend({
     model: app.Category,
-    url: "http://localhost:3000/api/categories",
+    url: myConfig.domain + "/api/categories",
     parse: function(resp) {
       return resp.categories;
     }
@@ -67,18 +67,7 @@
   app.CategoriesView = Backbone.View.extend({
     initialize: function() {
       this.template = _.template($("#categoriesDropdown-t").html());
-      app.categories.on("sync", (function(_this) {
-        return function() {
-          return _this.render();
-        };
-      })(this));
-      app.storage.on("update", (function(_this) {
-        return function(data) {
-          app.destination = data.destination;
-          _this.render();
-          return _this.resetContentScriptsApp();
-        };
-      })(this));
+      this.putListeners();
       app.categories.fetch({
         data: {
           user_id: app.storage.getData().session.id
@@ -86,6 +75,20 @@
       });
       app.destination = app.storage.getData().destination ? app.storage.getData().destination : void 0;
       return this.render();
+    },
+    putListeners: function() {
+      app.categories.on("sync", (function(_this) {
+        return function() {
+          return _this.render();
+        };
+      })(this));
+      return app.storage.on("update", (function(_this) {
+        return function(data) {
+          app.destination = data.destination;
+          _this.render();
+          return _this.resetContentScriptsApp();
+        };
+      })(this));
     },
     render: function() {
       this.$el.html(this.template({
@@ -190,7 +193,7 @@
       "submit #loginForm": function(e) {
         e.preventDefault();
         return Promise.resolve($.ajax({
-          url: "http://localhost:3000/api/sessions",
+          url: myConfig.domain + "/api/sessions",
           type: "POST",
           data: this.$("#loginForm").serialize()
         })).then((function(_this) {
@@ -206,7 +209,7 @@
         })(this));
       },
       "click #register": function(e) {
-        return extLib.createTab("http://localhost:9000/login");
+        return extLib.createTab(myConfig.domain + "/#/register");
       }
     }
   });
@@ -217,7 +220,10 @@
   app.MainView = Backbone.View.extend({
     initialize: function() {
       $("#flash").hide();
-      app.storage.init();
+      this.putListeners();
+      return app.storage.init();
+    },
+    putListeners: function() {
       app.storage.on("update", (function(_this) {
         return function(data) {
           if ((data != null) && (data.session != null) && (data.session.id != null) && (data.session.auth_token != null)) {
