@@ -21,7 +21,8 @@
     "background": {
     	"scripts": [
 	    "lib/jquery.js",
-	    "lib/underscore.js", 
+	    "lib/underscore.js",
+            "lib/myconfig.js",
 	    "contentScript/backbone/mylib.js",
 	    "eventPage/eventPage.js"],
     	"persistent": false

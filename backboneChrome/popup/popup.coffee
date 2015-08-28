@@ -5,7 +5,7 @@ app.storage = new MyStorage()
 
 app.User = Backbone.Model.extend
   parse: (response) -> response.user
-  urlRoot: "http://localhost:3000/api/users"
+  urlRoot: "#{myConfig.domain}/api/users"
 app.user = new app.User
 
 
@@ -17,7 +17,7 @@ app.destination = null
       
 app.Categories = Backbone.Collection.extend
   model: app.Category
-  url: "http://localhost:3000/api/categories"
+  url: "#{myConfig.domain}/api/categories"
   parse: (resp) -> resp.categories
 app.categories = new app.Categories()
 
@@ -108,7 +108,7 @@ app.LoginView = Backbone.View.extend
       e.preventDefault()
       Promise.resolve(
         $.ajax
-          url: "http://localhost:3000/api/sessions"
+          url: "#{myConfig.domain}/api/sessions"
           type: "POST"
           data: @$("#loginForm").serialize()
   
@@ -118,7 +118,7 @@ app.LoginView = Backbone.View.extend
        .catch (err)  =>
           app.mainView.renderFlashMessage "Error happend. Try again."
 
-    "click #register":   (e) -> extLib.createTab "http://localhost:9000/login"
+    "click #register":   (e) -> extLib.createTab "#{myConfig.domain}/login"
       
 
 

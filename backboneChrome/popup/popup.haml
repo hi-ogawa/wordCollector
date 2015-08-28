@@ -5,7 +5,7 @@
     - csss = %W[/lib/my_bootstrap_container.css popup.css]
     - csss.each do |css|
       %link{rel: "stylesheet", type: 'text/css', href: css}
-    - jss = %W[/lib/jquery.js  /lib/bootstrap.js /lib/underscore.js /lib/backbone.js /contentScript/backbone/mylib.js /contentScript/backbone/storage.js popup.js]
+    - jss = %W[/lib/jquery.js  /lib/bootstrap.js /lib/underscore.js /lib/backbone.js /lib/myconfig.js /contentScript/backbone/mylib.js /contentScript/backbone/storage.js popup.js]
     - jss.each do |js|
       %script{:src => js}
   %body

@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
             picture:   extLib.dataURLtoBlob request.picture
   
         $.ajax
-          url:  "http://localhost:3000/api/items"
+          url:  "#{myConfig.domain}/api/items"
           type: "POST"
           data: extLib.json2FormData data
           processData: false
