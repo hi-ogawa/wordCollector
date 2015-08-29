@@ -2,6 +2,7 @@ FROM hiogawa/rails:v1
 MAINTAINER Hiroshi Ogawa <hi.ogawa.zz@gmail.com>
 COPY ./railsAPI /code
 WORKDIR /code
+RUN git config --global url."https://github.com".insteadOf git://github.com
 RUN eval "$(rbenv init -)" && \
     rbenv rehash           && \
     bundle install         && \
