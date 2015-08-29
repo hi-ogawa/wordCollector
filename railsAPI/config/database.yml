@@ -51,5 +51,5 @@ production:
   <<: *default
   database: wordCollector_production
   username: root
-  password:
-  host: localhost
+  password: password
+  host: test.c9yfpobxskjv.ap-northeast-1.rds.amazonaws.com
