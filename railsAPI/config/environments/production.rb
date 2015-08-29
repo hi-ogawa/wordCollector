@@ -84,9 +84,10 @@ Rails.application.configure do
   config.paperclip_defaults = {
     :storage        => :s3,
     :s3_credentials => {
-      :s3_host_name   => "s3-ap-northeast-1.amazonaws.com",
-      :bucket         => "hiogawa.wordcollector.production0",
-      :s3_credentials => "#{Rails.root}/config/aws.yml"
+      :s3_host_name      => "s3-ap-northeast-1.amazonaws.com",
+      :bucket            => "hiogawa.wordcollector.production0",
+      :access_key_id     => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
 end
