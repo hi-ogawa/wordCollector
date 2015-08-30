@@ -42,7 +42,4 @@ h4 Listing items
                   span.glyphicon.glyphicon-trash
   .col-sm-3
     #images-list
-      a.magnific-popup-img(ng-repeat="item in vm.items"
-                           ng-href="{{ item.picture }}")
-        img.img-thumbnail(ng-src="{{ item.picture }}")
-        .fake(ng-init="vm.initMagnificPopup()")
+      popup-img(ng-repeat="item in vm.items", image="item.picture")
