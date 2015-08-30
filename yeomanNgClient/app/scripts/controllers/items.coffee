@@ -18,31 +18,37 @@ angular.module 'yeomanNgClientApp'
 
     vm.newItem = ->
       vm.showForm = true
-      vm.formType = "new"
+      vm.formType = ["New", "Create"]
       vm.itemForm = null
       
     vm.editItem = (item) ->
       vm.showForm = true
-      vm.formType = "edit"
+      vm.formType = ["Edit", "Update"]
       vm.itemForm = angular.copy item
       delete vm.itemForm.picture
 
     vm.submit = ->
       vm.dataLoading = true
-      p =
-        switch vm.formType
-          when "new"
-            itemResource.create vm.itemForm, $stateParams.categoryId
-          when "edit"
-            itemResource.update vm.itemForm
-      p.$promise
-      .then ->
-        flashMessage.set "Successfully Submitted", "alert-success", true
-        vm.showForm = vm.dataLoading = false
-        loadItems()
-      ,->
-        flashMessage.set "Submit failed", "alert-danger", true
-        vm.showForm = vm.dataLoading = false
+      switch vm.formType[0]
+        when "New"
+          itemResource.create vm.itemForm, $stateParams.categoryId
+          .$promise.then ->
+            flashMessage.set "Successfully created", "alert-success", true
+            vm.showForm = vm.dataLoading = false
+            loadItems()
+          ,->
+            flashMessage.set "Failed to create", "alert-danger", true
+            vm.showForm = vm.dataLoading = false
+
+        when "Edit"
+          itemResource.update vm.itemForm
+          .$promise.then ->
+            flashMessage.set "Successfully updated", "alert-success", true
+            vm.showForm = vm.dataLoading = false
+            loadItems()
+          ,->
+            flashMessage.set "Failed to update", "alert-danger", true
+            vm.showForm = vm.dataLoading = false
   
     vm.deleteItem = (item) ->
       if $window.confirm "Are you really sure to delete the category?"

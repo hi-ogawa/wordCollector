@@ -6,10 +6,10 @@ a.btn.btn-default(ui-sref="categories")    Back to categories
 a.btn.btn-default(ng-click="vm.newItem()") New item
 
 .item-form-div.panel.panel-primary(ng-cloak=true, ng-show="vm.showForm")
-  .panel-heading New/Edit Item
+  .panel-heading {{ vm.formType[0] }} Item
   .panel-body(
     item-form=true, form="vm.itemForm"
-    label-submit="'Submit'" , label-cancel="'Cancel'"
+    label-submit="vm.formType[1]" , label-cancel="'Cancel'"
     on-submit="vm.submit()" , on-cancel="vm.showForm=false", loading="vm.loading")
 
 h4 Listing items
