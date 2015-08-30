@@ -1,8 +1,11 @@
 a.btn.btn-default(ng-click="vm.newCategory()") New category
 
-div(ng-cloak=true, ng-show="vm.showForm", category-form=true, form="vm.categoryForm"
-    label-submit="'Create'"        , label-cancel="'Cancel'"
-    on-submit="vm.submit()", on-cancel="vm.showForm=false", loading="vm.dataLoading")
+.category-form-div.panel.panel-primary(ng-cloak=true, ng-show="vm.showForm")
+  .panel-heading New/Edit category
+  .panel-body(
+    ng-cloak=true, , category-form=true, form="vm.categoryForm"
+    label-submit="'Submit'" , label-cancel="'Cancel'"
+    on-submit="vm.submit()" , on-cancel="vm.showForm=false", loading="vm.dataLoading")
 
 h4 Listing categories
 

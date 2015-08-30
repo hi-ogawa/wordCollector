@@ -5,8 +5,11 @@ span Category:
 a.btn.btn-default(ui-sref="categories")    Back to categories
 a.btn.btn-default(ng-click="vm.newItem()") New item
 
-div(ng-cloak=true, ng-show="vm.showForm", item-form=true, form="vm.itemForm"
-    label-submit="'Create'" , label-cancel="'Cancel'"
+.item-form-div.panel.panel-primary(ng-cloak=true, ng-show="vm.showForm")
+  .panel-heading New/Edit Item
+  .panel-body(
+    item-form=true, form="vm.itemForm"
+    label-submit="'Submit'" , label-cancel="'Cancel'"
     on-submit="vm.submit()" , on-cancel="vm.showForm=false", loading="vm.loading")
 
 h4 Listing items
@@ -28,10 +31,10 @@ h4 Listing items
             td.sentence {{ item.sentence }}
             td.actions
               .btn-group
-                a.btn.btn-warning(ng-click="vm.editItem(item)")
+                a.btn.btn-default(ng-click="vm.editItem(item)")
                   span Edit
                   span.glyphicon.glyphicon-pencil
-                a.btn.btn-danger(ng-click="vm.deleteItem(item)")
+                a.btn.btn-default(ng-click="vm.deleteItem(item)")
                   span Delete
                   span.glyphicon.glyphicon-trash
   .col-sm-3
