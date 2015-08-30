@@ -12,11 +12,11 @@ angular.module 'yeomanNgClientApp'
     vm = @
 
     # test data
-    vm.userForm =
-      username:              "hiogawa"
-      email:                 "hiogawa@hiogawa.com"
-      password:              "12345678"
-      password_confirmation: "12345678"
+    # vm.userForm =
+    #   username:              "hiogawa"
+    #   email:                 "hiogawa@hiogawa.com"
+    #   password:              "12345678"
+    #   password_confirmation: "12345678"
 
     vm.register = ->
       vm.loading = true
@@ -29,5 +29,6 @@ angular.module 'yeomanNgClientApp'
         vm.loading = false
 
     vm.cancel = ->
+      $state.go "root.login"
 
     return

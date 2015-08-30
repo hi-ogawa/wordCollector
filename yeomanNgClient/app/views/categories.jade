@@ -1,4 +1,11 @@
-a.btn.btn-default.btn-sm(ng-click="vm.newCategory()") New category
+a.btn.btn-default(ng-click="vm.newCategory()") New category
+
+div(ng-cloak=true, ng-show="vm.showForm", category-form=true, form="vm.categoryForm"
+    label-submit="'Create'"        , label-cancel="'Cancel'"
+    on-submit="vm.submit()", on-cancel="vm.showForm=false", loading="vm.dataLoading")
+
+h4 Listing categories
+
 table.table.table-striped
   thead
     tr
@@ -24,5 +31,3 @@ table.table.table-striped
             span Delete
             span.glyphicon.glyphicon-trash
 
-div(ng-cloak=true, ng-show="vm.showForm", category-form=true, form="vm.categoryForm"
-    on-submit="vm.submit()", on-cancel="vm.showForm=false", loading="vm.dataLoading")

@@ -1,10 +1,3 @@
-- var states = ["root.register", "root.login", "categories", "items({categoryId: 1})"]
-
 .container-fluid
-  .btn-group.btn-group-sm
-    each state in states
-      a.btn.btn-default(ui-sref="#{state}")= state
-
-  p views
   div(flash-message-d=true)
   div(ui-view="mainView")

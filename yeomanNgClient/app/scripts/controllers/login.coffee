@@ -11,9 +11,9 @@ angular.module 'yeomanNgClientApp'
   .controller 'LoginCtrl', (authService, flashMessage, $state) ->
     vm = @
 
-    vm.sessionForm =
-      email:                 "hiogawa@hiogawa.com"
-      password:              "12345678"
+    # vm.sessionForm =
+    #   email:                 "hiogawa@hiogawa.com"
+    #   password:              "12345678"
 
     vm.login = ->
       vm.loading = true
@@ -26,4 +26,6 @@ angular.module 'yeomanNgClientApp'
         vm.loading = false
 
     vm.cancel = ->
+      $state.go "root.register"
+
     return

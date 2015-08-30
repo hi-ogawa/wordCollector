@@ -8,6 +8,6 @@ form(name="form", ng-submit="submit()", novalidate=true)
     input.form-control(ng-model="categoryForm.description")
    
   .form-actions
-    button.btn.btn-primary(type="submit", ng-disabled="form.$invalid || loading") Submit
-    a.btn.btn-link(ng-click="cancel()") Cancel
+    button.btn.btn-primary(type="submit", ng-disabled="form.$invalid || loading") {{labelSubmit}}
+    a.btn.btn-link(ng-click="cancel()") {{labelCancel}}
     i.fa.fa-spinner.fa-spin(ng-if="loading")

@@ -19,15 +19,16 @@ angular.module 'yeomanNgClientApp'
         scope.userForm = angular.copy scope.user
     
       scope.editGo = ->
-        scope.editLoading = true
-        userResource.update(scope.userForm).$promise
-        .then ->
-          flashMessage.set "Account updated", "alert-success", true
-          scope.editLoading = scope.editing = false
-          scope.user = userResource.show()
-        ,->
-          FlashService.set "Account update failed", "alert-danger", true
-          scope.editLoading = scope.editing = false
+        if $window.confirm "do you really want to delete your account"
+          scope.editLoading = true
+          userResource.update(scope.userForm).$promise
+          .then ->
+            flashMessage.set "Account updated", "alert-success", true
+            scope.editLoading = scope.editing = false
+            scope.user = userResource.show()
+          ,->
+            FlashService.set "Account update failed", "alert-danger", true
+            scope.editLoading = scope.editing = false
 
       scope.delete = ->
         if $window.confirm "do you really want to delete your account"

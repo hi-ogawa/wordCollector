@@ -12,6 +12,8 @@ angular.module 'yeomanNgClientApp'
     templateUrl: 'scripts/directives/session_form.html'
     scope:
       sessionForm: "=form"
-      submit:   "&onSubmit"
-      cancel:   "&onCancel"
-      loading:  "="
+      submit:      "&onSubmit"
+      cancel:      "&onCancel"
+      loading:     "="
+      labelSubmit: "=" 
+      labelCancel: "=" 

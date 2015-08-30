@@ -32,7 +32,7 @@ end
 
 user1       = FactoryGirl.create :user_seed, {username: "hiogawa", email: "hiogawa@hiogawa.com"}
 user2       = FactoryGirl.create :user_seed, {username: "testtest", email: "test@test.com"}
-categories1 = 1.times.map{FactoryGirl.create :category_seed, user: user1}
+categories1 = 5.times.map{FactoryGirl.create :category_seed, user: user1}
 categories2 = 3.times.map{FactoryGirl.create :category_seed, user: user2}
-# itemss1     = categories1.map{|c| 10.times.map {puts "creates items"; FactoryGirl.create :item_seed, category: c}}.flatten
-# itemss2     = categories2.map{|c| 3.times.map {FactoryGirl.create :item_seed, category: c}}.flatten
+itemss1     = categories1.map{|c| 15.times.map {puts "creates items"; FactoryGirl.create :item_seed, category: c}}.flatten
+itemss2     = categories2.map{|c| 3.times.map {FactoryGirl.create :item_seed, category: c}}.flatten

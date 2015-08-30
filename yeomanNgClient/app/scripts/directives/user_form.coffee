@@ -14,4 +14,6 @@ angular.module 'yeomanNgClientApp'
       userForm: "=form"
       submit:   "&onSubmit"
       cancel:   "&onCancel"
-      loading:  "="
+      loading:     "="
+      labelSubmit: "="
+      labelCancel: "="

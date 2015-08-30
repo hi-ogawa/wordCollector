@@ -1,6 +1,6 @@
 form(name="form", ng-submit="submit()", novalidate=true)
   .form-group
-    label User name
+    label User name (at least 5 characters)
     input.form-control(ng-model="userForm.username", minlength="5", maxlength="20"
                        required=true)
 
@@ -9,7 +9,7 @@ form(name="form", ng-submit="submit()", novalidate=true)
     input.form-control(ng-model="userForm.email", type="email", required=true)
 
   .form-group
-    label Password (longer than 8 characters)
+    label Password (at least 8 characters)
     input.form-control(ng-model="userForm.password", type="password"
                        required=true, minlength="8")
    
@@ -21,6 +21,6 @@ form(name="form", ng-submit="submit()", novalidate=true)
   .form-actions
     button.btn.btn-primary(type="submit"
                            ng-disabled="form.$invalid || loading || userForm.password != userForm.password_confirmation"
-                          ) Submit
-    a.btn.btn-link(ng-click="cancel()") Cancel
+                          ) {{ labelSubmit }}
+    a.btn.btn-link(ng-click="cancel()") {{ labelCancel }}
     i.fa.fa-spinner.fa-spin(ng-if="loading")

@@ -9,6 +9,7 @@ form(name="form", ng-submit="submit()", novalidate=true)
                        required=true, minlength="8")
 
   .form-actions
-    button.btn.btn-primary(type="submit", ng-disabled="form.$invalid || loading") Submit 
-    a.btn.btn-link(ng-click="cancel()") Cancel
+    button.btn.btn-primary(type="submit"
+                           ng-disabled="form.$invalid || loading") {{ labelSubmit }}
+    a.btn.btn-link(ng-click="cancel()") {{ labelCancel }}
     i.fa.fa-spinner.fa-spin(ng-if="loading")
