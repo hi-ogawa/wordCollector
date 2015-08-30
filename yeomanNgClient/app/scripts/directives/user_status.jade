@@ -9,7 +9,7 @@ span user:
   i.fa.fa-spinner.fa-spin(ng-if="loading")
 
 
-.user-update-div.panel.panel-primary(ng-cloak=true, ng-show="editing")
+.user-update-div.panel.panel-primary(ng-cloak=true, ng-if="editing")
   .panel-heading Edit account
   .panel-body(
     user-form=true, form="userForm"

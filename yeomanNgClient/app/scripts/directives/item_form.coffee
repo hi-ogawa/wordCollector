@@ -17,3 +17,5 @@ angular.module 'yeomanNgClientApp'
       loading:  "="
       labelSubmit:  "="
       labelCancel:  "="
+    link: (scope, element, attrs) ->
+      element.find("input").first().focus()

@@ -3,7 +3,7 @@ a.btn.btn-default(
   ng-class="{'btn-warning': vm.formType[0] == 'New'}"
   ) New category
 
-.category-form-div.panel.panel-primary(ng-cloak=true, ng-show="vm.formType")
+.category-form-div.panel.panel-primary(ng-cloak=true, ng-if="vm.formType")
   .panel-heading {{ vm.formType[0] }} category
   .panel-body(
     ng-cloak=true, , category-form=true, form="vm.categoryForm"
