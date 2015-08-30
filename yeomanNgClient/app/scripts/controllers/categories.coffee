@@ -38,19 +38,19 @@ angular.module 'yeomanNgClientApp'
             categoryResource.update vm.categoryForm
       p.$promise
       .then ->
-        flashMessage.set "Successfully Submitted", "alert-success", true
+        flashMessage.set "Successfully submitted", "alert-success", true
         vm.showForm = vm.dataLoading = false
         loadCategories()
       ,->
-        flashMessage.set "Submit failed", "alert-danger", true
+        flashMessage.set "Failed to submit", "alert-danger", true
         vm.showForm = vm.dataLoading = false
 
     vm.deleteCategory = (category) ->
       if $window.confirm "Are you really sure to delete the category?"
         categoryResource.destroy(category).$promise
         .then ->
-          flashMessage.set "category deleted", "alert-success", true
+          flashMessage.set "Category deleted", "alert-success", true
           loadCategories()
         ,->
-          flashMessage.set "category deletion failed", "alert-danger", true
+          flashMessage.set "Category deletion failed", "alert-danger", true
     return

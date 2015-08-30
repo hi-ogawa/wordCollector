@@ -1,4 +1,3 @@
 .alert(ng-show="flashMessage.show", ng-class="flashMessage.class")
+  a.close(ng-click="flashMessage.close()", aria-label="close") &times;
   span {{ flashMessage.message }}
-  .btn.btn-default.pull-right(ng-click="flashMessage.close()")
-    i.fa.fa-remove

@@ -17,17 +17,18 @@ table.table.table-striped
   tbody
     tr(ng-repeat="category in vm.categories")
       td
-        span {{ category.name }}
+        strong {{ category.name }}
         span.badge.pull-right {{ category.item_ids.length }}
+        .small {{ category.description }}
       td
         .btn-group
-          a.btn.btn-info(ui-sref="items({categoryId: {{category.id}}})")
+          a.btn.btn-default(ui-sref="items({categoryId: {{category.id}}})")
             span Show items
             span.glyphicon.glyphicon-list-alt
-          a.btn.btn-warning(ng-click="vm.editCategory(category)")
+          a.btn.btn-default(ng-click="vm.editCategory(category)")
             span Edit
             span.glyphicon.glyphicon-pencil
-          a.btn.btn-danger(ng-click="vm.deleteCategory(category)")
+          a.btn.btn-default(ng-click="vm.deleteCategory(category)")
             span Delete
             span.glyphicon.glyphicon-trash
 

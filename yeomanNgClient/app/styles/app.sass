@@ -1,0 +1,14 @@
+@mixin centerer
+  position: absolute
+  top:  50%
+  left: 50%
+  transform: translate(-50%, -50%)
+
+.flash-message-div
+  @include centerer
+  width: 20%
+  z-index: 1
+
+.user-update-div
+  @include centerer
+  z-index: 1

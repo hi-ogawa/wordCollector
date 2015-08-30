@@ -6,8 +6,8 @@ a.btn.btn-default(ui-sref="categories")    Back to categories
 a.btn.btn-default(ng-click="vm.newItem()") New item
 
 div(ng-cloak=true, ng-show="vm.showForm", item-form=true, form="vm.itemForm"
-    label-submit="'Create'"        , label-cancel="'Cancel'"
-    on-submit="vm.submit()", on-cancel="vm.showForm=false", loading="vm.loading")
+    label-submit="'Create'" , label-cancel="'Cancel'"
+    on-submit="vm.submit()" , on-cancel="vm.showForm=false", loading="vm.loading")
 
 h4 Listing items
 
