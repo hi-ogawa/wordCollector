@@ -13,10 +13,11 @@ angular.module 'yeomanNgClientApp'
     link: (scope, element, attrs) ->
   
       scope.user = userResource.show id: authService.getSession().userId
-      
+
+      scope.editing = false      
       scope.edit = ->
-        scope.editing = true
-        scope.userForm = angular.copy scope.user
+        if scope.editing = !scope.editing
+          scope.userForm = angular.copy scope.user
     
       scope.editGo = ->
         if $window.confirm "do you really want to delete your account"

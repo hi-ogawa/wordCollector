@@ -3,14 +3,15 @@ span Category:
     em {{ vm.category.name }} 
 
 a.btn.btn-default(ui-sref="categories")    Back to categories
-a.btn.btn-default(ng-click="vm.newItem()") New item
+a.btn.btn-default(ng-click="vm.newItem()"
+                  ng-class="{'btn-warning': vm.formType[0] == 'New'}") New item
 
-.item-form-div.panel.panel-primary(ng-cloak=true, ng-show="vm.showForm")
+.item-form-div.panel.panel-primary(ng-cloak=true, ng-show="vm.formType")
   .panel-heading {{ vm.formType[0] }} Item
   .panel-body(
     item-form=true, form="vm.itemForm"
     label-submit="vm.formType[1]" , label-cancel="'Cancel'"
-    on-submit="vm.submit()" , on-cancel="vm.showForm=false", loading="vm.loading")
+    on-submit="vm.submit()" , on-cancel="vm.formType=false", loading="vm.loading")
 
 h4 Listing items
 
@@ -31,7 +32,9 @@ h4 Listing items
             td.sentence {{ item.sentence }}
             td.actions
               .btn-group
-                a.btn.btn-default(ng-click="vm.editItem(item)")
+                a.btn.btn-default(
+                  ng-click="vm.editItem(item)"
+                  ng-class="{'btn-warning': (item === vm.formType[2])}")
                   span Edit
                   span.glyphicon.glyphicon-pencil
                 a.btn.btn-default(ng-click="vm.deleteItem(item)")

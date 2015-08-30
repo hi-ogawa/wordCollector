@@ -18,15 +18,16 @@ angular.module 'yeomanNgClientApp'
     vm.sumOfNumbersOfItemsIn = (cs) ->
       _.foldl cs, ((n, c) -> n + c.item_ids.length), 0
 
+    vm.formType = false
     vm.newCategory = ->
-      vm.showForm = true
-      vm.formType = ["New", "Create"]
-      vm.categoryForm = null
+      if vm.formType = (!vm.formType or vm.formType[2] isnt null)
+        vm.formType = ["New", "Create", null]
+        vm.categoryForm = null
 
     vm.editCategory = (category) ->
-      vm.showForm = true
-      vm.formType = ["Edit", "Update"]
-      vm.categoryForm = angular.copy category
+      if vm.formType = (!vm.formType or vm.formType[2] isnt category)
+        vm.formType = ["Edit", "Update", category]
+        vm.categoryForm = angular.copy category
 
     vm.submit = ->
       vm.loading = true
@@ -35,21 +36,21 @@ angular.module 'yeomanNgClientApp'
           categoryResource.create(vm.categoryForm).$promise
           .then ->
             flashMessage.set "Successfully created", "alert-success", true
-            vm.showForm = vm.dataLoading = false
+            vm.formType = vm.dataLoading = false
             loadCategories()
           ,->
             flashMessage.set "Failed to create", "alert-danger", true
-            vm.showForm = vm.dataLoading = false
+            vm.formType = vm.dataLoading = false
   
         when "Edit"
           categoryResource.update(vm.categoryForm).$promise
           .then ->
             flashMessage.set "Successfully updated", "alert-success", true
-            vm.showForm = vm.dataLoading = false
+            vm.formType = vm.dataLoading = false
             loadCategories()
           ,->
             flashMessage.set "Failed to update", "alert-danger", true
-            vm.showForm = vm.dataLoading = false
+            vm.formType = vm.dataLoading = false
 
     vm.deleteCategory = (category) ->
       if $window.confirm "Are you really sure to delete the category?"
