@@ -1,6 +1,14 @@
+/* variables
+
+
+
+/* something 
+[ng\:cloak], [ng-cloak], .ng-cloak 
+  display: none
+
 /* floating divs
 @mixin centerer
-  position: absolute
+  position: fixed
   top:  50%
   left: 50%
   transform: translate(-50%, -50%)
@@ -26,4 +34,29 @@
   left:  30%
   z-index: 1
 
+
+
 /* items view
+
+/* items table
+#items-list
+  position: absolute
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch
+  table > tbody > tr
+    .word-meaning
+      width: 25%
+      .h5
+        margin:        0px
+        margin-bottom: 5px
+    .sentence
+    .actions
+      width: 18%
+
+/* popup images
+#images-list
+  position: fixed
+  top: 0vh
+  height: 100vh
+  overflow-y: scroll
+  -webkit-overflow-scrolling: touch

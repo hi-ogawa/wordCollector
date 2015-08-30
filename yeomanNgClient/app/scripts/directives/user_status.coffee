@@ -14,6 +14,9 @@ angular.module 'yeomanNgClientApp'
   
       scope.user = userResource.show id: authService.getSession().userId
 
+      scope.closeForm = ->
+        scope.editing = false
+
       scope.editing = false      
       scope.edit = ->
         if scope.editing = !scope.editing
@@ -28,7 +31,7 @@ angular.module 'yeomanNgClientApp'
             scope.editLoading = scope.editing = false
             scope.user = userResource.show()
           ,->
-            FlashService.set "Account update failed", "alert-danger", true
+            flashMessage.set "Account update failed", "alert-danger", true
             scope.editLoading = scope.editing = false
 
       scope.delete = ->

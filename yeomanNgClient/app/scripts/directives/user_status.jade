@@ -1,4 +1,4 @@
-span user: 
+span User: 
   strong
     em {{ user.username }} 
 
@@ -14,4 +14,4 @@ span user:
   .panel-body(
     user-form=true, form="userForm"
     label-submit="'Update'"   , label-cancel="'Cancel'"
-    on-submit="editGo()", on-cancel="editing=false", loading="editLoading")
+    on-submit="editGo()", on-cancel="closeForm()", loading="editLoading")
