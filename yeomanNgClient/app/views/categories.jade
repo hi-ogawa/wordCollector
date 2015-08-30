@@ -6,7 +6,7 @@ a.btn.btn-default(
 .category-form-div.panel.panel-primary(ng-cloak=true, ng-if="vm.formType")
   .panel-heading {{ vm.formType[0] }} category
   .panel-body(
-    ng-cloak=true, , category-form=true, form="vm.categoryForm"
+    ng-cloak=true, category-form=true, form="vm.categoryForm"
     label-submit="vm.formType[1]" , label-cancel="'Cancel'"
     on-submit="vm.submit()" , on-cancel="vm.formType=false", loading="vm.dataLoading")
 
