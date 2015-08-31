@@ -108,8 +108,8 @@ app.LoginView = Backbone.View.extend
     @$el.html _.template($("#loginView-t").html()) {}
 
     ## init input values for easy testing ##
-    @$("#loginForm input:eq(0)").val "hiogawa@hiogawa.com"
-    @$("#loginForm input:eq(1)").val "12345678"
+    # @$("#loginForm input:eq(0)").val "hiogawa@hiogawa.com"
+    # @$("#loginForm input:eq(1)").val "12345678"
 
   events:
     "submit #loginForm": (e) ->

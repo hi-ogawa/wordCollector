@@ -185,9 +185,7 @@
 
   app.LoginView = Backbone.View.extend({
     initialize: function() {
-      this.$el.html(_.template($("#loginView-t").html())({}));
-      this.$("#loginForm input:eq(0)").val("hiogawa@hiogawa.com");
-      return this.$("#loginForm input:eq(1)").val("12345678");
+      return this.$el.html(_.template($("#loginView-t").html())({}));
     },
     events: {
       "submit #loginForm": function(e) {
