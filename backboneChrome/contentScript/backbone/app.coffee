@@ -67,8 +67,8 @@ app.AppView = Backbone.View.extend
       @renderDictionaries()
 
   events:
-    "keypress #ext-word": (e) -> if e.which is 13 then @renderDictionaries()
-    "click #upload": -> @upload()
+    "keypress #ext-word": (e) -> e.preventDefault(); if e.which is 13 then @renderDictionaries()
+    "submit #upload": (e) -> e.preventDefault(); @upload()
 
   renderDictionaries: ->
     word = @$("#ext-word").val().trim()

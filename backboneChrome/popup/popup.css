@@ -7,7 +7,7 @@
     margin-top: -10px; }
   .my-bootstrap-container #authed .dropdown-menu {
     width: 200px;
-    height: 200px;
+    max-height: 200px;
     overflow: scroll; }
   .my-bootstrap-container #authed .popover {
     width: 200px; }

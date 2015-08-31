@@ -6,10 +6,11 @@
 
 %script#ext-content-t{type: "text/template"}
   #ext-settings
-    %input.input-sm.form-control#ext-word{placeholder: "Word"}
-    %input.input-sm.form-control#ext-sentence{placeholder: "Sentence"}
-    %input.input-sm.form-control#ext-meaning{placeholder: "Meaning"}
-    %input.input-sm.form-control#upload{type: "submit", value: "Upload"}
+    %form#upload
+      %input.input-sm.form-control#ext-word{placeholder: "Word", required: true}
+      %input.input-sm.form-control#ext-sentence{placeholder: "Sentence"}
+      %input.input-sm.form-control#ext-meaning{placeholder: "Meaning"}
+      %input.input-sm.form-control{type: "submit", value: "Upload"}
 
   #ext-dictionaries
 

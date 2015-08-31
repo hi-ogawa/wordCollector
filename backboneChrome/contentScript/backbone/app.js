@@ -84,11 +84,13 @@
     },
     events: {
       "keypress #ext-word": function(e) {
+        e.preventDefault();
         if (e.which === 13) {
           return this.renderDictionaries();
         }
       },
-      "click #upload": function() {
+      "submit #upload": function(e) {
+        e.preventDefault();
         return this.upload();
       }
     },

@@ -4,10 +4,12 @@
 </div>
 <script id='ext-content-t' type='text/template'>
   <div id='ext-settings'>
-    <input class='input-sm form-control' id='ext-word' placeholder='Word'>
-    <input class='input-sm form-control' id='ext-sentence' placeholder='Sentence'>
-    <input class='input-sm form-control' id='ext-meaning' placeholder='Meaning'>
-    <input class='input-sm form-control' id='upload' type='submit' value='Upload'>
+    <form id='upload'>
+      <input class='input-sm form-control' id='ext-word' placeholder='Word' required>
+      <input class='input-sm form-control' id='ext-sentence' placeholder='Sentence'>
+      <input class='input-sm form-control' id='ext-meaning' placeholder='Meaning'>
+      <input class='input-sm form-control' type='submit' value='Upload'>
+    </form>
   </div>
   <div id='ext-dictionaries'></div>
 </script>
