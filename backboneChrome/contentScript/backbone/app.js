@@ -64,6 +64,8 @@
   app.AppView = Backbone.View.extend({
     initialize: function() {
       this.$el.html(_.template($("#ext-content-t").html())({}));
+      this.$('[data-toggle="tooltip"]').tooltip();
+      this.changeUploadIcons("wait");
       app.storage.init();
       app.storage.on("update", (function(_this) {
         return function(data) {
@@ -84,8 +86,8 @@
     },
     events: {
       "keypress #ext-word": function(e) {
-        e.preventDefault();
         if (e.which === 13) {
+          e.preventDefault();
           return this.renderDictionaries();
         }
       },
@@ -139,9 +141,13 @@
       })(this));
     },
     upload: function() {
-      return extLib.tabCapture()["catch"](function(err) {
-        return console.log("error - AppView.upload: " + err);
-      }).then((function(_this) {
+      this.changeUploadIcons("loading");
+      return extLib.tabCapture()["catch"]((function(_this) {
+        return function(err) {
+          _this.changeUploadIcons("fail");
+          return console.log(err);
+        };
+      })(this)).then((function(_this) {
         return function(dataurl) {
           return chrome.runtime.sendMessage({
             type: "uploadItem",
@@ -154,10 +160,19 @@
               Authorization: app.session.auth_token
             }
           }, function(resp) {
-            return console.log(resp);
+            if (resp.status === "success") {
+              return _this.changeUploadIcons("success");
+            } else {
+              return _this.changeUploadIcons("fail");
+            }
           });
         };
       })(this));
+    },
+    changeUploadIcons: function(state) {
+      return this.$("#upload-icons > *").each(function() {
+        return $(this).toggleClass("hide", !($(this).attr("id").match(state)));
+      });
     }
   });
 

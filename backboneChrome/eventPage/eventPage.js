@@ -20,8 +20,16 @@
           processData: false,
           contentType: false,
           headers: request.headers
-        }).done(function(resp) {
-          return callback(resp);
+        }).done(function(data) {
+          return callback({
+            status: "success",
+            data: data
+          });
+        }).fail(function(err) {
+          return callback({
+            status: "error",
+            data: err
+          });
         });
         break;
       case "ajax":

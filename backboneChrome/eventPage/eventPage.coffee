@@ -19,7 +19,8 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
           processData: false
           contentType: false
           headers: request.headers
-        .done (resp) -> callback resp
+        .done (data) -> callback {status: "success", data: data}
+        .fail (err) -> callback {status: "error", data: err}
 
     when "ajax"
 

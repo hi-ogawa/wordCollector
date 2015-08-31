@@ -51,6 +51,8 @@ app.AppView = Backbone.View.extend
 
   initialize: ->
     @$el.html _.template($("#ext-content-t").html()) {}
+    @$('[data-toggle="tooltip"]').tooltip()
+    @changeUploadIcons "wait"
 
     app.storage.init()
     app.storage.on "update", (data) =>
@@ -67,7 +69,7 @@ app.AppView = Backbone.View.extend
       @renderDictionaries()
 
   events:
-    "keypress #ext-word": (e) -> e.preventDefault(); if e.which is 13 then @renderDictionaries()
+    "keypress #ext-word": (e) -> if e.which is 13 then e.preventDefault(); @renderDictionaries()
     "submit #upload": (e) -> e.preventDefault(); @upload()
 
   renderDictionaries: ->
@@ -93,8 +95,9 @@ app.AppView = Backbone.View.extend
       .then (data) => @marriamView.renderData data
 
   upload: ->
+    @changeUploadIcons "loading"
     extLib.tabCapture()
-      .catch((err) -> console.log "error - AppView.upload: #{err}")
+      .catch (err) => @changeUploadIcons "fail"; console.log err
       .then (dataurl) =>
 
         chrome.runtime.sendMessage
@@ -105,8 +108,13 @@ app.AppView = Backbone.View.extend
           meaning:  @$("#ext-meaning").val()
           picture:  dataurl
           headers: Authorization: app.session.auth_token
-          , (resp) -> console.log resp
+          , (resp) =>
+            if resp.status is "success" then @changeUploadIcons "success"
+            else                             @changeUploadIcons "fail"
 
+  changeUploadIcons: (state) ->
+    @$("#upload-icons > *").each ->
+      $(this).toggleClass "hide", !($(this).attr("id").match state)
 
 root = exports ? this
 root.app = app
