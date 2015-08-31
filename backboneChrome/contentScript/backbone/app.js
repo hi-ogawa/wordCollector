@@ -23,13 +23,13 @@
       this.$el.html(this.template({
         data: data
       }));
-      finalHeight = this.$el.height();
+      this.$popovers = this.$('[data-toggle="popover"]');
+      this.initPopover();
+      console.log(finalHeight = this.$el.height());
       this.$el.css("height", "20px");
-      this.$el.animate({
+      return this.$el.animate({
         "height": finalHeight
       }, "slow");
-      this.$popovers = this.$('[data-toggle="popover"]');
-      return this.initPopover();
     },
     events: {
       "click .remove": "remove",

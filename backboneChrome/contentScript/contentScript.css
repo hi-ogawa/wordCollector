@@ -7,6 +7,10 @@
   opacity: 0.8;
   /* the header in youtube has z-index: 1999999999 */
   z-index: 2000000000; }
+  #ext-content #ext-settings #upload > input {
+    margin-bottom: 0; }
+  #ext-content #ext-settings .input-group > input {
+    margin-top: 0; }
   #ext-content #ext-dictionaries .ext-dictionary.panel {
     margin-top: 5px;
     max-height: 230px;
