@@ -1,5 +1,3 @@
-%link{rel: "stylesheet", href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"}
-
 .my-bootstrap-container
   #ext-content
 
@@ -13,10 +11,10 @@
       .input-group
         %input.btn.btn-sm.btn-default.form-control{type: "submit", value: "Upload"}
         .input-group-addon#upload-icons
-          %i#wait.fa.fa-coffee{         "data-toggle" => "tooltip", "data-placement"=>"left", title: "Waiting for upload"}
-          %i#success.fa.fa-thumbs-o-up{    "data-toggle" => "tooltip", "data-placement"=>"left", title: "Upload finished :)"}
-          %i#loading.fa.fa-spinner.fa-spin{"data-toggle" => "tooltip", "data-placement"=>"left", title: "Uploading..."}
-          %i#fail.fa.fa-thumbs-o-down{  "data-toggle" => "tooltip", "data-placement"=>"left", title: "Upload failed :("}
+          .glyphicon.glyphicon-glass#wait{                    "data-toggle" => "tooltip", "data-placement"=>"left", title: "Waiting for upload"}
+          .glyphicon.glyphicon-thumbs-up#success{             "data-toggle" => "tooltip", "data-placement"=>"left", title: "Upload finished :)"}
+          .glyphicon.glyphicon-refresh.glyphicon-spin#loading{"data-toggle" => "tooltip", "data-placement"=>"left", title: "Uploading..."}
+          .glyphicon.glyphicon-thumbs-down#fail{              "data-toggle" => "tooltip", "data-placement"=>"left", title: "Upload failed :("}
 
   #ext-dictionaries
 
@@ -27,10 +25,10 @@
     .from
       <%= data.dictionary %>: <%= data.type %>
       <% if(data.loading){ %>
-      %i.fa.fa-spinner.fa-spin
+      .glyphicon.glyphicon-refresh.glyphicon-spin
       <% } %>
       .remove.btn.btn-default.btn-sm.pull-right
-        %i.fa.fa-remove
+        .glyphicon.glyphicon-remove
 
     -# show matched entries
     <% if(data.type === "entries") { %>

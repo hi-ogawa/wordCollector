@@ -28,7 +28,10 @@
     	"persistent": false
     },
     "web_accessible_resources": [
-	"contentScript/contentScript.html"
+	"contentScript/contentScript.html",
+        "fonts/glyphicons-halflings-regular.woff2",
+        "fonts/glyphicons-halflings-regular.woff",
+        "fonts/glyphicons-halflings-regular.ttf"
     ],
     "permissions": [
 	"storage",
