@@ -54,7 +54,7 @@ lib.ultraAjax = (settings) ->
             resolve response.data
           when "error"
             reject "error: lib.ultraAjax - #{response.data}"
-    setTimeout(( -> reject "error: lib.ultraAjax - timeout"), 5000)
+    setTimeout(( -> reject "error: lib.ultraAjax - timeout"), 10000)
 
 
 
@@ -93,6 +93,8 @@ lib.Eijiro = (word) ->
         type: "entries"
         entries: entriesJQ.toArray()
   
+  .catch (err) -> throw err
+  
 
 lib.DictionaryAPI = (word) ->
 
@@ -120,6 +122,8 @@ lib.DictionaryAPI = (word) ->
       _.extend data,
         type: "entries"
         entries: entriesJQ.toArray()
+  
+  .catch (err) -> throw err
 
 
 root = exports ? this

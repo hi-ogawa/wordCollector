@@ -74,7 +74,7 @@
       });
       return setTimeout((function() {
         return reject("error: lib.ultraAjax - timeout");
-      }), 5000);
+      }), 10000);
     });
   };
 
@@ -119,6 +119,8 @@
           entries: entriesJQ.toArray()
         });
       }
+    })["catch"](function(err) {
+      throw err;
     });
   };
 
@@ -156,6 +158,8 @@
           entries: entriesJQ.toArray()
         });
       }
+    })["catch"](function(err) {
+      throw err;
     });
   };
 

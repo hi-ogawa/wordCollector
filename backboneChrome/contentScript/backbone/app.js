@@ -23,9 +23,13 @@
       this.$el.html(this.template({
         data: data
       }));
+      if (data.type === "error") {
+        return;
+      }
+      console.log(data);
       this.$popovers = this.$('[data-toggle="popover"]');
       this.initPopover();
-      console.log(finalHeight = this.$el.height());
+      finalHeight = this.$el.height();
       this.$el.css("height", "20px");
       return this.$el.animate({
         "height": finalHeight
@@ -114,11 +118,17 @@
         loading: true
       });
       this.$("#ext-dictionaries").append(this.eijiroView.$el);
-      return extLib.Eijiro(word)["catch"](function(err) {
-        return console.log("error in eijiro: " + err);
-      }).then((function(_this) {
+      return extLib.Eijiro(word).then((function(_this) {
         return function(data) {
           return _this.eijiroView.renderData(data);
+        };
+      })(this))["catch"]((function(_this) {
+        return function(err) {
+          return _this.eijiroView.renderData({
+            dictionary: "Eijiro",
+            type: "error",
+            loading: false
+          });
         };
       })(this));
     },
@@ -132,22 +142,23 @@
         loading: true
       });
       this.$("#ext-dictionaries").append(this.marriamView.$el);
-      return extLib.DictionaryAPI(word)["catch"](function(err) {
-        return console.log("error in dicAPI: " + err);
-      }).then((function(_this) {
+      return extLib.DictionaryAPI(word).then((function(_this) {
         return function(data) {
           return _this.marriamView.renderData(data);
+        };
+      })(this))["catch"]((function(_this) {
+        return function(err) {
+          return _this.marriamView.renderData({
+            dictionary: "Merriam-Webster",
+            type: "error",
+            loading: false
+          });
         };
       })(this));
     },
     upload: function() {
       this.changeUploadIcons("loading");
-      return extLib.tabCapture()["catch"]((function(_this) {
-        return function(err) {
-          _this.changeUploadIcons("fail");
-          return console.log(err);
-        };
-      })(this)).then((function(_this) {
+      return extLib.tabCapture().then((function(_this) {
         return function(dataurl) {
           return chrome.runtime.sendMessage({
             type: "uploadItem",
@@ -166,6 +177,11 @@
               return _this.changeUploadIcons("fail");
             }
           });
+        };
+      })(this))["catch"]((function(_this) {
+        return function(err) {
+          _this.changeUploadIcons("fail");
+          return console.log(err);
         };
       })(this));
     },

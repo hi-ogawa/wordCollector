@@ -12,10 +12,12 @@ app.DictionaryView = Backbone.View.extend
 
   initialize: (data) ->
     @template = _.template $("#ext-dictionary-t").html()
-    @$el.html @template({data: data})
+    @$el.html @template {data: data}
 
   renderData: (data) ->
-    @$el.html @template({data: data})
+    @$el.html @template {data: data}
+    if data.type is "error" then return
+    console.log data
     @$popovers = @$('[data-toggle="popover"]')
     @initPopover()
     finalHeight = @$el.height()
@@ -80,24 +82,23 @@ app.AppView = Backbone.View.extend
 
   renderEijiro: (word) ->
     if @eijiroView? then @eijiroView.remove()
-    @eijiroView = new app.DictionaryView({dictionary: "Eijiro", type: "", loading: true})
+    @eijiroView = new app.DictionaryView {dictionary: "Eijiro", type: "", loading: true}
     @$("#ext-dictionaries").append @eijiroView.$el
     extLib.Eijiro(word)
-      .catch((err) -> console.log "error in eijiro: #{err}")
-      .then (data) => @eijiroView.renderData data
+      .then  (data) => @eijiroView.renderData data
+      .catch (err)  => @eijiroView.renderData {dictionary: "Eijiro", type: "error", loading: false}
     
   renderMarriam: (word) ->
     if @marriamView? then @marriamView.remove()
-    @marriamView = new app.DictionaryView({dictionary: "Merriam-Webster", type: "", loading: true})
+    @marriamView = new app.DictionaryView {dictionary: "Merriam-Webster", type: "", loading: true}
     @$("#ext-dictionaries").append @marriamView.$el
     extLib.DictionaryAPI(word)
-      .catch((err) -> console.log "error in dicAPI: #{err}")
-      .then (data) => @marriamView.renderData data
+      .then  (data) => @marriamView.renderData data
+      .catch (err)  => @marriamView.renderData {dictionary: "Merriam-Webster", type: "error", loading: false}
 
   upload: ->
     @changeUploadIcons "loading"
     extLib.tabCapture()
-      .catch (err) => @changeUploadIcons "fail"; console.log err
       .then (dataurl) =>
 
         chrome.runtime.sendMessage
@@ -111,6 +112,8 @@ app.AppView = Backbone.View.extend
           , (resp) =>
             if resp.status is "success" then @changeUploadIcons "success"
             else                             @changeUploadIcons "fail"
+  
+      .catch (err) => @changeUploadIcons "fail"; console.log err
 
   changeUploadIcons: (state) ->
     @$("#upload-icons > *").each ->
