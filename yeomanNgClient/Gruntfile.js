@@ -23,7 +23,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: '../railsAPI/public'
+    dist: 'dist'
   };
 
   var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
