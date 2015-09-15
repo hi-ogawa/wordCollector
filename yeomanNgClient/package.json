@@ -40,6 +40,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "aws-sync": "aws s3 sync dist s3://hiogawa.word.collector.ng.production --delete"
   }
 }
