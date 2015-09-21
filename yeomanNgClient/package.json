@@ -41,6 +41,6 @@
   },
   "scripts": {
     "test": "grunt test",
-    "aws-sync": "aws s3 sync dist s3://hiogawa.word.collector.ng.production --delete"
+    "aws-sync": "aws s3 sync dist s3://word-collector.xyz --delete"
   }
 }

@@ -100,7 +100,7 @@ module.exports = function (grunt) {
           },
           dist: {
               constants: {
-                  API_END_POINT: "http://ec2-54-92-99-123.ap-northeast-1.compute.amazonaws.com"
+                  API_END_POINT: "http://api.word-collector.xyz"
               }
           }
       },
