@@ -95,12 +95,12 @@ module.exports = function (grunt) {
           },
           development: {
               constants: {
-                  apiEndPoint: "http://localhost:3000"
+                  API_END_POINT: "http://localhost:3000"
               }
           },
           dist: {
               constants: {
-                  apiEndPoint: "http://word-collector.xyz"
+                  API_END_POINT: "http://word-collector.xyz"
               }
           }
       },

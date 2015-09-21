@@ -8,9 +8,9 @@
  # Service in the yeomanNgClientApp.
 ###
 angular.module 'yeomanNgClientApp'
-  .service 'authService', ($resource, $cookies) ->
+  .service 'authService', ($resource, $cookies, API_END_POINT) ->
 
-    r = $resource "/api/sessions/:token", {token: "@id"},
+    r = $resource "#{API_END_POINT}/api/sessions/:token", {token: "@id"},
           create:  {method: "POST"}
           destroy: {method: "DELETE"}
    
