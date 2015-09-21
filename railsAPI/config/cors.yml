@@ -1,0 +1,8 @@
+development:
+  origin:  http://localhost:9000
+  methods: [ GET, POST, PUT, PATCH, DELETE ]
+
+
+production:
+  origins: http://hiogawa.word.collector.ng.production.s3-website-ap-northeast-1.amazonaws.com
+  methods: [ GET, POST, PUT, PATCH, DELETE ]
