@@ -2,7 +2,7 @@ require 'api_constraints'
 
 Rails.application.routes.draw do
 
-  get '/', to: redirect('/')
+  match "*path" => "application#cors_preflight_check", via: :options
 
   namespace :api, defaults: {format: :json} do
     scope module: :v1,

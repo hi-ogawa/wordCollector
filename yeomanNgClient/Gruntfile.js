@@ -17,7 +17,6 @@ module.exports = function (grunt) {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
-    configureProxies: 'grunt-connect-proxy',
     ngconstant: 'grunt-ng-constant'
   });
 
@@ -26,8 +25,6 @@ module.exports = function (grunt) {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
   };
-
-  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -117,16 +114,6 @@ module.exports = function (grunt) {
         hostname: 'localhost',
         livereload: 35729
       },
-      server: {
-          proxies: [
-	      {
-	          context: '/api',
-	          host: 'localhost',
-                  port: 3000,
-	          changeOrigin: true
-	      }
-          ]
-      },
       livereload: {
         options: {
           open: true,
@@ -141,8 +128,7 @@ module.exports = function (grunt) {
                 '/app/styles',
                 connect.static('./app/styles')
               ),
-              connect.static(appConfig.app),
-              proxySnippet
+              connect.static(appConfig.app)
             ];
           }
         }
@@ -530,7 +516,6 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
-      'configureProxies:server',
       'connect:livereload',
       'watch'
     ]);
