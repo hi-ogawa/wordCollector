@@ -8,9 +8,9 @@
  # Service in the yeomanNgClientApp.
 ###
 angular.module 'yeomanNgClientApp'
-  .service 'userResource', ($resource, authService) ->
+  .service 'userResource', ($resource, authService, apiEndPoint) ->
 
-    r = $resource "/api/users/:userId", {userId: "@userId"},
+    r = $resource "#{apiEndPoint}/api/users/:userId", {userId: "@userId"},
           show:
             method: "GET"
             transformResponse: (data) -> angular.fromJson(data).user

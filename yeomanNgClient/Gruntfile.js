@@ -17,7 +17,8 @@ module.exports = function (grunt) {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn',
-    configureProxies: 'grunt-connect-proxy'
+    configureProxies: 'grunt-connect-proxy',
+    ngconstant: 'grunt-ng-constant'
   });
 
   // Configurable paths for the application
@@ -88,6 +89,25 @@ module.exports = function (grunt) {
 	    }]
 	}
     },
+
+
+      ngconstant: {
+          options: {
+              name: 'config',
+              dest: '.tmp/scripts/config.js'
+          },
+          development: {
+              constants: {
+                  apiEndPoint: "http://localhost:3000"
+              }
+          },
+          dist: {
+              constants: {
+                  apiEndPoint: "http://word-collector.xyz"
+              }
+          }
+      },
+
 
     // The actual grunt server settings
     connect: {
@@ -506,6 +526,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'ngconstant:development',
       'wiredep',
       'concurrent:server',
       'autoprefixer:server',
@@ -531,6 +552,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant:dist',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

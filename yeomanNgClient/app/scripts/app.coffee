@@ -10,6 +10,7 @@
 ###
 angular
   .module 'yeomanNgClientApp', [
+    'config'
     'ngAnimate'
     'ngCookies'
     'ngResource'
