@@ -24,4 +24,5 @@
 # controller response example files in rspec
 *.ex.json
 
-/config/aws.yml
+passenger.80.pid
+passenger.80.pid.lock

@@ -193,8 +193,8 @@ http {
             expires max;
             add_header Cache-Control public;
             add_header ETag "";
-            add_header Access-Control-Allow-Origin http://hiogawa.word.collector.ng.production.s3-website-ap-northeast-1.amazonaws.com;
-            add_header Access-Control-Request-Method GET, POST, PUT, PATCH, DELETE;
+            add_header Access-Control-Allow-Origin *;
+            add_header Access-Control-Request-Methods *;
         }
         location @dynamic_request {
             passenger_enabled on;
