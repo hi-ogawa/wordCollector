@@ -14,7 +14,7 @@ app.user = new app.User
 app.Category = Backbone.Model.extend
   parse: (resp, opt) -> if opt.collection then resp else resp.category
 app.destination = null
-      
+
 app.Categories = Backbone.Collection.extend
   model: app.Category
   url: "#{myConfig.domain}/api/categories"
@@ -54,7 +54,7 @@ app.CategoriesView = Backbone.View.extend
   render: ->
     @$el.html @template
       title: if app.destination then app.destination.name else "--- Choose Category ---"
-    @initDropdown()    
+    @initDropdown()
     @initPopover()
 
   initDropdown: ->
@@ -65,7 +65,7 @@ app.CategoriesView = Backbone.View.extend
   initPopover: ->
     @$("#new-category").popover
         content: _.template($("#new-category-popover-content-t").html()) {}
-  
+
   events:
     "keypress #new-category-name": "newCategory"
 
@@ -92,11 +92,11 @@ app.AuthedView = Backbone.View.extend
   events:
     "click #on":     (e) ->
        chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
-         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOn"    
+         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOn"
 
     "click #off":    (e) ->
        chrome.tabs.query {active: true, currentWindow: true}, (tabs) ->
-         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOff"    
+         chrome.tabs.sendMessage tabs[0].id, type: "popup#appOff"
 
     "click #logout": (e) -> app.storage.clear()
 
@@ -119,15 +119,15 @@ app.LoginView = Backbone.View.extend
           url: "#{myConfig.domain}/api/sessions"
           type: "POST"
           data: @$("#loginForm").serialize()
-  
+
       ).then (data) =>
           app.storage.update {session: data}
-          
+
        .catch (err)  =>
           app.mainView.renderFlashMessage "Error happend. Try again."
 
-    "click #register":   (e) -> extLib.createTab "#{myConfig.domain}/#/register"
-      
+    "click #register":   (e) -> extLib.createTab "http://word-collector.xyz/#/register"
+
 
 
 ### main view ###
@@ -142,15 +142,15 @@ app.MainView = Backbone.View.extend
       if data? and data.session? and data.session.id? and data.session.auth_token?
         app.user.set   id: data.session.id
                 .fetch headers: Authorization: data.session.auth_token
-    
+
       else
         @renderFlashMessage "You need to login."
         @renderLoginView()
-  
+
     app.user.on "sync", =>
       $("#flash").hide()
       @renderAuthedView app.user
-      
+
     app.user.on "error", =>
       @renderFlashMessage "Error happened. Try to login again."
       @renderLoginView()
