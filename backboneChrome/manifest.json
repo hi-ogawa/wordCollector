@@ -36,7 +36,8 @@
     "permissions": [
 	"storage",
 	"tabs",
-	"<all_urls>"
+	"<all_urls>",
+        "activeTab"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
@@ -49,7 +50,6 @@
             ],
             "js": [
                 "lib/jquery.js",
-                "lib/bootstrap.js",
                 "lib/underscore.js",
                 "lib/backbone.js",
                 "lib/backbone.localStorage.js",

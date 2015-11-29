@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
             sentence:  request.sentence
             meaning:   request.meaning
             picture:   extLib.dataURLtoBlob request.picture
-  
+
         $.ajax
           url:  "#{myConfig.domain}/api/items"
           type: "POST"
@@ -40,4 +40,13 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
     when "createTab"
       chrome.tabs.create {url: request.url}
 
-  true # necessary to wait a moment to give arguments to callback
+    when "injectBootstrapJS"
+      # NOTE: inject bootstrap.js lazily to prevent conflicts with original web page as long as possible
+      chrome.tabs.executeScript(
+        null,
+        {
+          file: "lib/bootstrap.js"
+        }
+      )
+
+  true # NOTE: necessary to wait a moment to give arguments to callback

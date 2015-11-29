@@ -2,6 +2,10 @@
 (function() {
   var app;
 
+  chrome.runtime.sendMessage({
+    type: "injectBootstrapJS"
+  });
+
   app = {};
 
 

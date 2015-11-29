@@ -1,3 +1,7 @@
+# NOTE: inject bootstrap.js lazily to prevent conflicts with original web page as long as possible
+chrome.runtime.sendMessage
+  type: "injectBootstrapJS"
+
 app = {}
 
 ### storage for authentication and destination category ###
